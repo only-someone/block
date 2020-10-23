@@ -21,7 +21,7 @@
 
             <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
               <ul class="navigation clearfix">
-                <li><a href="index.html">主页</a></li>
+                <li><router-link to="Home">主页</router-link></li>
 
                 <li class="dropdown"><a href="#">系统信息</a>
                   <ul>
@@ -34,14 +34,14 @@
                   <ul>
                     <li><a href="person_detail.html">个人信息详情</a></li>
                     <li><a href="have_buy_resources.html">已购买资源</a></li>
-                    <li><a href="upload_resources.html">上传资源</a></li>
+                    <li><router-link to="UploadResource">上传资源</router-link></li>
                     <li><a href="enterprise_bid.html">企业用户招标详情</a></li>
 
                   </ul>
                 </li>
                 <li class="dropdown"><a href="#">所有资源</a>
                   <ul>
-                    <li><a href="recommend.html">推荐页面（或者搜索结果，专家，单位，资源，招标）</a></li>
+                    <li><router-link to="Commend">推荐页面（或者搜索结果，专家，单位，资源，招标）</router-link></li>
                     <li><a href="all_resources.html">所有资源</a></li>
                     <li><a href="all_users.html">所有用户</a></li>
                     <li><a href="all_bids.html">所有项目需求，案例详情</a></li>
