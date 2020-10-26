@@ -19,8 +19,6 @@ import UserAbstract from './components/UserAbstract'
 import ResourceAbstract from './components/ResourceAbstract'
 import PersonSidebar from './components/PersonSidebar'
 
-
-
 import  axios from 'axios'
 import  VueAxios from 'vue-axios'
 

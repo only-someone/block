@@ -4,7 +4,8 @@
     <!-- 个人信息 -->
      <div class="inner-box" style="margin-bottom:50px">
         <div class="image" >
-            <a href="#"><img src="static/images/resource/team-1.jpg" height="30px" width="100px"   style="float:left" alt="" /></a>
+            
+            <a href="#"> <img src="static/images/resource/team-1.jpg" height="30px" width="100px"   style="float:left" alt="" /></a>
         </div>
         <div class="lower-content"  style="margin-left:150px" >
             <h3><a href="#">姓名</a></h3>
