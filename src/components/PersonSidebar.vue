@@ -2,20 +2,61 @@
     <aside class="sidebar">
 
     <!-- 个人信息 -->
-     <div class="inner-box" style="margin-bottom:50px">
-        <div class="image" >
-            
-            <a href="#"> <img src="static/images/resource/team-1.jpg" height="30px" width="100px"   style="float:left" alt="" /></a>
+<!--      <div class="inner-box" style="margin-bottom:50px">-->
+<!--        <div class="image" >-->
+
+<!--          <a href="#"> <img src="static/images/resource/team-1.jpg" height="30px" width="100px"   style="float:left" alt="" /></a>-->
+<!--        </div>-->
+<!--        <div class="lower-content"  style="margin-left:150px" >-->
+<!--          <h3><a href="#">姓名</a></h3>-->
+<!--          <div class="designation">单位</div>-->
+<!--          <div class="text">简介</div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 bg8">
+        <div class="main_style_8" >
+          <div class="row" id="hipster">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" align="center">
+              <div class="circle">
+                <div class="main-c">
+                  <div class="quarter quarter1"></div>
+                  <div class="quarter quarter2"></div>
+                  <div class="quarter quarter3"></div>
+                  <div class="quarter quarter4"></div>
+                  <div class="cutout"></div>
+                </div>
+              </div>
+              <h5 style="color: #000000;font-size: 30px">姓名</h5>
+              <h5 style="color: #000000">单位</h5>
+
+<!--              <p>Loving Life</p>-->
+            </div>
+          </div>
+          <div class="back">
+            <div class="row bgg">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+                <div class="count-outer count-box">
+                  <h5><countTo :startVal=0 :endVal=3 :duration='3000'></countTo></h5>
+                </div>
+                <p>上传资源</p>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+                <h5><countTo :startVal=0 :endVal=254 :duration='3000'></countTo></h5>
+                <p>购买资源</p>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+                <h5><countTo :startVal=0 :endVal=61 :duration='3000'></countTo></h5>
+                <p>参与招投标</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="lower-content"  style="margin-left:150px" >
-            <h3><a href="#">姓名</a></h3>
-            <div class="designation">单位</div>
-            <div class="text">简介</div>
-        </div>
-    </div>
+      </div>
 
     <!-- Category Widget -->
-    <div class="sidebar-widget category-widget">
+    <div class="sidebar-widget category-widget" >
     <div class="sidebar-title">
         <h3>上传的资源</h3>
     </div>
@@ -92,11 +133,16 @@
 </template>
 
 <script>
+
+import countTo from 'vue-count-to'
 export default {
   name: "PersonSidebar",
+  components: {
+    countTo
+  },
   data() {
     return {
-     
+
     }
   },
   created() {

@@ -82,7 +82,7 @@
             </div>
 
             <div class="button-box">
-              <a href="login.html" class="theme-btn btn-style-one">Sign in/up</a>
+              <a  class="theme-btn btn-style-one"><router-link to="login" style="color: #FFFFFF">Sign in/up</router-link></a>
             </div>
 
           </div>

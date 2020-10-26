@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Sarabun');
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Kanit');
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+.main_style_1 {
+  margin: 50px auto;
+  width: 250px;
+  height: 400px;
+  background-color: #FDFDFD;
+  position: relative;
+  overflow: hidden;
+}
+
+.round {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background-color: #474545;
+  position: absolute;
+  top: -45px;
+  right: -45px;
+  background-image: url(images/profile-1/men1-org.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0px 45px;
+  position: relative;
+  transition: all 0.4s ease-in-out;
+}
+
+.head1 {
+  top: 58%;
+  left: 13%;
+  position: absolute;
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+
+.p1 {
+  color: #bfd2d0;
+  top: 68%;
+  left: 13%;
+  position: absolute;
+  font-size: 14px;
+}
+
+.p2 {
+  color: #bfd2d0;
+  top: 74%;
+  left: 13%;
+  position: absolute;
+  font-size: 14px;
+}
+
+.icon-menu {
+  position: absolute;
+  top: 88%;
+  left: 50%;
+  font-size: 18px;
+}
+
+.icon-menu i {
+  letter-spacing: 10px;
+}
+
+.icon-menu i:hover {
+  color: #bfd2d0;
+  transition: ease-in all 0.3s;
+}
+
+.sidemenu-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #B3C7C5;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.sidemenu {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  top: -3px;
+  left: -3px;
+  background-color: #fff;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidemenu a {
+  padding: 0px 0px 8px 25px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidemenu a:hover {
+  color: #bfd2d0;
+}
+
+.sidemenu .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 25px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+
+  .sidemenu {
+    padding-top: 0px;
+  }
+
+  .sidemenu a {
+    font-size: 14px;
+  }
+}
+
+.ch-item {
+  background-color: #B3C7C5;
+  position: relative;
+  transition: all 0.4s ease-in-out;
+}
+
+.ch-info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  transform: scale(0);
+  -webkit-backface-visibility: hidden;
+}
+
+.ch-info h3 {
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+  letter-spacing: 2px;
+  font-size: 16px;
+  margin: 0 40px;
+  padding: 80px 0 0 0;
+  height: 110px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.ch-info p {
+  color: #fff;
+  padding: 50px 46px;
+  font-style: italic;
+  margin: 0 30px;
+  font-size: 12px;
+  border-top: 1px solid rgba(255,255,255,0.5);
+}
+
+.ch-info p a {
+  display: block;
+  color: #FFFFFF;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding-top: 4px;
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.ch-info p a:hover {
+  color: #fff;
+}
+
+.round:hover {
+  box-shadow: inset 0 0 0 110px rgba(179,199,197, 0.7), inset 0 0 0 16px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.round:hover .ch-info {
+  opacity: 1;
+  transform: scale(1);
+}
+.main_style_8 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 25px auto;
+  width: 360px;
+
+  border-radius: 5px;
+}
+
+#hipster h5 {
+  color: #fff;
+  padding-top: 10px;
+  margin-bottom: 0px;
+}
+
+#hipster p {
+  color: #9fc2e1;
+}
+
+.bgg {
+  background: #0c88d6;
+}
+
+.pp2 {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+
+.back {
+  width: 330px;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.back h5 {
+  color: #fff;
+  padding-top: 20px;
+  font-size: 25px;
+}
+
+.back p {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 100;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  background: rgba(95,83,83,1.00);
+  margin: 0 auto;
+  border-radius: 50%;
+  margin-top: 30px;
+  transform: scale(1, 1);
+  overflow: hidden;
+}
+
+.main_style_8:hover .quarter2 {
+  opacity: 1;
+  transition: ease-in-out 0.6s all;
+}
+
+.main_style_8:hover .quarter3 {
+  opacity: 1;
+  transition: ease-in-out 0.6s all;
+}
+
+.main_style_8:hover .quarter4 {
+  opacity: 1;
+  transition: ease-in-out 0.6s all;
+}
+
+.main_style_8:hover .cutout {
+  transform: rotate(30deg);
+  transition: ease-in-out 0.8s all;
+}
+
+.main_style_-c {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.quarter {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.quarter1 {
+  top: 0;
+  left: 0;
+  background-color: #2897df;
+  border-radius: 100% 0 0 0;
+  transition: ease-in-out 0.6s all;
+}
+
+.quarter2 {
+  opacity: 0;
+  top: 0;
+  right: 0;
+  background-color: #2897df;
+  border-radius: 0 100% 0 0;
+  transition: ease-in-out 0.6s all;
+}
+
+.quarter3 {
+  opacity: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #2897df;
+  border-radius: 0 0 0 100%;
+  transition: ease-in-out 0.6s all;
+}
+
+.quarter4 {
+  opacity: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #2897df;
+  border-radius: 0 0 100% 0;
+  transition: ease-in-out 0.6s all;
+}
+
+.cutout {
+  width: 90%;
+  height: 90%;
+  background-color: white;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: url(../images/men2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: ease-in-out 0.8s ;
+}
+
+.hipster {
+  border: 3px solid #fff;
+  padding: 10px 20px 10px 20px;
+  color: #fff;
+  background-color: transparent;
+  transition: ease-out 0.5s ;
+}
+
+.hipster:hover {
+  background-color: #2897df;
+  transition: ease-in 0.5s ;
+}
+
+/*//profile8//*/

@@ -23,23 +23,23 @@
     <!--End Breadcrumb Title-->
 
     <!--Sidebar Page Container-->
-    
+
     <CommendUser></CommendUser>
     <CommendResource></CommendResource>
     <CommendBid></CommendBid>
    	<!--Main Footer-->
     <footer class="main-footer">
-    
+
 		<div class="auto-container">
-        
+
         	<!--Widgets Section-->
             <div class="widgets-section">
             	<div class="row clearfix">
-                	
+
                     <!--big column-->
                     <div class="big-column col-lg-5 col-md-12 col-sm-12">
                         <div class="row clearfix">
-							
+
 							<!--Footer Column / Logo Widget-->
                             <div class="footer-column col-lg-7 col-md-7 col-sm-12">
 								<div class="footer-widget logo-widget">
@@ -54,9 +54,9 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<!--Footer Column / Links Widget-->
-                            <div class="footer-column col-lg-5 col-md-5 col-sm-12">
+              <div class="footer-column col-lg-5 col-md-5 col-sm-12">
 								<div class="footer-widget links-widget">
 									<h2>Company</h2>
 									<ul class="list">
@@ -69,14 +69,14 @@
 									</ul>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
-					
+
 					<!--big column-->
                     <div class="big-column col-lg-7 col-md-12 col-sm-12">
                         <div class="row clearfix">
-							
+
 							<!--Footer Column / Links Widget-->
                             <div class="footer-column col-lg-4 col-md-6 col-sm-12">
 								<div class="footer-widget links-widget">
@@ -91,7 +91,7 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<!--Footer Column / Links Widget-->
                             <div class="footer-column col-lg-4 col-md-6 col-sm-12">
 								<div class="footer-widget links-widget">
@@ -106,7 +106,7 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<!--Footer Column / Map Widget-->
                             <div class="footer-column col-lg-4 col-md-6 col-sm-12">
 								<div class="footer-widget map-widget">
@@ -116,15 +116,15 @@
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
-			
+
 			<div class="copyright">&copy; Copyright 2018 , <a href="http://www.bootstrapmb.com">Dizital</a></div>
-			
+
 		</div>
 	</footer>
 

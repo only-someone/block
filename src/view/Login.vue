@@ -4,7 +4,7 @@
    <div class="page-wrapper">
 
      <!-- Preloader -->
-     <div class="preloader"></div>
+
 
      <!-- Main Header / Header Style Two-->
      <header class="main-header header-style-two">
@@ -64,122 +64,6 @@
 
       </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

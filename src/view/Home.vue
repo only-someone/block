@@ -6,15 +6,8 @@
 
     <!-- Main Header-->
     <header class="main-header">
-
-      <!--Header-Upper-->
       <HomeNav></HomeNav>
-      <!--End Header Upper-->
-
-      <!--Sticky Header-->
       <MyNav></MyNav>
-      <!--End Sticky Header-->
-
     </header>
     <!--End Main Header -->
 
@@ -40,7 +33,7 @@
                 <option>案例</option>
               </select>
               <input type="text" name="firstname" value="" placeholder="在这里搜索" required>
-              <button type="submit" class="theme-btn dripicons-search"></button>
+              <router-link to="SearchResult"><button type="submit" class="theme-btn dripicons-search"></button></router-link>
             </div>
 
           </form>
@@ -95,7 +88,7 @@
 
     <!--Testimonial Section-->
     <section class="testimonial-section">
-		
+
 	</section>
     <!--End Testimonial Section-->
 
@@ -110,14 +103,14 @@
       <el-carousel height="400px" type="card">
         <el-carousel-item v-for="item in 9" :key="item" style="margin:0;text-align:center;">
           <!-- <h3 class="small">{{ item }}</h3> -->
-          
+
 						<div class="image" style="user-select: auto;" >
 							<a href="#" style="user-select: auto;"><img src="static/images/resource/author-3.jpg" alt="" style="user-select: auto;width:100px;height:100px;"></a>
 						</div>
 						<div class="text" style="user-select: auto;">专家简介</div>
 						    <h3 style="user-select: auto;">{{item}}</h3>
 						<div class="designation" style="user-select: auto;">联系方式</div>
-				
+
 
         </el-carousel-item>
       </el-carousel>
@@ -191,7 +184,7 @@
     <!--End Category Section-->
 
     <!--News Section-->
-    
+
     <!--End News Section-->
 
     <!--Counter Section-->
@@ -215,8 +208,7 @@
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                     
-                      
+                      <countTo ref='example1' class='example1' :startVal=0 :endVal=3 :duration='5000' :autoplay=false></countTo>
                     </div>
                     <h4 class="counter-title">节点数</h4>
                   </div>
@@ -228,7 +220,7 @@
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                      <span class="count-text">{{block_height}}</span>
+                      <countTo ref='example2' class='example2' :startVal=0 :endVal=300 :duration='3000' pause=true :autoplay=false> </countTo>
                     </div>
                     <h4 class="counter-title">区块高度</h4>
                   </div>
@@ -240,8 +232,8 @@
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                      <span class="count-text" >{{block_mermory}}</span>
-                      <span style="margin-left:10px">G</span>
+                      <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>
+
                     </div>
                     <h4 class="counter-title">区块大小</h4>
                   </div>
@@ -365,31 +357,51 @@
 
 <script>
 
-
+import countTo from 'vue-count-to'
 export default {
   name: "Home",
+  components: {
+    countTo
+  },
   data(){
     return {
       list_users: new Array(8),
       block_mermory:20,
       block_height:20,
       block_node:20,
-      
+      start:false,
     }
   },
   watch:{},
+  created() {
+  },
   mounted () {
-     
+
+       window.addEventListener('scroll', this.handleScroll)
+
   },
   methods: {
-    
-    
-     
-    },
+    handleScroll(){
+      var scrollTop =  window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 获取窗口滚动条高度
+
+      if((scrollTop>=document.body.clientHeight-1600) && (this.start===false)){
+        this.start=true
+        this.$refs.example3.start()
+        this.$refs.example2.start()
+        this.$refs.example1.start()
+      }
+
+   },
+    submit(){
+
+    }
+
+
+  },
 
 }
 </script>
-   
+
 <style scoped>
 
 </style>

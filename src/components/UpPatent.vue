@@ -1,30 +1,19 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" >
-      <el-form-item label="论文标题" style="margin-top:50px">
-        <el-input  v-model="form.PTitle" prefix rows=1 style="margin-top:20px" ></el-input>
+      <el-form-item label="专利名称">
+        <el-input  v-model="form.PatentName" prefix rows=1 style="margin-top:20px" ></el-input>
       </el-form-item>
-      <el-form-item label="论文摘要" >
-        <el-input type="textarea" v-model="form.PAbstract" rows=10 style="margin-top:30px"></el-input>
+      <el-form-item label="专利标号" >
+        <el-input  v-model="form.PatnetNumber" prefix rows=1 style="margin-top:20px" ></el-input>
       </el-form-item>
-      <el-form-item label="关键字" style="text-indent:6px">
-        <el-input v-model="form.PKeyword" rows=1 style="margin-top:20px"></el-input>
+      <el-form-item label="专利摘要" >
+        <el-input type="textarea" v-model="form.PatentAbstract" rows=10 style="margin-top:30px"></el-input>
       </el-form-item>
-      <el-form-item label="论文领域" >
-        <el-select v-model="form.Domain" placeholder="请选择" style="margin-top:20px">
-        <el-option
-          v-for="domain in domains"
-          :key="domain.Id"
-          :label="domain.Name"
-          :value="domain.Name">
-        </el-option>
-  </el-select>
-      </el-form-item>
-
-      <el-form-item label="发表日期" >
+      <el-form-item label="申请日期" >
         <div class="block" style="margin-top:20px" >
           <el-date-picker
-            v-model="form.PDate"
+            v-model="form.PatentDate"
             align="right"
             type="date"
             placeholder="选择日期"
@@ -32,8 +21,51 @@
           </el-date-picker>
         </div>
       </el-form-item>
+      <el-form-item label="专利类型" >
+        <el-input v-model="form.PatentType" rows=1 style="margin-top:20px"></el-input>
+      </el-form-item>
+      <el-form-item label="公开号" >
+        <el-input v-model="form.PatentOpen" rows=1 style="margin-top:20px"></el-input>
+      </el-form-item>
+      <el-form-item label="公开日" >
+        <div class="block" style="margin-top:20px" >
+          <el-date-picker
+            v-model="form.PatentOpenDate"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions">
+          </el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="主权项">
+        <el-input v-model="form.PatentRight" rows=1 style="margin-top:20px"></el-input>
+      </el-form-item>
+      <el-form-item label="法律状态" >
+        <el-input v-model="form.PatentState" rows=1 style="margin-top:20px"></el-input>
+      </el-form-item>
+      <el-form-item label="内容" >
+        <el-input v-model="form.PatentContent" rows=1 style="margin-top:20px"></el-input>
+      </el-form-item>
+      <el-form-item label="展示图片" >
+        <el-upload ref="upload" :auto-upload="false" :limit="1"  action=""
+                   :on-change="handleChange" :on-remove="handleRemove" style="margin-top:30px">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="专利领域" >
+        <el-select v-model="form.PatentDomain" placeholder="请选择" style="margin-top:20px">
+        <el-option
+          v-for="domain in domains"
+          :key="domain.Id"
+          :label="domain.Name"
+          :value="domain.Name">
+        </el-option>
+        </el-select>
+      </el-form-item>
 
-      <el-form-item label="论文文件" >
+      <el-form-item label="专利文件" >
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action=""
                    :on-change="handleChange" :on-remove="handleRemove" style="margin-top:30px">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -44,16 +76,16 @@
            <el-input-number v-model="form.Cost" controls-position="right" style="margin-top:20px"></el-input-number>
       </el-form-item>
       <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="margin-left:500px;width=5px">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit" style="margin-left:450px;width:150px;margin-top:50px" round>立即创建</el-button>
       </el-form-item>
     </el-form>
-    
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "UpPaper",
+  name: "UpPatent",
   data() {
     return {
       form: {
@@ -126,7 +158,7 @@ export default {
     onSubmit() {
       console.log(this.form)
       //this.axios()
-      
+
     }
   },
 

@@ -43,14 +43,14 @@ URL: http://www.bootstrapmb.com
 @import url('jquery.fancybox.min.css');
 @import url('jquery.mCustomScrollbar.min.css');
 
-/*** 
+/***
 
 ====================================================================
 	Reset
 ====================================================================
 
  ***/
- 
+
 * {
 	margin:0px;
 	padding:0px;
@@ -58,7 +58,7 @@ URL: http://www.bootstrapmb.com
 	outline:none;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Global Settings
@@ -99,7 +99,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 input,button,select,textarea{
-	
+
 }
 
 textarea{
@@ -108,7 +108,7 @@ textarea{
 
 p{
 	position:relative;
-	line-height:1.8em;	
+	line-height:1.8em;
 }
 
 .auto-container{
@@ -132,7 +132,7 @@ p{
 ul,li{
 	list-style:none;
 	padding:0px;
-	margin:0px;	
+	margin:0px;
 }
 
 img{
@@ -150,7 +150,7 @@ img{
 }
 
 .centered{
-	text-align:center;	
+	text-align:center;
 }
 
 /*Btn Style One*/
@@ -245,10 +245,10 @@ img{
 img{
 	display:inline-block;
 	max-width:100%;
-	height:auto;	
+	height:auto;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Scroll To Top style
@@ -276,7 +276,7 @@ img{
 	-ms-transition:all 300ms ease;
 	-o-transition:all 300ms ease;
 	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;		
+	transition:all 300ms ease;
 }
 
 .scroll-to-top span{
@@ -290,7 +290,7 @@ img{
 	background:#3f9b77;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Section Title
@@ -317,7 +317,7 @@ img{
 	color:#ffffff;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Main Header style
@@ -367,7 +367,7 @@ img{
 	-ms-transition:all 300ms ease;
 	-o-transition:all 300ms ease;
 	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;	
+	transition:all 300ms ease;
 }
 
 .main-header .nav-toggler{
@@ -488,7 +488,7 @@ img{
 	top:41px !important;
 	right:0px;
 	padding:0px;
-	width:280px;	
+	width:280px;
 	left: auto !important;
 	border-radius:0px;
 	border-top:3px solid #6fa456;
@@ -502,12 +502,12 @@ img{
 }
 
 .main-header .search-panel .form-container{
-	padding:25px 20px;	
+	padding:25px 20px;
 }
 
 .main-header .search-panel .form-group{
 	position:relative;
-	margin:0px;	
+	margin:0px;
 }
 
 .main-header .search-panel input[type="text"],
@@ -520,7 +520,7 @@ img{
 	color:#000000;
 	font-size: 14px;
 	line-height:24px;
-	background:#ffffff;	
+	background:#ffffff;
 	border:1px solid #e0e0e0;
 	padding:7px 40px 7px 15px;
 	-webkit-transition:all 300ms ease;
@@ -532,7 +532,7 @@ img{
 
 .main-header .search-panel input:focus,
 .main-header .search-panel select:focus{
-	border-color:#6fa456;	
+	border-color:#6fa456;
 }
 
 .main-header .search-panel .search-btn{
@@ -688,7 +688,7 @@ img{
 	-moz-animation-iteration-count: 1;
 	-op-animation-iteration-count: 1;
 	-webkit-animation-iteration-count: 1;
-	animation-iteration-count: 1;	
+	animation-iteration-count: 1;
 }
 
 .main-menu .navigation > li > a{
@@ -743,7 +743,7 @@ img{
     -moz-transition: all 900ms ease;
     -webkit-transition: all 900ms ease;
     -ms-transition: all 900ms ease;
-    -o-transition: all 900ms ease;	
+    -o-transition: all 900ms ease;
 	padding: 15px 0px;
 	background-color: #ffffff;
 	border-top: 3px solid #74876f;
@@ -766,7 +766,7 @@ img{
 
 .main-menu .navigation > li > ul.from-right{
 	left:auto;
-	right:0px;	
+	right:0px;
 }
 
 .main-menu .navigation > li > ul > li{
@@ -813,7 +813,7 @@ img{
 	font-size:16px;
 	font-weight:normal;
 	text-align:center;
-	z-index:5;	
+	z-index:5;
 }
 
 .main-menu .navigation > li > ul > li.dropdown:hover > a:after{
@@ -844,7 +844,7 @@ img{
 
 .main-menu .navigation > li > ul > li > ul.from-right{
 	left:auto;
-	right:0px;	
+	right:0px;
 }
 
 .main-menu .navigation > li > ul > li > ul > li{
@@ -853,7 +853,7 @@ img{
 }
 
 .main-menu .navigation > li > ul > li > ul > li:last-child{
-	border-bottom:none;	
+	border-bottom:none;
 }
 
 .main-menu .navigation > li > ul > li > ul > li > a{
@@ -891,11 +891,11 @@ img{
 	font-size:16px;
 	font-weight:normal;
 	text-align:center;
-	z-index:5;	
+	z-index:5;
 }
 
 .main-menu .navigation > li > ul > li > ul > li.dropdown:hover > a:after{
-	color:#ffffff;	
+	color:#ffffff;
 }
 
 .main-menu .navigation > li.dropdown:hover > ul{
@@ -913,7 +913,7 @@ img{
 	-moz-transition:all 300ms ease;
 	-webkit-transition:all 500ms ease;
 	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;	
+	-o-transition:all 300ms ease;
 }
 
 .main-menu .navbar-collapse > ul li.dropdown .dropdown-btn{
@@ -935,21 +935,21 @@ img{
 /*Custom Select*/
 
 .form-group .ui-selectmenu-button.ui-button{
-	display:block;
-	width:100%;
-	line-height:30px;
-	height:85px;
-	font-size:18px;
-    padding: 28px 25px 25px 35px;
-	color:#000000;
-	font-weight: 400;
-	border-radius:5px;
-	font-family: 'Poppins', sans-serif;
-	background-color:#ffffff;
-	transition:all 500ms ease;
-	-webkit-transition:all 500ms ease;
-	-ms-transition:all 500ms ease;
-	-o-transition:all 500ms ease;
+  display:block;
+  width:100%;
+  line-height:30px;
+  height:85px;
+  font-size:18px;
+  padding: 28px 25px 25px 35px;
+  color:#000000;
+  font-weight: 400;
+  border-radius:5px;
+  font-family: 'Poppins', sans-serif;
+  background-color:#ffffff;
+  transition:all 500ms ease;
+  -webkit-transition:all 500ms ease;
+  -ms-transition:all 500ms ease;
+  -o-transition:all 500ms ease;
 }
 
 .form-group .ui-button .ui-icon{
@@ -988,7 +988,7 @@ img{
 }
 
 .ui-menu .ui-menu-item:last-child{
-	border:none;	
+	border:none;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active{
@@ -1008,7 +1008,7 @@ img{
 	background-color:#3f9b77;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Banner Section
@@ -1138,7 +1138,7 @@ img{
 	text-decoration: underline;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Featured Section
@@ -1249,7 +1249,7 @@ img{
 	box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
 }
 
-/*** 
+/***
 
 ====================================================================
 	Testimonial Section
@@ -1342,7 +1342,7 @@ img{
 	font-size: 12px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Category Section
@@ -1464,7 +1464,7 @@ img{
 	opacity: 0.8;
 }
 
-/*** 
+/***
 
 ====================================================================
 	News Section
@@ -1552,7 +1552,7 @@ img{
 	display: block;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Counter Section
@@ -1627,7 +1627,7 @@ img{
 	font-weight:300;
 	color:#3f9b77;
 	font-size:38px;
-	line-height:1em;	
+	line-height:1em;
 }
 
 .fact-counter .column .inner .count-outer{
@@ -1656,7 +1656,7 @@ img{
 	text-transform:capitalize;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Main Footer
@@ -1742,7 +1742,7 @@ img{
 	text-align: center;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Gallery Section
@@ -1873,7 +1873,7 @@ img{
 }
 
 .gallery-block .inner-box:hover .overlay-inner .link{
-	
+
 }
 
 .gallery-block .overlay-inner .link:hover{
@@ -1889,7 +1889,7 @@ img{
 	margin-top: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Testimonial Section Two
@@ -1973,7 +1973,7 @@ img{
 	text-transform: capitalize;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Main Slider Banner
@@ -2036,7 +2036,7 @@ img{
 	display:none;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Graphic Section
@@ -2198,7 +2198,7 @@ img{
 	font-size: 14px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	We Are Section
@@ -2272,7 +2272,7 @@ img{
 	display:block;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Team Page Section
@@ -2393,7 +2393,7 @@ img{
 	margin-bottom: 24px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Price Page Section
@@ -2470,7 +2470,7 @@ img{
 	font-size: 14px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Contact Page Section
@@ -2546,7 +2546,7 @@ img{
 	transition:all 500ms ease;
 	-webkit-transition:all 500ms ease;
 	-ms-transition:all 500ms ease;
-	-o-transition:all 500ms ease;	
+	-o-transition:all 500ms ease;
 }
 
 .contact-form .form-group textarea{
@@ -2571,7 +2571,7 @@ img{
 .contact-form input.error,
 .contact-form select.error,
 .contact-form textarea.error{
-	border-color:#ff0000 !important;	
+	border-color:#ff0000 !important;
 }
 
 .contact-form label.error{
@@ -2586,7 +2586,7 @@ img{
 	margin-top:5px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Map Section
@@ -2617,7 +2617,7 @@ img{
 	height:420px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Breadcrumb Section
@@ -2661,7 +2661,7 @@ img{
 	font-weight: 500;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Blog Page Section
@@ -2823,7 +2823,7 @@ img{
 	color:#3f9b77;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Sidebar Page Container URL: http://www.bootstrapmb.com
@@ -3201,7 +3201,7 @@ img{
 	font-size: 12px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Comments Area
@@ -3241,11 +3241,11 @@ img{
 }
 
 .comments-area .comment-box:nth-child(1){
-	padding-top:0px;	
+	padding-top:0px;
 }
 
 .comments-area .comment-box:hover{
-	border-color:#3f9b77;	
+	border-color:#3f9b77;
 }
 
 .comments-area .comment-box.reply-comment{
@@ -3286,7 +3286,7 @@ img{
 	position:relative;
 	color:#1e2230;
 	line-height:24px;
-	font-size:14px;	
+	font-size:14px;
 	font-weight:600;
 	margin-bottom:12px;
 	text-transform: uppercase;
@@ -3388,7 +3388,7 @@ img{
 }
 
 .comment-form button{
-	position:relative;	
+	position:relative;
 	cursor: pointer;
 	font-weight: 500;
 	font-size: 16px;
@@ -3401,7 +3401,7 @@ img{
 	border-color:#3f9b77;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Shop Single Section
@@ -3678,7 +3678,7 @@ img{
 }
 
 
-/*** 
+/***
 
 ====================================================================
 	Shop Features Section

@@ -1,13 +1,13 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" >
-      <el-form-item label="论文标题" style="margin-top:50px">
+      <el-form-item label="论文标题"  style="text-align:left"  >
         <el-input  v-model="form.PTitle" prefix rows=1 style="margin-top:20px" ></el-input>
       </el-form-item>
       <el-form-item label="论文摘要" >
-        <el-input type="textarea" v-model="form.PAbstract" rows=10 style="margin-top:auto"></el-input>
+        <el-input type="textarea" v-model="form.PAbstract" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="关键字" style="text-indent:6px">
+      <el-form-item label="关键字" >
         <el-input v-model="form.PKeyword" rows=1 style="margin-top:20px"></el-input>
       </el-form-item>
       <el-form-item label="论文领域" >
@@ -18,7 +18,7 @@
           :label="domain.Name"
           :value="domain.Name">
         </el-option>
-  </el-select>
+       </el-select>
       </el-form-item>
 
       <el-form-item label="发表日期" >
@@ -34,7 +34,7 @@
       </el-form-item>
 
       <el-form-item label="论文文件" >
-        <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange" 
+        <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                                 :on-remove="handleRemove" style="margin-top:30px">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
@@ -43,11 +43,12 @@
       <el-form-item label="他人下载积分">
            <el-input-number v-model="form.Cost" controls-position="right" style="margin-top:20px"></el-input-number>
       </el-form-item>
+
       <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="margin-left:500px;width=5px" round>上传资源</el-button>
+          <el-button type="primary" @click="onSubmit" style="margin-left:450px;width:150px;margin-top: 50px" round>上传资源</el-button>
       </el-form-item>
     </el-form>
-    
+
   </div>
 </template>
 
@@ -123,7 +124,7 @@ export default {
         this.uploadFile = {}
       }
     },
-   
+
     onSubmit() {
       console.log(this.form.PFile)
       let formData = new FormData();

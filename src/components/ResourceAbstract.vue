@@ -3,7 +3,7 @@
 	<section class="blog-page-section">
 		<div class="auto-container">
 			<div class="masonry-items row clearfix">
-				
+
 				<!--News Block Two-->
 				<div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in commendresources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid">
 					<div class="inner-box" >
@@ -19,25 +19,25 @@
 						</div>
 					</div>
 				</div>
-				
-				
+
+
 			</div>
             <el-pagination
                 :background=true
-                
+
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
                 :page-sizes="[5, 10, 20, 40]"
-                :page-size="pagesize"         
+                :page-size="pagesize"
                 layout=" prev, pager, next"
                 :total="commendresources.length"
-                :hide-on-single-page=true>    
+                :hide-on-single-page=true>
             </el-pagination>
 		</div>
 	</section>
     </div>
-  
+
 </template>
 
 <script>

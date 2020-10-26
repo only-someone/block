@@ -1,17 +1,33 @@
 <template>
   <div>
     <div>
-      <el-radio-group v-model="radio1" size="large" inline="true" style="margin-left:100px">
-        <el-radio-button label="论文"></el-radio-button>
-        <el-radio-button label="专利"></el-radio-button>
-        <el-radio-button label="技术成果"></el-radio-button>
-        <el-radio-button label="软件著作"></el-radio-button>
-        <el-radio-button label="项目需求"></el-radio-button>
-        <el-radio-button label="解决方案"></el-radio-button>
-        <el-radio-button label="案例"></el-radio-button>
-      </el-radio-group>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="论文" name="Paper">
+            <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+        <el-tab-pane label="软件著作" name="Software">
+          <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+        <el-tab-pane label="专利" name="Patent">
+          <span> <UpPatent></UpPatent> </span>
+        </el-tab-pane>
+        <el-tab-pane label="技术成果" name="Tech">
+          <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+        <el-tab-pane label="解决方案" name="Relution">
+          <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+        <el-tab-pane label="项目需求" name="Demand">
+          <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+        <el-tab-pane label="案例" name="Case">
+          <span> <UpPaper></UpPaper> </span>
+        </el-tab-pane>
+
+
+      </el-tabs>
     </div>
-    <UpPaper></UpPaper>
+
 
   </div>
 </template>
@@ -21,23 +37,16 @@ export default {
   name: "Upfile",
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      radio1: '论文',
+      activeName: 'Paper',
 
     }
   },
   methods: {
     onSubmit() {
       console.log('submit!');
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     }
   }
 

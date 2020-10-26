@@ -5,6 +5,8 @@ import Login from '../view/Login'
 import Home from '../view/Home'
 import UploadResource from '../view/UploadResource'
 import Commend from '../view/Commend'
+import SearchResult from '../view/SearchResult'
+import PersonDetail from "../view/PersonDetail"
 
 Vue.use(Router)
 
@@ -29,7 +31,22 @@ export default new Router({
       path: '/Commend',
       name: 'Commend',
       component: Commend
+    },
+    {
+      path: '/SearchResult',
+      name: 'SearchResult',
+      component: SearchResult
+    },
+    {
+      path: '/PersonDetail',
+      name: 'PersonDetail',
+      component: PersonDetail
     }
 
   ]
 })
+
+
+
+
+

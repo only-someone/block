@@ -3,43 +3,41 @@
 	<section class="team-page-section">
 		<div class="auto-container">
 			<div class="row clearfix">
-				
-                <!--Team Block-->
-                <div class="team-block col-lg-3 col-md-6 col-sm-12" v-for="user in commendusers.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="user.Id">
-                    <div class="inner-box">
-                        <div class="image">
-                            <a href="#"><img src="static/images/resource/team-1.jpg" alt="" /></a>
-                        </div>
-                        <div class="lower-content">
-                            <h3><a href="#">{{user.Id}}</a></h3>
-                            <div class="designation">{{user.Affiliation}}</div>
-                            <div class="text">{{user.Instroduction}}</div>
-                        </div>
-                    </div>
-                </div>
-				
+
+        <!--Team Block-->
+        <div class="team-block col-lg-3 col-md-6 col-sm-12" v-for="user in commendusers.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="user.Id">
+          <div class="inner-box">
+            <div class="image">
+              <a href="#"><img src="static/images/resource/team-1.jpg" alt="" /></a>
+            </div>
+            <div class="lower-content">
+              <h3><a href="#">{{user.Id}}</a></h3>
+              <div class="designation">{{user.Affiliation}}</div>
+              <div class="text">{{user.Instroduction}}</div>
+            </div>
+          </div>
+        </div>
+
 			</div>
-            <el-pagination
-                    :background=true
-                    style="margin:auto;margin-top:0px"
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                    :page-sizes="[5, 10, 20, 40]"
-                    :page-size="pagesize"         
-                    layout=" prev, pager, next"
-                    :total="commendusers.length"
-                    :hide-on-single-page=true>    
-                </el-pagination>
+      <el-pagination
+              :background=true
+              style="margin:auto;margin-top:0px"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[5, 10, 20, 40]"
+              :page-size="pagesize"
+              layout=" prev, pager, next"
+              :total="commendusers.length"
+              :hide-on-single-page=true>
+      </el-pagination>
 		</div>
 	</section>
 	<!--End Team Page Section-->
-	
-	
-			
-	
-    </div>
-  
+
+
+</div>
+
 </template>
 
 <script>
