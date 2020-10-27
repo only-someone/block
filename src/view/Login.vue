@@ -1,74 +1,68 @@
 <template>
+<div style="background-image: url('static/images/bg8.jpg');background-repeat:no-repeat ;background-size:100% 100%">
+  <div class="container"  style="padding-top: 5%;padding-bottom: 15%">
 
-  <div>
-   <div class="page-wrapper">
+    <div class="section-authentication">
+      <div class="container-fluid">
+        <div class="card mb-0">
+          <div class="card-body p-0">
+            <div class="row no-gutters">
+              <div class="col-12 col-lg-5 col-xl-4 d-flex align-items-stretch">
+                <div class="card mb-0 shadow-none bg-transparent w-100 login-card rounded-0">
+                  <div class="card-body p-md-5">
+                    <img src="static/images/logo-2.png" width="180" alt=""/>
+                    <h4 class="mt-5"><strong>Welcome Back</strong></h4>
+                    <p>Log in to your account using email & password</p>
+                    <div class="form-group mt-4">
+                      <label>Email Address</label>
+                      <input type="text" class="form-control" placeholder="Enter your email address"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Enter Password</label>
+                      <input type="password" class="form-control" placeholder="Enter your password"/>
+                    </div>
+<!--                    <div class="form-row">-->
+<!--                      <div class="form-group col">-->
+<!--                        <div class="custom-control custom-switch">-->
+<!--                          -->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group col text-right">-->
+<!--                        <a href="authentication-forgot-password.html"><i class='bx bxs-key mr-2'></i>Forget Password?</a>-->
+<!--                      </div>-->
+<!--                    </div>-->
+                    <button type="button" class="btn btn-primary btn-block mt-3"><i class='bx bxs-lock mr-1'></i>Login</button>
+                    <div class="text-center mt-4">
+                      <p class="mb-0">还没有账号? <router-link to="Register">立即注册</router-link></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-7 col-xl-8 d-flex align-items-stretch">
+                <div class="card mb-0 shadow-none bg-transparent w-100 rounded-0">
+                  <div class="card-body p-md-5">
+                    <div class="text-center"><img src="static/assets/images/login-images/auth-img-7.png" class="img-fluid" alt=""/></div>
+                    <h5 class="card-title">Why do we use it?</h5>
+                    <p class="card-text">这里有你想要的资源</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent px-md-5">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
 
-     <!-- Preloader -->
+              <p class="mb-0">关于我们
+              </p>
 
-
-     <!-- Main Header / Header Style Two-->
-     <header class="main-header header-style-two">
-       <div class="logo pull-left" style="margin-left: 400px;margin-top: 50px">
-         <a href="index.html" class="img-responsive"><img src="static/images/logo-small.png" alt="" title=""></a>
-       </div>
-     </header>
-
-
-   </div>
-  <div class="content">
-
-    <div class="form sign-in">
-      <h2>欢迎回来</h2>
-      <label>
-        <span>邮箱</span>
-        <input type="email" />
-      </label>
-      <label>
-        <span>密码</span>
-        <input type="password" />
-      </label>
-      <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
-      <button type="button" class="submit" >登录</button>
-
-    </div>
-    <div class="sub-cont">
-      <div class="img">
-        <div class="img__text m--up">
-          <h2>还未注册？</h2>
-          <p>立即注册，发现大量机会！</p>
+            </div>
+          </div>
         </div>
-        <div class="img__text m--in">
-          <h2>已有帐号？</h2>
-          <p>有帐号就登录吧，好久不见了！</p>
-        </div>
-        <div class="img__btn">
-          <span class="m--up">注 册</span>
-          <span class="m--in">登 录</span>
-        </div>
-      </div>
-      <div class="form sign-up">
-        <h2>立即注册</h2>
-        <label>
-          <span>用户名</span>
-          <input type="text" />
-        </label>
-        <label>
-          <span>邮箱</span>
-          <input type="email" />
-        </label>
-        <label>
-          <span>密码</span>
-          <input type="password" />
-        </label>
-        <button type="button" class="submit">注 册</button>
-
       </div>
     </div>
 
-
-
   </div>
-  </div>
+</div>
 </template>
 
 <script>

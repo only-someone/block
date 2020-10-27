@@ -26,6 +26,12 @@ import ResourceAbstract from './components/ResourceAbstract'
 import PersonSidebar from './components/PersonSidebar'
 
 
+import RegisterBasic from './components/RegisterBasic'
+import RegisterExpert from './components/RegisterExpert'
+import RegisterCity from './components/RegisterCity'
+import RegisterInstitution from './components/RegisterInstitution'
+
+
 import countTo from 'vue-count-to'
 import  axios from 'axios'
 import  VueAxios from 'vue-axios'
@@ -59,6 +65,11 @@ Vue.component('PersonSidebar',PersonSidebar)
 Vue.component('SearchResources',SearchResources)
 Vue.component('Footer',Footer)
 Vue.component('SearchBids',SearchBids)
+Vue.component('RegisterBasic',RegisterBasic)
+Vue.component('RegisterExpert',RegisterExpert)
+Vue.component('RegisterInstitution',RegisterInstitution)
+Vue.component('RegisterCity',RegisterCity)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

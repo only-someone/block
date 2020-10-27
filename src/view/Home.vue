@@ -17,10 +17,9 @@
         <h2>基于区块链和知识图谱的 <br> 数据交易平台</h2>
         <!--Search Form-->
         <div class="search-form">
-          <form method="post" action="blog.html">
-
-            <div class="form-group clearfix">
-              <select class="custom-select-box" >
+          <form method="post" action="">
+            <div class="form-group ">
+              <select class="custom-select-box" style="padding-right: 0px">
                 <option>所有</option>
                 <option>专家</option>
                 <option>单位</option>

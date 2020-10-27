@@ -8,6 +8,7 @@ import Commend from '../view/Commend'
 import SearchResult from '../view/SearchResult'
 import PersonDetail from "../view/PersonDetail"
 
+import Register from "../view/Register"
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +42,11 @@ export default new Router({
       path: '/PersonDetail',
       name: 'PersonDetail',
       component: PersonDetail
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
     }
 
   ]
