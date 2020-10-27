@@ -87,10 +87,7 @@
     <!--End Featured Section-->
 
     <!--Testimonial Section-->
-    <section class="testimonial-section">
 
-	</section>
-    <!--End Testimonial Section-->
 
     <!--Category Section-->
   <section class="testimonial-section">

@@ -4,11 +4,28 @@
       <el-form-item label="论文标题"  style="text-align:left"  >
         <el-input  v-model="form.PTitle" prefix rows=1 style="margin-top:20px" ></el-input>
       </el-form-item>
-      <el-form-item label="论文摘要" >
-        <el-input type="textarea" v-model="form.PAbstract" rows=10 ></el-input>
-      </el-form-item>
-      <el-form-item label="关键字" >
-        <el-input v-model="form.PKeyword" rows=1 style="margin-top:20px"></el-input>
+
+      <el-form-item label="关键字">
+        <el-tag style="margin-top: 30px"
+          :key="tag"
+          v-for="tag in form.PKeyword"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)">
+          {{tag}}
+
+        </el-tag>
+        <el-input style="margin-top: 30px;width: 100px"
+          class="input-new-tag"
+          v-if="inputVisible"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm">
+        </el-input>
+        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" style="margin-top: 30px">+ New Tag</el-button>
+
       </el-form-item>
       <el-form-item label="论文领域" >
         <el-select v-model="form.Domain" placeholder="请选择" style="margin-top:20px">
@@ -20,7 +37,9 @@
         </el-option>
        </el-select>
       </el-form-item>
-
+      <el-form-item label="论文摘要" >
+        <el-input type="textarea" v-model="form.PAbstract" rows=10 ></el-input>
+      </el-form-item>
       <el-form-item label="发表日期" >
         <div class="block" style="margin-top:20px" >
           <el-date-picker
@@ -60,12 +79,14 @@ export default {
       form: {
         PTitle: '',
         PAbstract: '',
-        PKeyword: '',
+        PKeyword: [],
         PDate: '',
         PFile:'',
         Cost:'',
         Domain:'',
       },
+      inputVisible: false,
+      inputValue: '',
       domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
       pickerOptions: {
         disabledDate(time) {
@@ -124,7 +145,6 @@ export default {
         this.uploadFile = {}
       }
     },
-
     onSubmit() {
       console.log(this.form.PFile)
       let formData = new FormData();
@@ -138,6 +158,25 @@ export default {
           console.log(resp.data.data)
         }).catch();
     },
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.form.PKeyword.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    }
   }
 }
 </script>

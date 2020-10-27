@@ -24,7 +24,7 @@
                   <div class="quarter quarter2"></div>
                   <div class="quarter quarter3"></div>
                   <div class="quarter quarter4"></div>
-                  <div class="cutout"></div>
+                  <div class="cutout" style="background-image:  url(static/images/men2.jpg)"></div>
                 </div>
               </div>
               <h5 style="color: #000000;font-size: 30px">姓名</h5>

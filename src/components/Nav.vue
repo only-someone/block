@@ -24,12 +24,11 @@
                   <li><a href="all_resources.html">知识图谱</a></li>
                 </ul>
               </li>
-              <li class="dropdown"><a href="#">个人信息</a>
+              <li class="dropdown"><a href="#">个人</a>
                 <ul>
-                  <li><a href="bperson_detail.html">个人信息详情</a></li>
-                  <li><a href="have_buy_resources.html">已购买资源</a></li>
+                  <li><router-link to="PersonDetail">详情管理</router-link></li>
                   <li><router-link to="UploadResource">上传资源</router-link></li>
-                  <li><a href="enterprise_bid.html">企业用户招标详情</a></li>
+
                 </ul>
               </li>
               <li class="dropdown"><a href="#">所有资源</a>
@@ -54,7 +53,7 @@
 
 <script>
 export default {
-  name: "Nav"
+  name: "MyNav"
 }
 </script>
 

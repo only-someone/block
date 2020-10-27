@@ -30,12 +30,10 @@
 
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#">个人信息</a>
+                <li class="dropdown"><a href="#">个人</a>
                   <ul>
-                    <li><a href="person_detail.html">个人信息详情</a></li>
-                    <li><a href="have_buy_resources.html">已购买资源</a></li>
+                    <li><router-link to="PersonDetail">详情管理</router-link></li>
                     <li><router-link to="UploadResource">上传资源</router-link></li>
-                    <li><a href="enterprise_bid.html">企业用户招标详情</a></li>
 
                   </ul>
                 </li>
@@ -82,7 +80,7 @@
             </div>
 
             <div class="button-box">
-              <a  class="theme-btn btn-style-one"><router-link to="login" style="color: #FFFFFF">Sign in/up</router-link></a>
+              <a  class="theme-btn btn-style-one"><router-link to="Login" style="color: #FFFFFF">Sign in/up</router-link></a>
             </div>
 
           </div>

@@ -1,11 +1,5 @@
 <template>
   <div>
-    <section class="page-title" style="background-image: url(static/images/background/5.jpg);padding:40px">
-      <div class="auto-container">
-        <h1>检索到的招标信息</h1>
-        <div class="text">Bid</div>
-      </div>
-    </section>
     <!--End Page Title-->
     <section class="price-page-section">
       <div class="auto-container">
@@ -22,7 +16,8 @@
                 <li>Unlimited Storage</li>
                 <li>Unlimited Contributors</li>
               </ul>
-              <a href="#" class="theme-btn btn-style-two">purchase</a>
+              <a href="#" class="theme-btn btn-style-two">查看详情</a>
+
             </div>
           </div>
           <el-pagination

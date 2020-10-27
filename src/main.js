@@ -6,8 +6,8 @@ import router from './router'
 import VueRouter from 'vue-router'
 
 
-import Nav from './components/Nav'
-import Upfile from './components/Upfile'
+import MyNav from './components/Nav'
+import MyUpfile from './components/Upfile'
 import HomeNav from './components/HomeNav'
 import Footer from './components/Footer'
 
@@ -42,8 +42,8 @@ Vue.use(VueRouter)
 Vue.use(ElementUI);
 
 //全局注册组件
-Vue.component('MyNav',Nav)
-Vue.component('MyUpfile',Upfile)
+Vue.component('MyNav',MyNav)
+Vue.component('MyUpfile',MyUpfile)
 Vue.component('HomeNav',HomeNav)
 
 Vue.component('UpPaper',UpPaper)

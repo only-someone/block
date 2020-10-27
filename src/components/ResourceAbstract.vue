@@ -1,7 +1,7 @@
 <template>
   <div>
-	<section class="blog-page-section">
-		<div class="auto-container">
+	<section class="blog-page-section" >
+		<div class="auto-container" >
 			<div class="masonry-items row clearfix">
 
 				<!--News Block Two-->
