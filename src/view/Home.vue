@@ -12,7 +12,7 @@
     <!--End Main Header -->
 
     <!--Banner Section-->
-    <section class="banner-section" style="background-image: url(static/images/background/1.jpg)">
+    <section class="banner-section" style="background-image: url(static/images/background/8.jpg)">
       <div class="auto-container">
         <h2>基于区块链和知识图谱的 <br> 数据交易平台</h2>
         <!--Search Form-->
@@ -187,7 +187,7 @@
     <!--Counter Section-->
     <section class="counter-section">
       <!--Title Box-->
-      <div class="title-box" style="background-image: url(static/images/background/1.jpg)">
+      <div class="title-box" style="background-image: url(static/images/background/8.jpg)">
         <div class="auto-container">
           <h2><a  href="blockchain.html" style="color: #FFFFFF" >Blockchain</a><br></h2>
         </div>
