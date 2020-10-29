@@ -16,17 +16,15 @@
       <div class="auto-container">
         <ul>
           <li><a href="#">个人</a></li>
-          <li>详情</li>
+          <li>个人信息管理</li>
         </ul>
       </div>
     </section>
     <section>
       <div class="page-content-wrapper">
         <div class="auto-container">
-          <!--breadcrumb-->
 
-          <!--end breadcrumb-->
-          <div class="user-profile-page">
+          <div class="user-profile-page" style="margin-top: 50px">
             <div class="card">
               <div class="card-body">
                 <div class="row">
@@ -80,9 +78,9 @@
               </div>
             </div>
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-              <el-tab-pane label="购买的资源" name="first"> <el-card class="box-card"> <search-resources></search-resources> </el-card></el-tab-pane>
-              <el-tab-pane label="上传的资源" name="second"><el-card class="box-card"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
-              <el-tab-pane label="参与的招投标" name="third"><el-card class="box-card"> <search-bids></search-bids> </el-card></el-tab-pane>
+              <el-tab-pane label="购买的资源" name="first"> <el-card class="box-card" style="margin-top: -100px"> <search-resources></search-resources> </el-card></el-tab-pane>
+              <el-tab-pane label="上传的资源" name="second"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
+              <el-tab-pane label="参与的招投标" name="third"><el-card class="box-card" style="margin-top: -100px"> <search-bids></search-bids> </el-card></el-tab-pane>
               <el-tab-pane label="修改个人信息" name="fourth"><el-card class="box-card">
                 <div class="form-body">
                   <div class="row">
@@ -165,13 +163,13 @@
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label>职位</label>
-                          <input type="text" class="form-control" value="https://www.linkedin.com/anyukova/">
+                          <input type="text" class="form-control">
                         </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label>个人简介</label>
-                          <el-input type="textarea" rows=6 value="https://www.facebook.com/anyukova"></el-input>
+                          <el-input type="textarea" v-model="Form.Abstract"   rows=10 ></el-input>
                         </div>
 
                       </div>
@@ -181,8 +179,10 @@
                   </div>
                 </div>
 
-              </el-card></el-tab-pane>
+              </el-card>
+                <button type="button" class="btn btn-primary btn-block mt-3"><i class='bx bxs-lock mr-1'></i>确认修改</button></el-tab-pane>
             </el-tabs>
+
           </div>
         </div>
       </div>
@@ -202,7 +202,11 @@ export default {
       activeName: 'fourth',
       dynamicTags: ['标签一', '标签二', '标签三'],
       inputVisible: false,
-      inputValue: ''
+      inputValue: '',
+      Form:{
+        Firstname:"",
+        Abstract:""
+      },
     };
   },
   methods: {

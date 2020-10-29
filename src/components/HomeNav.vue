@@ -4,7 +4,7 @@
       <div class="clearfix">
 
         <div class="pull-left logo-box">
-          <div class="logo"><a href="index.html"><img src="static/images/logo.png" alt="" title=""></a></div>
+          <div class="logo"><router-link to="Home"><img src="static/images/logo.png" alt="" title=""></router-link></div>
         </div>
 
         <div class="nav-outer pull-right clearfix">
@@ -23,33 +23,29 @@
               <ul class="navigation clearfix">
                 <li><router-link to="Home">主页</router-link></li>
 
-                <li class="dropdown"><a href="#">系统信息</a>
+                <li class="dropdown"><a>系统信息</a>
                   <ul>
                     <li><a href="team.html">知识图谱</a></li>
                     <li><a href="all_resources.html">区块链</a></li>
 
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#">个人</a>
+                <li class="dropdown"><a >个人</a>
                   <ul>
-                    <li><router-link to="PersonDetail">详情管理</router-link></li>
+                    <li><router-link to="PersonDetail">个人信息管理</router-link></li>
+
+                  </ul>
+                </li>
+                <li class="dropdown"><a href="#">资源</a>
+                  <ul>
+                    <li><router-link to="Commend">为您推荐</router-link></li>
                     <li><router-link to="UploadResource">上传资源</router-link></li>
 
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#">所有资源</a>
-                  <ul>
-                    <li><router-link to="Commend">推荐页面（或者搜索结果，专家，单位，资源，招标）</router-link></li>
-                    <li><a href="all_resources.html">所有资源</a></li>
-                    <li><a href="all_users.html">所有用户</a></li>
-                    <li><a href="all_bids.html">所有项目需求，案例详情</a></li>
-
-                  </ul>
-                </li>
-                <li><a href="team.html">联系我们</a></li>
+                <li><router-link to="Contact">联系我们</router-link></li>
               </ul>
             </div>
-
           </nav>
 
           <!-- Main Menu End-->
@@ -76,7 +72,7 @@
                   </ul>
                 </div>
               </div>
-              <a href="recommend.html" class="cart-btn dripicons-shopping-bag"><span class="total-number"></span></a>
+              <a  class="cart-btn dripicons-shopping-bag"><router-link to="Commend"><span class="total-number"></span></router-link></a>
             </div>
 
             <div class="button-box">

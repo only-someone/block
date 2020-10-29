@@ -14,49 +14,57 @@
 <!--        </div>-->
 <!--      </div>-->
 
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 bg8">
-        <div class="main_style_8" >
-          <div class="row" id="hipster">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" align="center">
-              <div class="circle">
-                <div class="main-c">
-                  <div class="quarter quarter1"></div>
-                  <div class="quarter quarter2"></div>
-                  <div class="quarter quarter3"></div>
-                  <div class="quarter quarter4"></div>
-                  <div class="cutout" style="background-image:  url(static/images/men2.jpg)"></div>
-                </div>
-              </div>
-              <h5 style="color: #000000;font-size: 30px">姓名</h5>
-              <h5 style="color: #000000">单位</h5>
+      <el-row>
+        <el-col :span="14">
+          <div class="main_style_8" >
+            <div id="hipster">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3" >
+                <div class="circle"  align="center">
+                  <div class="main-c" style="float: right;margin-left: 500px">
+                    <div class="quarter quarter1"></div>
+                    <div class="quarter quarter2"></div>
+                    <div class="quarter quarter3"></div>
+                    <div class="quarter quarter4"></div>
+                    <div class="cutout" style="background-image:  url(static/images/men2.jpg)"></div>
+                  </div>
 
-<!--              <p>Loving Life</p>-->
-            </div>
-          </div>
-          <div class="back">
-            <div class="row bgg">
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
-                <div class="count-outer count-box">
-                  <h5><countTo :startVal=0 :endVal=3 :duration='3000'></countTo></h5>
                 </div>
-                <p>上传资源</p>
-              </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
-                <h5><countTo :startVal=0 :endVal=254 :duration='3000'></countTo></h5>
-                <p>购买资源</p>
-              </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
-                <h5><countTo :startVal=0 :endVal=61 :duration='3000'></countTo></h5>
-                <p>参与招投标</p>
               </div>
             </div>
           </div>
+        </el-col>
+        <el-col :span="10">
+          <div style="margin-top: 30px">
+            <h5 style="color: #000000">姓名</h5>
+            <h5 style="color: #000000">单位</h5>
+          </div>
+        </el-col>
+      </el-row>
 
+
+
+      <div class="back" >
+        <div class="row bgg">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+            <div class="count-outer count-box">
+              <h5><countTo :startVal=0 :endVal=3 :duration='3000'></countTo></h5>
+            </div>
+            <p>上传资源</p>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+            <h5><countTo :startVal=0 :endVal=254 :duration='3000'></countTo></h5>
+            <p>购买资源</p>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+            <h5><countTo :startVal=0 :endVal=61 :duration='3000'></countTo></h5>
+            <p>参与招投标</p>
+          </div>
         </div>
       </div>
 
+
     <!-- Category Widget -->
-    <div class="sidebar-widget category-widget" >
+    <div class="sidebar-widget category-widget"  style="margin-top: 50px">
     <div class="sidebar-title">
         <h3>上传的资源</h3>
     </div>

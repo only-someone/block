@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="100px" >
-      <el-form-item label="论文标题"  style="text-align:left"  >
-        <el-input  v-model="form.PTitle" prefix rows=1 style="margin-top:20px" ></el-input>
+    <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
+      <el-form-item label="论文标题"  >
+        <el-input  v-model="form.PTitle" style="width: 400PX"></el-input>
       </el-form-item>
 
       <el-form-item label="关键字">
-        <el-tag style="margin-top: 30px"
+        <el-tag
           :key="tag"
           v-for="tag in form.PKeyword"
           closable
@@ -15,7 +15,7 @@
           {{tag}}
 
         </el-tag>
-        <el-input style="margin-top: 30px;width: 100px"
+        <el-input style="width: 100px"
           class="input-new-tag"
           v-if="inputVisible"
           v-model="inputValue"
@@ -24,11 +24,11 @@
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" style="margin-top: 30px">+ New Tag</el-button>
+        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New Tag</el-button>
 
       </el-form-item>
       <el-form-item label="论文领域" >
-        <el-select v-model="form.Domain" placeholder="请选择" style="margin-top:20px">
+        <el-select v-model="form.Domain" placeholder="请选择" >
         <el-option
           v-for="domain in domains"
           :key="domain.Id"
@@ -41,7 +41,7 @@
         <el-input type="textarea" v-model="form.PAbstract" rows=10 ></el-input>
       </el-form-item>
       <el-form-item label="发表日期" >
-        <div class="block" style="margin-top:20px" >
+        <div class="block"  >
           <el-date-picker
             v-model="form.PDate"
             align="right"
@@ -51,16 +51,26 @@
           </el-date-picker>
         </div>
       </el-form-item>
-
+      <el-form-item label="展示图片" >
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width: 200px;height: 200px">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
       <el-form-item label="论文文件" >
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
-                                :on-remove="handleRemove" style="margin-top:30px">
+                                :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
         </el-upload>
       </el-form-item>
       <el-form-item label="他人下载积分">
-           <el-input-number v-model="form.Cost" controls-position="right" style="margin-top:20px"></el-input-number>
+           <el-input-number v-model="form.Cost" controls-position="right" ></el-input-number>
       </el-form-item>
 
       <el-form-item>
@@ -87,6 +97,7 @@ export default {
       },
       inputVisible: false,
       inputValue: '',
+      imageUrl: '',
       domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
       pickerOptions: {
         disabledDate(time) {
@@ -176,11 +187,44 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 10MB!');
+      }
+      return  isLt2M;
     }
   }
 }
 </script>
 
 <style scoped>
-
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>

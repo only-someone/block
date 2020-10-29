@@ -20,19 +20,20 @@
 
             </div>
           </div>
-          <el-pagination
-            :background=true
-            style="margin:auto;margin-top:0px"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 40]"
-            :page-size="pagesize"
-            layout=" prev, pager, next"
-            :total="commendusers.length"
-            :hide-on-single-page=true>
-          </el-pagination>
-
+          <div style="margin-left: 40%">
+            <el-pagination
+              :background=true
+              style="margin:auto;margin-top:0px"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[5, 10, 20, 40]"
+              :page-size="pagesize"
+              layout=" prev, pager, next"
+              :total="commendusers.length"
+              :hide-on-single-page=true>
+            </el-pagination>
+          </div>
 
         </div>
 

@@ -19,7 +19,7 @@
         <div class="search-form">
           <form method="post" action="">
             <div class="form-group ">
-              <select class="custom-select-box" style="padding-right: 0px">
+              <select class="custom-select-box" style="padding-right: 0px;margin-left: 20px">
                 <option>所有</option>
                 <option>专家</option>
                 <option>单位</option>
@@ -38,9 +38,10 @@
           </form>
         </div>
         <!--End Search Form-->
-        <div class="title" >寻找感兴趣的 <span><a href="all_users.html">用户</a>,<a href="all_resources.html">数据资源</a>,和<a href="all_bids.html">项目</a></span> </div>
+        <div class="title" >寻找感兴趣的 <span>用户,数据资源,和项目</span> </div>
 
-        <div><h3 align="center"><a href="recommend.html">进入推荐页面</a></h3></div>
+        <div><h3 align="center" style="margin-top: 30px"><router-link to="Commend" style="color: #ffffff">进入推荐页面</router-link></h3></div>
+
         <!--图片要截一下-->
       </div>
     </section>
@@ -51,7 +52,7 @@
       <div class="auto-container">
         <!--Sec Title-->
         <div class="sec-title centered">
-          <h2>Interested Resources（八个资源）</h2>
+          <h2>Interested Resources</h2>
           <!--不细分专家和城市，类型中标注-->
         </div>
         <div class="row clearfix">
@@ -60,7 +61,7 @@
           <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for=" index in Array(8)" :key=index>
             <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
               <div class="image">
-                <a href="resource_detail.html"><img src="static/images/resource/featured-1.jpg" alt="" /></a>
+                <router-link to="ResourceDetail"><img src="static/images/resource/featured-1.jpg" alt="" /></router-link>
               </div>
               <div class="lower-content">
                 <h3><a href="resource_detail.html">资源标题</a></h3>
@@ -93,12 +94,11 @@
 		<div class="auto-container">
 			<!--Sec Title-->
 			<div class="sec-title centered">
-				<h2>Interesd Users（9个人或者单位）</h2>
+				<h2>Interesd Users</h2>
 			</div>
 
       <el-carousel height="400px" type="card">
         <el-carousel-item v-for="item in 9" :key="item" style="margin:0;text-align:center;">
-          <!-- <h3 class="small">{{ item }}</h3> -->
 
 						<div class="image" style="user-select: auto;" >
 							<a href="#" style="user-select: auto;"><img src="static/images/resource/author-3.jpg" alt="" style="user-select: auto;width:100px;height:100px;"></a>
@@ -243,110 +243,18 @@
         </div>
       </div>
     </section>
-    <!--End Counter Section
+    <!--End Counter Section-->
 
-    Main Footer-->
-    <footer class="main-footer alternate">
+    <section class="counter-section">
+      <!--Title Box-->
       <div class="sec-title centered">
-        <h2><a href="index-2.html">Knowledge Graph</a></h2>
+        <h2>Knowledge Graph</h2>
       </div>
-      <div class="auto-container">
 
-        <!--Widgets Section-->
-        <div class="widgets-section">
-          <div class="row clearfix">
 
-            <!--big column-->
-            <div class="big-column col-lg-5 col-md-12 col-sm-12">
-              <div class="row clearfix">
+    </section>
 
-                <!--Footer Column / Logo Widget-->
-                <div class="footer-column col-lg-7 col-md-7 col-sm-12">
-                  <div class="footer-widget logo-widget">
-                    <div class="logo">
-                      <a href="index.html"><img src="static/images/footer-logo.png" alt="" /></a>
-                    </div>
-                    <div class="text">Lorem Ipsum proin gravida nibh vel velit aucsollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</div>
-                    <ul class="social-icon-one">
-                      <li class="facebook"><a href="#"><span class="fa fa-facebook"></span></a></li>
-                      <li class="pinterest"><a href="#"><span class="fa fa-pinterest-p"></span></a></li>
-                      <li class="twitter"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <!--Footer Column / Links Widget-->
-                <div class="footer-column col-lg-5 col-md-5 col-sm-12">
-                  <div class="footer-widget links-widget">
-                    <h2>Company</h2>
-                    <ul class="list">
-                      <li><a href="#">About Us</a></li>
-                      <li><a href="#">Our Team</a></li>
-                      <li><a href="#">Testimonials</a></li>
-                      <li><a href="#">Brand</a></li>
-                      <li><a href="#">Ecosystem</a></li>
-                      <li><a href="#">Sitemap</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!--big column-->
-            <div class="big-column col-lg-7 col-md-12 col-sm-12">
-              <div class="row clearfix">
-
-                <!--Footer Column / Links Widget-->
-                <div class="footer-column col-lg-4 col-md-6 col-sm-12">
-                  <div class="footer-widget links-widget">
-                    <h2>Categories</h2>
-                    <ul class="list">
-                      <li><a href="#">Graphics (25)</a></li>
-                      <li><a href="#">Backgrounds (12)</a></li>
-                      <li><a href="#">Fonts (8)</a></li>
-                      <li><a href="#">Music (3)</a></li>
-                      <li><a href="#">Photography (3)</a></li>
-                      <li><a href="#">Themes (3)</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <!--Footer Column / Links Widget-->
-                <div class="footer-column col-lg-4 col-md-6 col-sm-12">
-                  <div class="footer-widget links-widget">
-                    <h2>Useful Links</h2>
-                    <ul class="list">
-                      <li><a href="#">Blog</a></li>
-                      <li><a href="#">Terms & Conditions</a></li>
-                      <li><a href="#">Privacy Policy</a></li>
-                      <li><a href="#">Refund Policy</a></li>
-                      <li><a href="#">Affiliate</a></li>
-                      <li><a href="#">Contact</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <!--Footer Column / Map Widget-->
-                <div class="footer-column col-lg-4 col-md-6 col-sm-12">
-                  <div class="footer-widget map-widget">
-                    <h2>Where we are</h2>
-                    <div class="image">
-                      <img src="static/images/resource/map.png" alt="" />
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="copyright">&copy; Copyright 2020 , <a href="http://www.bootstrapmb.com">智慧城市小组</a></div>
-
-      </div>
-    </footer>
+    <Footer></Footer>
 
   </div>
 </template>

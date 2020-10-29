@@ -39,6 +39,18 @@
                           </el-option>
                         </el-select>
                       </el-form-item>
+
+                      <el-form-item label="头像">
+                        <el-upload
+                          class="avatar-uploader "
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          :show-file-list="false"
+                          :on-success="handleAvatarSuccess"
+                          :before-upload="beforeAvatarUpload">
+                          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                      </el-form-item>
                     </el-form>
                     <button type="button" class="btn btn-primary btn-block mt-4  col-lg-6  col-md-6" style="width:100px;float: right "><i class='bx bxs-lock mr-1'></i>注册</button>
                   </div>
@@ -50,22 +62,6 @@
                     <h5 class="card-title">Where does it come from?</h5>
                     <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.</p>
                   </div>
-                  <div class="card-body p-md-5" style="margin-top: -40px">
-
-                      <el-upload
-                        class="avatar-uploader "
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="true"
-                        :on-remove="handleRemove"
-                        :on-preview="handlePictureCardPreview"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                      </el-upload>
-
-                  </div>
-
                   <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
                 </div>
               </div>
@@ -94,6 +90,7 @@ export default {
           Domain: '',
         }
       },
+      imageUrl:'',
       domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
     }
   },

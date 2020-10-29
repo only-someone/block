@@ -25,6 +25,8 @@ import UserAbstract from './components/UserAbstract'
 import ResourceAbstract from './components/ResourceAbstract'
 import PersonSidebar from './components/PersonSidebar'
 
+import PaperDetail from "./components/PaperDetail";
+import PatentDetail from "./components/PatentDetail";
 
 import RegisterBasic from './components/RegisterBasic'
 import RegisterExpert from './components/RegisterExpert'
@@ -63,6 +65,7 @@ Vue.component('ResourceAbstract',ResourceAbstract)
 Vue.component('CommendBid',Commend_Bid)
 Vue.component('PersonSidebar',PersonSidebar)
 Vue.component('SearchResources',SearchResources)
+
 Vue.component('Footer',Footer)
 Vue.component('SearchBids',SearchBids)
 Vue.component('RegisterBasic',RegisterBasic)
@@ -70,6 +73,9 @@ Vue.component('RegisterExpert',RegisterExpert)
 Vue.component('RegisterInstitution',RegisterInstitution)
 Vue.component('RegisterCity',RegisterCity)
 
+
+Vue.component('PaperDetail',PaperDetail)
+Vue.component('PatentDetail',PatentDetail)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

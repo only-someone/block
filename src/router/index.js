@@ -7,8 +7,11 @@ import UploadResource from '../view/UploadResource'
 import Commend from '../view/Commend'
 import SearchResult from '../view/SearchResult'
 import PersonDetail from "../view/PersonDetail"
-
+import ResourceDetail from '../view/ResourceDetail'
 import Register from "../view/Register"
+import UserDetail from "../view/UserDetail";
+import Contact from "../view/Contact";
+
 Vue.use(Router)
 
 export default new Router({
@@ -44,11 +47,25 @@ export default new Router({
       component: PersonDetail
     },
     {
+      path: '/ResourceDetail',
+      name: 'ResourceDetail',
+      component: ResourceDetail
+    },
+    {
       path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/UserDetail',
+      name: 'UserDetail',
+      component: UserDetail
+    },
+    {
+      path:'/Contact',
+      name:'Contact',
+      component: Contact
     }
-
   ]
 })
 

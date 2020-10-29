@@ -23,7 +23,7 @@
     <!--End Breadcrumb Title-->
 
     <!--Sidebar Page Container-->
-    <div class="sidebar-page-container" style="margin-top: 0px">
+    <div class="sidebar-page-container" style="margin-top: -50px">
       <div class="auto-container">
         <div class="row clearfix">
 

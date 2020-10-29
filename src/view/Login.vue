@@ -1,8 +1,8 @@
 <template>
 <div style="background-image: url('static/images/bg8.jpg');background-repeat:no-repeat ;background-size:100% 100%">
-  <div class="container"  style="padding-top: 5%;padding-bottom: 15%">
+  <div  style="padding-top: 5%;padding-bottom: 15%">
 
-    <div class="section-authentication">
+    <div class="section-authentication"  style="margin-left:18%;width: 70%;height:100%;text-align: center">
       <div class="container-fluid">
         <div class="card mb-0">
           <div class="card-body p-0">
@@ -31,7 +31,7 @@
 <!--                        <a href="authentication-forgot-password.html"><i class='bx bxs-key mr-2'></i>Forget Password?</a>-->
 <!--                      </div>-->
 <!--                    </div>-->
-                    <button type="button" class="btn btn-primary btn-block mt-3"><i class='bx bxs-lock mr-1'></i>Login</button>
+                    <button  class="btn btn-primary btn-block mt-3"><router-link to="Home" style="color: #fff3cd"><i class='bx bxs-lock mr-1'></i>Login</router-link></button>
                     <div class="text-center mt-4">
                       <p class="mb-0">还没有账号? <router-link to="Register">立即注册</router-link></p>
                     </div>

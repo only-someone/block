@@ -21,6 +21,10 @@
               </div>
             </div>
           </div>
+
+
+        </div>
+        <div style="margin-left: 40%">
           <el-pagination
             :background=true
             style="margin:auto;margin-top:0px"
@@ -33,9 +37,7 @@
             :total="commendusers.length"
             :hide-on-single-page=true>
           </el-pagination>
-
         </div>
-
       </div>
     </section>
     <!--End Shop Page Section-->

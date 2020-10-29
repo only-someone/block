@@ -22,18 +22,20 @@
 
 
 			</div>
-            <el-pagination
-                :background=true
+      <div style="margin-left: 40%">
+        <el-pagination
+            :background=true
 
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 20, 40]"
-                :page-size="pagesize"
-                layout=" prev, pager, next"
-                :total="commendresources.length"
-                :hide-on-single-page=true>
-            </el-pagination>
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="pagesize"
+            layout=" prev, pager, next"
+            :total="commendresources.length"
+            :hide-on-single-page=true>
+        </el-pagination>
+      </div>
 		</div>
 	</section>
     </div>

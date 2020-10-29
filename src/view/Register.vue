@@ -1,6 +1,6 @@
 <template>
   <div style="background-image: url('static/images/bg8.jpg');background-repeat:no-repeat ;background-size:100% 100%">
-    <div class="container"  style="padding-top: 5%;padding-bottom: 14%">
+    <div  style="margin-left: 20%;width: 60%;height:90%;padding-top: 4%;padding-bottom: 15%">
       <el-tabs :tab-position="tabPosition" >
         <el-tab-pane>
           <span slot="label" style="color: #fff3cd"><i class="el-icon-edit"></i>填写基本信息</span>

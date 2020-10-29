@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="section-authentication">
+    <div class="section-authentication" >
       <div class="container-fluid">
         <div class="card mb-0">
           <div class="card-body p-0">
