@@ -58,8 +58,9 @@
         <div class="row clearfix">
 
           <!--Featured Block-->
-          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for=" index in Array(8)" :key=index>
-            <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(value,index) in fadetime" :key=index>
+            <div class="inner-box wow fadeInLeft" :animation-delay='value'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto;">
               <div class="image">
                 <router-link to="ResourceDetail"><img src="static/images/resource/featured-1.jpg" alt="" /></router-link>
               </div>
@@ -274,6 +275,7 @@ export default {
       block_height:20,
       block_node:20,
       start:false,
+      fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"]
     }
   },
   watch:{},
