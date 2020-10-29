@@ -8,13 +8,12 @@
           <div class="content-column col-lg-8 col-md-12 col-sm-12">
             <div class="inner-column">
               <div class="shop-single">
-                <div class="inner-box">
-                  <el-row>
+                <div class="inner-box" >
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="5"><div class="grid-content bg-purple-dark">专利名称</div></el-col>
                     <el-col :span="12"><div class="grid-content bg-purple-light">{{PatentData.PatentName}}</div></el-col>
-
                   </el-row>
-                  <el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="3"><div class="grid-content bg-purple-dark">专利编号</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-light">{{PatentData.PatentNumber}}</div></el-col>
                     <el-col :span="3"><div class="grid-content bg-purple-dark">专利类型</div></el-col>
@@ -22,7 +21,7 @@
                     <el-col :span="4"><div class="grid-content bg-purple-dark">专利申请日期</div></el-col>
                     <el-col :span="3"><div class="grid-content bg-purple-light">{{PatentData.PatentDate}}</div></el-col>
                   </el-row>
-                  <el-row >
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="3" ><div class="grid-content bg-purple-dark">公开号</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-light">{{PatentData.PatentOpen}}</div></el-col>
                     <el-col :span="3"><div class="grid-content bg-purple-dark">法律状态</div></el-col>
@@ -30,15 +29,15 @@
                     <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
                     <el-col :span="3"><div class="grid-content bg-purple-light">{{PatentData.PatentOpenDate}}</div></el-col>
                   </el-row>
-                  <el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="3"><div class="grid-content bg-purple-dark">专利简介</div></el-col>
                     <el-col :span="21" style="height: 100px" ><div class="grid-content bg-purple-dark">{{PatentData.PatentAbstract}}</div></el-col>
                   </el-row>
-                  <el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="3"><div class="grid-content bg-purple-dark">专利内容</div></el-col>
                     <el-col :span="21"  ><div class="grid-content bg-purple-dark">{{PatentData.PatentContent}}</div></el-col>
                   </el-row>
-                  <el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="3"><div class="grid-content bg-purple-dark">主权项</div></el-col>
                     <el-col :span="21" style="height: 100px" ><div class="grid-content bg-purple-dark">{{PatentData.PatentRight}}</div></el-col>
                   </el-row>
@@ -151,15 +150,7 @@ export default {
 </script>
 
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
-&:last-child {
-   margin-bottom: 0;
- }
-}
-.el-col {
-  border-radius: 4px;
-}
+
 .bg-purple-dark {
   background: #99a9bf;
 }
