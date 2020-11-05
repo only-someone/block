@@ -81,8 +81,19 @@
             <div class="button-box" v-if="!this.$cookies.get('id')">
               <a  class="theme-btn btn-style-one"><router-link to="Login" style="color: #FFFFFF">Login/Sign</router-link></a>
             </div>
+
+
             <div class="button-box" v-if="this.$cookies.get('id')">
-              <router-link to="PersonDetail" > <el-avatar :size="40" :src="circleUrl"></el-avatar></router-link>
+              <el-dropdown>
+              <span class="el-dropdown-link">
+                 <el-avatar :size="40" :src="circleUrl"></el-avatar><i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+                <el-dropdown-menu slot="dropdown">
+
+                  <el-dropdown-item ><a @click="logout()">退出登录</a></el-dropdown-item>
+                  <el-dropdown-item><router-link to="PersonDetail">个人详情</router-link></el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
 
           </div>
@@ -104,7 +115,13 @@ export default {
 
     }
   },
-
+  methods:{
+    logout(){
+      console.log("lo")
+      this.$cookies.remove("id")
+      this.$router.push({path:"Home"})
+    }
+  }
 }
 </script>
 

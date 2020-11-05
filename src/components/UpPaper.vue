@@ -2,13 +2,18 @@
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
       <el-form-item label="论文标题"  >
-        <el-input  v-model="form.PTitle" style="width: 400PX"></el-input>
+        <el-input  v-model="Paper.title" style="width: 400PX"></el-input>
       </el-form-item>
-
+      <el-form-item label="作者"  >
+        <el-input  v-model="Paper.author" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="所属单位"  >
+        <el-input  v-model="Paper.machanism" style="width: 400PX"></el-input>
+      </el-form-item>
       <el-form-item label="关键字">
         <el-tag
           :key="tag"
-          v-for="tag in form.PKeyword"
+          v-for="tag in keyword_pre"
           closable
           :disable-transitions="false"
           @close="handleClose(tag)">
@@ -20,36 +25,54 @@
           v-if="inputVisible"
           v-model="inputValue"
           ref="saveTagInput"
+          placeholder="按Enter输入"
           size="small"
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New Tag</el-button>
+        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New Keyword</el-button>
 
       </el-form-item>
-      <el-form-item label="论文领域" >
-        <el-select v-model="form.Domain" placeholder="请选择" >
-        <el-option
-          v-for="domain in domains"
-          :key="domain.Id"
-          :label="domain.Name"
-          :value="domain.Name">
-        </el-option>
-       </el-select>
-      </el-form-item>
+<!--      <el-form-item label="论文领域" >-->
+<!--        <el-select v-model="form.Domain" placeholder="请选择" >-->
+<!--        <el-option-->
+<!--          v-for="domain in domains"-->
+<!--          :key="domain.Id"-->
+<!--          :label="domain.Name"-->
+<!--          :value="domain.Name">-->
+<!--        </el-option>-->
+<!--       </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item label="论文摘要" >
-        <el-input type="textarea" v-model="form.PAbstract" rows=10 ></el-input>
+        <el-input type="textarea" v-model="Paper.summary" rows=10 ></el-input>
       </el-form-item>
       <el-form-item label="发表日期" >
         <div class="block"  >
           <el-date-picker
-            v-model="form.PDate"
+            v-model="Paper.pubDate"
             align="right"
             type="date"
             placeholder="选择日期"
             :picker-options="pickerOptions">
           </el-date-picker>
         </div>
+      </el-form-item>
+
+      <el-form-item label="论文文件" >
+        <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
+                                :on-remove="handleRemove" >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="网络链接"  >
+        <el-input  v-model="Paper.url" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="版本号"  >
+        <el-input  v-model="Paper.version" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="他人下载积分">
+           <el-input-number v-model="Paper.price" controls-position="right" ></el-input-number>
       </el-form-item>
       <el-form-item label="展示图片" >
         <el-upload
@@ -62,19 +85,8 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="论文文件" >
-        <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
-                                :on-remove="handleRemove" >
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="他人下载积分">
-           <el-input-number v-model="form.Cost" controls-position="right" ></el-input-number>
-      </el-form-item>
-
       <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="margin-left:450px;width:150px;margin-top: 50px" round>上传资源</el-button>
+          <el-button type="primary" @click="up_paper" style="margin-left:450px;width:150px;margin-top: 50px" round>上传资源</el-button>
       </el-form-item>
     </el-form>
 
@@ -86,15 +98,24 @@ export default {
   name: "UpPaper",
   data() {
     return {
-      form: {
-        PTitle: '',
-        PAbstract: '',
-        PKeyword: [],
-        PDate: '',
-        PFile:'',
-        Cost:'',
-        Domain:'',
+      form:{},
+      Paper: {
+        title:'',
+        author:'',
+        cited:'',
+        machanism:'',
+        summary:'',
+        keywords:"",
+        classification:'',
+        pubDate:'',
+        download:'',
+        url:'',//本地存储
+        file:'',//网络链接
+        price:'',//修改成本地积分
+        version:'',//暂时充当作者id
+        // Domain:'',
       },
+      keyword_pre:[],
       inputVisible: false,
       inputValue: '',
       imageUrl: '',
@@ -136,18 +157,17 @@ export default {
     //   vm.data
     //   vm.domains=resp.data.domains
     // })
-
   },
   methods: {
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
         this.$message.error('上传文件大小不能超过 50MB')
-        this.form.PFile = null
+        this.Paper.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
       } else {
         if (file.status === 'ready') {
-          this.form.PFile = file.raw
+          this.Paper.file= file.raw
         }
       }
     },
@@ -156,21 +176,40 @@ export default {
         this.uploadFile = {}
       }
     },
-    onSubmit() {
-      console.log(this.form.PFile)
+    up_paper() {
+      var vm=this;
       let formData = new FormData();
-      formData.set("files", this.form.PFile);
+      formData.set("files", this.Paper.file);
       this.axios
         .post('http://192.168.8.197:8000/api/v1/uploadfile', formData, {
           headers: {
             "Content-type": "multipart/form-data"
           }
         }).then(function(resp){
-          console.log(resp.data.data)
-        }).catch();
+          vm.Paper.file=resp.data.data.toString()
+          var keywords_tostring=""
+          for (var i=0;i<vm.keyword_pre.length;i++)
+          {
+            keywords_tostring+=vm.keyword_pre[i].toString()+";"
+          }
+          vm.Paper.keywords=keywords_tostring
+          console.log(vm.Paper)
+          vm.axios
+            .post('http://192.168.8.103:8003/paperservice/paper/addPaper', vm.Paper, {
+              headers: {
+                "Content-type": "application/json"
+              }
+            }).then(function(resp){
+
+          }).catch(alert("上传失败"));
+        }).catch(alert("上传失败"));
+
+
+
     },
+
     handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      this.Paper.keywords.splice(this.keyword_pre.indexOf(tag), 1);
     },
 
     showInput() {
@@ -183,7 +222,7 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
-        this.form.PKeyword.push(inputValue);
+        this.keyword_pre.push(inputValue);
       }
       this.inputVisible = false;
       this.inputValue = '';
