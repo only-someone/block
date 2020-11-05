@@ -207,7 +207,20 @@ export default {
           "Content-type": "application/json"
         }
       }).then(res=>{
-        alert("注册成功")
+        console.log(res)
+        vm.axios({
+          method:'post',
+          url:'http://192.168.8.197:8000/api/v1/createUser',
+          data:{
+            "Id":res.data.data.expert.id,
+            "Score":"50"
+          }
+        }).then(
+          alert("注册成功")
+        ).catch(error=>{
+          console.log(error)
+          alert("区块链注册失败")
+        })
         this.$router.push({path:'/Login'})
       }).catch(function (error){
         console.log(error)
