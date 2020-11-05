@@ -46,7 +46,7 @@ Vue.use(countTo)
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
+window.eventBus = new Vue();
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(ElementUI);

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 import countTo from 'vue-count-to'
 export default {
   name: 'App',

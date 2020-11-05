@@ -36,7 +36,7 @@
                       <div class="ml-md-4 flex-grow-1">
                         <div class="d-flex align-items-center mb-1">
                           <h4 class="mb-0">{{ Expert.name }}</h4>
-                          <p class="mb-0 ml-auto" style="margin-right: 100px">积分:</p>
+                          <p class="mb-0 ml-auto" style="margin-right: 100px">积分:<span class="badge badge-success" style="margin-left: 20px;font-size: 20px">{{this.$cookies.get("score")}}</span></p>
                         </div>
                         <p class="mb-0 text-muted">{{Expert.institution}}</p>
                         <p class="text-primary"><i class='bx bx-buildings'></i>{{Expert.intro}}</p>
@@ -213,7 +213,6 @@ export default {
       url:'http://192.168.8.103:8001/expertservice/expert/getExpert/'+id,
     }).then(res=>{
       this.Expert = res.data.data.expert;
-      console.log(this.Expert.name);
     })
   },
   methods: {
@@ -223,7 +222,6 @@ export default {
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
-
     showInput() {
       this.inputVisible = true;
       this.$nextTick(_ => {
@@ -241,9 +239,9 @@ export default {
     },
     update_expert_info(){
       var vm =this
-      console.log(vm.Expert)
+
       vm.Expert.id=this.$cookies.get("id")
-      console.log(vm.Expert)
+
       this.axios({
         method:'post',
         url:'http://192.168.8.103:8001/expertservice/expert/updateExpert',

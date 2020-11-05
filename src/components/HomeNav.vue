@@ -3,7 +3,7 @@
     <div class="auto-container">
       <div class="clearfix">
 
-        <div class="pull-left logo-box" v-if="(this.$route.path==='/HOME') || (this.$route.path==='/')">
+        <div class="pull-left logo-box" v-if="(this.$route.path==='/Home') || (this.$route.path==='/')||(this.$route.path==='/HOME')">
           <div class="logo"><router-link to="Home"><img src="static/images/logo.png" alt="" title=""></router-link></div>
         </div>
         <div class="pull-left logo-box" v-else>
@@ -112,16 +112,50 @@ export default {
   data(){
     return{
       circleUrl:"/static/images/men2.jpg",
+      up_resource_list:[],
+      buy_resource_list:[],
+      bid_list:[]
+    }
+  },
+  created() {
+    if(this.$cookies.get("id")){
+      this.get_account()
+      this.get_list()
+    }
+  },
+  methods: {
+    logout(){
+      while(this.$cookies.keys()!=0){
+        console.log(this.$cookies.keys())
+        this.$cookies.remove(this.$cookies.keys()[0])
+      }
+      this.$router.push({path:"/Home"})
+    },
+    get_account(){
+      var vm=this
+      this.axios({
+        method:'post',
+        url:'http://192.168.8.197:8000/api/v1/queryAccount',
+        data:{"Id":this.$cookies.get("id")}
+      }).then(resp=>{
+        vm.account=resp.data.data[0]
+        this.$cookies.set("score",this.account.Score)
+        for(var i=0;i<vm.account.Buy.length;i++){
+          this.buy_resource_list.push({"id":vm.account.Buy[i].id,"hash":vm.account.Buy[i].Hash})
+        }
+        eventBus.$emit('buy_list', this.buy_resource_list);
+        for(var i=0;i<vm.account.Upload.length;i++){
+          this.up_resource_list.push({"id":vm.account.Upload[i].id,"hash":vm.account.Upload[i].Hash})
+        }
+        eventBus.$emit('upload_list', this.up_resource_list);
+
+      })
+    },
+    get_list(){
 
     }
   },
-  methods:{
-    logout(){
-      console.log("lo")
-      this.$cookies.remove("id")
-      this.$router.push({path:"Home"})
-    }
-  }
+
 }
 </script>
 

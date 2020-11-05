@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
-      <el-form-item label="论文标题"  >
+      <el-form-item label="论文标题"  required>
         <el-input  v-model="Paper.title" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="作者"  >
@@ -10,8 +10,12 @@
       <el-form-item label="所属单位"  >
         <el-input  v-model="Paper.machanism" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="关键字">
+      <el-form-item label="分类号"  >
+        <el-input  v-model="Paper.classification" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="关键字" required>
         <el-tag
+          style="margin-right: 10px"
           :key="tag"
           v-for="tag in keyword_pre"
           closable
@@ -43,22 +47,23 @@
 <!--        </el-option>-->
 <!--       </el-select>-->
 <!--      </el-form-item>-->
-      <el-form-item label="论文摘要" >
+      <el-form-item label="论文摘要" required>
         <el-input type="textarea" v-model="Paper.summary" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="发表日期" >
+      <el-form-item label="发表日期" required>
         <div class="block"  >
           <el-date-picker
             v-model="Paper.pubDate"
             align="right"
             type="date"
+            value-format="yyyy-MM-dd HH:mm:ss "
             placeholder="选择日期"
             :picker-options="pickerOptions">
           </el-date-picker>
         </div>
       </el-form-item>
 
-      <el-form-item label="论文文件" >
+      <el-form-item label="论文文件" required>
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                                 :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -68,16 +73,14 @@
       <el-form-item label="网络链接"  >
         <el-input  v-model="Paper.url" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="版本号"  >
-        <el-input  v-model="Paper.version" style="width: 400PX"></el-input>
-      </el-form-item>
-      <el-form-item label="他人下载积分">
+
+      <el-form-item label="他人下载积分" required>
            <el-input-number v-model="Paper.price" controls-position="right" ></el-input-number>
       </el-form-item>
       <el-form-item label="展示图片" >
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://192.168.8.103:8002/oss/avataross"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -103,16 +106,16 @@ export default {
         title:'',
         author:'',
         cited:'',
+        classification:"",
         machanism:'',
         summary:'',
         keywords:"",
-        classification:'',
         pubDate:'',
         download:'',
         url:'',//本地存储
         file:'',//网络链接
         price:'',//修改成本地积分
-        version:'',//暂时充当作者id
+        cover:"",//封面
         // Domain:'',
       },
       keyword_pre:[],
@@ -176,7 +179,30 @@ export default {
         this.uploadFile = {}
       }
     },
-    up_paper() {
+    up_paper_blockchain(id,time){
+      var vm=this
+      var data={
+          "Id":id,
+          "Hash":vm.Paper.file,
+          "Uploader":vm.$cookies.get("id"),
+          "Cost":vm.Paper.price.toString(),
+          "Time":time,
+          "State":"false",
+          "GetScore":"20"
+      }
+      console.log(data)
+      this.axios({
+        method:'post',
+        url:"http://192.168.8.197:8000/api/v1/uploadResource",
+        data:data,
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then(function (resp){
+        console.log(resp)
+      }).catch()
+     },
+    up_paper(){
       var vm=this;
       let formData = new FormData();
       formData.set("files", this.Paper.file);
@@ -189,9 +215,7 @@ export default {
           vm.Paper.file=resp.data.data.toString()
           var keywords_tostring=""
           for (var i=0;i<vm.keyword_pre.length;i++)
-          {
-            keywords_tostring+=vm.keyword_pre[i].toString()+";"
-          }
+            { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
           vm.Paper.keywords=keywords_tostring
           console.log(vm.Paper)
           vm.axios
@@ -200,16 +224,16 @@ export default {
                 "Content-type": "application/json"
               }
             }).then(function(resp){
-
-          }).catch(alert("上传失败"));
-        }).catch(alert("上传失败"));
-
-
+              console.log(resp.data.data.paper)
+              vm.up_paper_blockchain(resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
+              alert("上传成功")
+          }).catch();
+        }).catch();
 
     },
 
     handleClose(tag) {
-      this.Paper.keywords.splice(this.keyword_pre.indexOf(tag), 1);
+      this.keyword_pre.splice(this.keyword_pre.indexOf(tag), 1);
     },
 
     showInput() {
@@ -229,6 +253,8 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+      this.Paper.cover=res.data.url
+      console.log( res.data.url)
     },
     beforeAvatarUpload(file) {
 
