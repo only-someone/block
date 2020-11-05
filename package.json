@@ -15,6 +15,7 @@
     "element-ui": "^2.13.2",
     "vue": "^2.5.2",
     "vue-axios": "^3.1.2",
+    "vue-cookies": "^1.7.4",
     "vue-count-to": "^1.0.13",
     "vue-router": "^3.0.1"
   },

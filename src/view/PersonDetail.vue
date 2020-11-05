@@ -31,15 +31,15 @@
                   <div class="col-12 col-lg-7 border-right">
                     <div class="d-md-flex align-items-center">
                       <div class="mb-md-0 mb-3">
-                        <img src=" static/assets/images/avatars/avatar-1.png" class="rounded-circle shadow" width="150" height="150" alt="" />
+                        <img :src=Expert.avatar class="rounded-circle shadow" width="200" height="200" alt="" />
                       </div>
                       <div class="ml-md-4 flex-grow-1">
                         <div class="d-flex align-items-center mb-1">
-                          <h4 class="mb-0">姓名</h4>
+                          <h4 class="mb-0">{{ Expert.name }}</h4>
                           <p class="mb-0 ml-auto" style="margin-right: 100px">积分:</p>
                         </div>
-                        <p class="mb-0 text-muted">单位</p>
-                        <p class="text-primary"><i class='bx bx-buildings'></i>简介</p>
+                        <p class="mb-0 text-muted">{{Expert.institution}}</p>
+                        <p class="text-primary"><i class='bx bx-buildings'></i>{{Expert.intro}}</p>
 
                       </div>
                     </div>
@@ -54,19 +54,20 @@
                       </tr>
                       <tr>
                         <th>邮箱:</th>
-                        <td>1111111@edu.cn</td>
+                        <td>{{ Expert.email }}</td>
                       </tr>
                       <tr>
                         <th>电话:</th>
-                        <td>13333333333</td>
+                        <td>{{ Expert.phone }}</td>
                       </tr>
                       <tr>
                         <th>传真</th>
-                        <td>00000000</td>
+                        <td>{{ Expert.fax }}</td>
                       </tr>
                       <tr>
                         <th></th>
-                        <td><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">成为专家/已是专家</a></td>
+                        <td v-if="this.$cookies.get('type')==='expert'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">已是专家</a></td>
+                        <td v-if="this.$cookies.get('type')==='visiter'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">成为专家</a></td>
 
                       </tr>
                       </tbody>
@@ -86,18 +87,15 @@
                   <div class="row">
                     <div class="col-12 col-lg-5 border-right">
                       <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label>First Name</label>
-                          <input type="text" value="Svetlana" class="form-control">
+                        <div class="form-group col-md-12">
+                          <label>姓名</label>
+                          <input type="text"  v-model="Expert.name" class="form-control">
                         </div>
-                        <div class="form-group col-md-6">
-                          <label>Last Name</label>
-                          <input type="text" value="Anyukova" class="form-control">
-                        </div>
+
                       </div>
                       <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" value="1234560000" class="form-control">
+                        <label>新密码</label>
+                        <input type="password" value="********" class="form-control">
                       </div>
                       <div class="form-group">
                         <label>确认密码</label>
@@ -105,31 +103,23 @@
                       </div>
                       <div class="form-group">
                         <label>邮箱</label>
-                        <input type="text" value="svetlana1997@example.com" class="form-control">
+                        <input type="text" v-model="Expert.email" class="form-control">
                       </div>
                       <div class="form-group">
                         <label>电话</label>
-                        <input type="text" value="99-10-XXX-XXX" class="form-control">
+                        <input type="text" v-model="Expert.phone" class="form-control">
                       </div>
                       <div class="form-group">
                         <label>住址</label>
-                        <input type="text" value="116-B, Cutela Colony, Sydney, Australia" class="form-control">
+                        <input type="text" v-model="Expert.institution" class="form-control">
                       </div>
 
                     </div>
                     <div class="col-12 col-lg-7">
                       <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label>Gender</label>
-                          <select class="form-control">
-                            <option>男</option>
-                            <option>女</option>
-
-                          </select>
-                        </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                           <label>就职单位</label>
-                          <input type="text" value="中国北京海淀区" class="form-control">
+                          <input type="text" v-model="Expert.institution" class="form-control">
                         </div>
                       </div>
 
@@ -163,13 +153,13 @@
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label>职位</label>
-                          <input type="text" class="form-control">
+                          <input type="text"  v-model="Expert.career" class="form-control">
                         </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-md-12">
                           <label>个人简介</label>
-                          <el-input type="textarea" v-model="Form.Abstract"   rows=10 ></el-input>
+                          <el-input type="textarea" v-model="Expert.intro"   rows=10 ></el-input>
                         </div>
 
                       </div>
@@ -180,7 +170,7 @@
                 </div>
 
               </el-card>
-                <button type="button" class="btn btn-primary btn-block mt-3"><i class='bx bxs-lock mr-1'></i>确认修改</button></el-tab-pane>
+                <button type="button" class="btn btn-primary btn-block mt-3" style="height: 50px" @click="update_expert_info()"><i class='bx bxs-lock mr-1'></i>确认修改</button></el-tab-pane>
             </el-tabs>
 
           </div>
@@ -199,15 +189,32 @@ export default {
   name: "PersonDetail",
   data() {
     return {
-      activeName: 'fourth',
+      activeName: 'fourth',//默认进入个人信息修改
       dynamicTags: ['标签一', '标签二', '标签三'],
       inputVisible: false,
       inputValue: '',
-      Form:{
-        Firstname:"",
-        Abstract:""
-      },
+      Expert:{
+        name:"",
+        intro:"",
+        career:"",
+        email:"",
+        phone:"",
+        fax:"",
+        institution: "",
+        avatar: "",
+        sort:""
+      }
     };
+  },
+  created() {
+    var id=this.$cookies.get("id")
+    this.axios({
+      method:'get',
+      url:'http://192.168.8.103:8001/expertservice/expert/getExpert/'+id,
+    }).then(res=>{
+      this.Expert = res.data.data.expert;
+      console.log(this.Expert.name);
+    })
   },
   methods: {
     handleClick(tab, event) {
@@ -231,6 +238,17 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
+    },
+    update_expert_info(){
+      var vm =this
+      console.log(vm.Expert)
+      vm.Expert.id=this.$cookies.get("id")
+      console.log(vm.Expert)
+      this.axios({
+        method:'post',
+        url:'http://192.168.8.103:8001/expertservice/expert/updateExpert',
+        data:vm.Expert
+      }).then(alert("修改成功"))
     }
 
   }

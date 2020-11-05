@@ -14,20 +14,41 @@
                   <h4 style="text-align:center;margin-top: -20px" ><strong>补充个人信息</strong></h4>
                   <div class="card-body">
                     <el-form ref="form" :model="form.Expert" label-width="50px" >
+                      <el-form-item label="名字">
+                        <el-input type="text" v-model="form.Expert.name" ></el-input>
+                      </el-form-item>
                       <el-form-item label="简介">
-                        <el-input type="textarea" v-model="form.Expert.Introduction" rows=3></el-input>
+                        <el-input type="textarea" v-model="form.Expert.intro" rows=3></el-input>
                       </el-form-item>
-                      <el-form-item label="住址">
-                        <el-input type="text" v-model="form.Expert.Home" ></el-input>
-                      </el-form-item>
+
                       <el-form-item label="职位" >
-                        <el-input type="text" v-model="form.Expert.Affiliation" ></el-input>
+                        <el-input type="text" v-model="form.Expert.career" ></el-input>
+                      </el-form-item>
+                      <el-form-item label="邮箱" >
+                        <el-input type="text" v-model="form.Expert.email" ></el-input>
                       </el-form-item>
                       <el-form-item label="电话">
-                        <el-input type="text" v-model="form.Expert.Telephone" ></el-input>
+                        <el-input type="text" v-model="form.Expert.phone" ></el-input>
                       </el-form-item>
-                      <el-form-item label="领域" >
-                        <el-select v-model="form.Expert.Domain" placeholder="请选择" >
+                      <el-form-item label="传真">
+                        <el-input type="text" v-model="form.Expert.fax" ></el-input>
+                      </el-form-item>
+                      <el-col :span="12">
+                        <el-form-item label="头像">
+                          <el-upload
+                            class="avatar-uploader"
+                            :show-file-list="false"
+                            action="http://192.168.8.197:8000/api/v1/uploadfile"
+                            name="files"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                          </el-upload>
+                        </el-form-item>
+                      </el-col>
+                      <!--<el-form-item label="领域" >
+                        <el-select v-model="form.Expert.domain" placeholder="请选择" >
                           <el-option
                             v-for="domain in domains"
                             :key="domain.Id"
@@ -35,18 +56,18 @@
                             :value="domain.Name">
                           </el-option>
                         </el-select>
-                      </el-form-item>
+                      </el-form-item>-->
 
                     </el-form>
                   </div>
-                  <h4 style="text-align: center;float: right"><strong>已有相应单位用户？</strong></h4>
-                  <el-row style="margin-left: 20px;margin-right: 20px" :gutter="30">
+                  <h4 style="text-align: center;float: right; margin-top: -30px"><strong>已有相应单位用户？</strong></h4>
+                  <el-row style="margin:20px" :gutter="30">
                     <el-col :span="15">
-                      <el-input  type="text"  placeholder="填写对应单位名" style="margin-left: 10px"></el-input>
+                      <el-input  v-model="form.Expert.institution" type="text"  placeholder="填写对应单位名" style="margin-left: 10px"></el-input>
                     </el-col>
 
                    <el-col :span="9">
-                     <button type="button" class="btn btn-primary btn-block " ><i class='bx bxs-lock mr-1'></i>关联</button>
+                     <button type="button" class="btn btn-primary btn-block " @click="register_have_institution()" ><i class='bx bxs-lock mr-1'></i>关联并注册</button>
                    </el-col>
                   </el-row>
                   <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
@@ -92,7 +113,7 @@
                         </el-col>
                       </el-row>
                       <el-row>
-                        <el-col :span="12">
+                        <el-col :span="24">
                           <el-form-item label="领域"  >
                             <el-select v-model="form.Institution.Domain" placeholder="请选择"  style="width:83%">
                               <el-option
@@ -109,7 +130,8 @@
                             <el-upload
                               class="avatar-uploader"
                               :show-file-list="false"
-                              action="https://jsonplaceholder.typicode.com/posts/"
+                              action="http://192.168.8.197:8000/api/v1/uploadfile"
+                              name="files"
                               :on-success="handleAvatarSuccess"
                               :before-upload="beforeAvatarUpload">
                               <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -118,11 +140,9 @@
                           </el-form-item>
 
                         </el-col>
+
                       </el-row>
-                      <button type="button" class="btn btn-primary btn-block " style="width:25%;margin-left: 50px" ><i class='bx bxs-lock mr-1'></i>注册</button>
-
-
-
+                       <button type="button" class="btn btn-primary btn-block " style="width: 50%;margin-left: 8%" ><i class='bx bxs-lock mr-1'></i>注册</button>
                     </el-form>
 
                   </div>
@@ -146,11 +166,15 @@ export default {
     return {
       form: {
         Expert:{
-          Introduction: '',
-          Home:'',
-          Affiliation: '',
-          Telephone: '',
-          Domain:" "
+          avatar:"",
+          career:"",
+          email:"",
+          fax:"",
+          institution:"",//外键
+          intro:"",
+          name:"",
+          phone:"",
+          sort:"",//目前没用
         },
         Institution:{
           InstitutionName:'',
@@ -169,12 +193,27 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
-    },
 
+    register_have_institution(){
+      var vm =this;
+      console.log(vm.form.Expert)
+      this.axios({
+        method: 'post',
+        url:'http://192.168.8.103:8001/expertservice/expert/addExpert',
+        data: vm.form.Expert,
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then(res=>{
+        this.$router.push({path:'/Login'})
+      }).catch(function (error){
+        console.log(error)
+      })
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+      this.form.Expert.avatar=res.data[0]
+      console.log( this.form.Expert.avatar)
     },
     beforeAvatarUpload(file) {
 

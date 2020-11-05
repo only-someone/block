@@ -189,7 +189,7 @@
       <!--Title Box-->
       <div class="title-box" style="background-image: url(static/images/background/8.jpg)">
         <div class="auto-container">
-          <h2><a  href="blockchain.html" style="color: #FFFFFF" >Blockchain</a><br></h2>
+          <h2><a  href="http://192.168.8.197:8080/#/" style="color: #FFFFFF" >Blockchain</a><br></h2>
         </div>
       </div>
       <!--Lower Section-->
@@ -280,6 +280,7 @@ export default {
   },
   watch:{},
   created() {
+
   },
   mounted () {
 

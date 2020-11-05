@@ -12,14 +12,14 @@
                   <div class="card-body p-md-5">
                     <img src="static/images/logo-2.png" width="180" alt=""/>
                     <h4 class="mt-5"><strong>Welcome Back</strong></h4>
-                    <p>Log in to your account using email & password</p>
+                    <p>Log in to your account using username & password</p>
                     <div class="form-group mt-4">
-                      <label>Email Address</label>
-                      <input type="text" class="form-control" placeholder="Enter your email address"/>
+                      <label>Enter Username</label>
+                      <input type="text" class="form-control" placeholder="Enter your Username" v-model="username"/>
                     </div>
                     <div class="form-group">
                       <label>Enter Password</label>
-                      <input type="password" class="form-control" placeholder="Enter your password"/>
+                      <input type="password" class="form-control" placeholder="Enter your password" v-model="password"/>
                     </div>
 <!--                    <div class="form-row">-->
 <!--                      <div class="form-group col">-->
@@ -31,7 +31,7 @@
 <!--                        <a href="authentication-forgot-password.html"><i class='bx bxs-key mr-2'></i>Forget Password?</a>-->
 <!--                      </div>-->
 <!--                    </div>-->
-                    <button  class="btn btn-primary btn-block mt-3"><router-link to="Home" style="color: #fff3cd"><i class='bx bxs-lock mr-1'></i>Login</router-link></button>
+                    <button  class="btn btn-primary btn-block mt-3" style="color: #fff3cd" @click="Login()"><i class='bx bxs-lock mr-1'></i>Login</button>
                     <div class="text-center mt-4">
                       <p class="mb-0">还没有账号? <router-link to="Register">立即注册</router-link></p>
                     </div>
@@ -68,10 +68,20 @@
 <script>
 export default {
   name: "Login",
-  mounted() {
-    document.querySelector('.img__btn').addEventListener('click', function() {
-      document.querySelector('.content').classList.toggle('s--signup')
-    })
+  data(){
+    return {
+      username:"",
+      password:""
+    }
+  },
+  methods:{
+    Login(){
+      console.log(this.password)
+      console.log(this.username)
+      this.$cookies.set("id","1189426464967995393")   //return this
+      this.$cookies.set("type","Expert")
+      this.$router.push({path:'/HOME'})
+    }
   }
 }
 </script>

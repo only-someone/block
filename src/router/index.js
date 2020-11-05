@@ -27,6 +27,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/',
+      name: '',
+      component: Home
+    },
+    {
       path: '/UploadResource',
       name: 'UploadResource',
       component: UploadResource

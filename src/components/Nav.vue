@@ -20,8 +20,8 @@
 
               <li class="dropdown"><a href="#">系统信息</a>
                 <ul>
-                  <li><a href="team.html">区块链</a></li>
                   <li><a href="all_resources.html">知识图谱</a></li>
+                  <li><a href="http://192.168.8.197:8080">区块链</a></li>
                 </ul>
               </li>
               <li class="dropdown"><a href="#">个人</a>
