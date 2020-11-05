@@ -14,7 +14,7 @@
                   <h4 style="text-align:center;margin-top: -20px" ><strong>补充个人信息</strong></h4>
                   <div class="card-body">
                     <el-form ref="form" :model="form.Expert" label-width="50px" >
-                      <el-form-item label="名字">
+                      <el-form-item label="姓名">
                         <el-input type="text" v-model="form.Expert.name" ></el-input>
                       </el-form-item>
                       <el-form-item label="简介">
@@ -33,13 +33,14 @@
                       <el-form-item label="传真">
                         <el-input type="text" v-model="form.Expert.fax" ></el-input>
                       </el-form-item>
+<!--                      name="files"-->
                       <el-col :span="12">
                         <el-form-item label="头像">
                           <el-upload
                             class="avatar-uploader"
                             :show-file-list="false"
-                            action="http://192.168.8.197:8000/api/v1/uploadfile"
-                            name="files"
+                            action="http://192.168.8.103:8002/oss/avataross"
+
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -80,7 +81,7 @@
 
 
                     <h4 style="text-align: center;margin-top: -20px;margin-bottom: 20px"><strong>没有相应单位用户？</strong></h4>
-                    <el-form ref="form" :model="form.Institution" label-width="50px" style="margin-right: 30px"  >
+                    <el-form ref="form" :model="form.Institution" label-width="100px" style="margin-right: 30px;margin-left: 2%"  >
                       <el-form-item label="名称">
                         <el-input type="text" v-model="form.Institution.InstitutionName" style="width: 60%"></el-input>
                       </el-form-item>
@@ -125,21 +126,21 @@
                             </el-select>
                           </el-form-item>
                         </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="头像">
-                            <el-upload
-                              class="avatar-uploader"
-                              :show-file-list="false"
-                              action="http://192.168.8.197:8000/api/v1/uploadfile"
-                              name="files"
-                              :on-success="handleAvatarSuccess"
-                              :before-upload="beforeAvatarUpload">
-                              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                            </el-upload>
-                          </el-form-item>
+<!--                        <el-col :span="12">-->
+<!--                          <el-form-item label="单位头像">-->
+<!--                            <el-upload-->
+<!--                              class="avatar-uploader"-->
+<!--                              :show-file-list="false"-->
+<!--                              action="http://192.168.8.103:8002/oss/avataross"-->
+<!--                              name="files"-->
+<!--                              :on-success="handleAvatarSuccess"-->
+<!--                              :before-upload="beforeAvatarUpload">-->
+<!--                              <img v-if="imageUrl_institution" :src="imageUrl_institution" class="avatar">-->
+<!--                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--                            </el-upload>-->
+<!--                          </el-form-item>-->
 
-                        </el-col>
+<!--                        </el-col>-->
 
                       </el-row>
                        <button type="button" class="btn btn-primary btn-block " style="width: 50%;margin-left: 8%" ><i class='bx bxs-lock mr-1'></i>注册</button>
@@ -189,6 +190,7 @@ export default {
 
       },
       imageUrl:"",
+      imageUrl_institution:'',
       domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
     }
   },
@@ -205,6 +207,7 @@ export default {
           "Content-type": "application/json"
         }
       }).then(res=>{
+        alert("注册成功")
         this.$router.push({path:'/Login'})
       }).catch(function (error){
         console.log(error)
@@ -212,7 +215,8 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.form.Expert.avatar=res.data[0]
+      console.log(res)
+      this.form.Expert.avatar=res.data.url
       console.log( this.form.Expert.avatar)
     },
     beforeAvatarUpload(file) {
