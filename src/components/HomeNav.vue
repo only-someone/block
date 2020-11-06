@@ -131,28 +131,37 @@ export default {
       }
       this.$router.push({path:"/Home"})
     },
-    get_account(){
-      var vm=this
+    get_account() {
+      var vm = this
       this.axios({
-        method:'post',
-        url:'http://192.168.8.197:8000/api/v1/queryAccount',
-        data:{"Id":this.$cookies.get("id")}
-      }).then(resp=>{
-        vm.account=resp.data.data[0]
-        this.$cookies.set("score",this.account.Score)
-        for(var i=0;i<vm.account.Buy.length;i++){
-          this.buy_resource_list.push({"id":vm.account.Buy[i].id,"hash":vm.account.Buy[i].Hash})
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        vm.account = resp.data.data[0]
+        this.$cookies.set("score", this.account.Score)
+        try {
+          for (var i = 0; i < vm.account.Buy.length || 0; i++) {
+            this.buy_resource_list.push({"id": vm.account.Buy[i].id, "hash": vm.account.Buy[i].Hash})
+          }
+          eventBus.$emit('buy_list', this.buy_resource_list);
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            this.up_resource_list.push({"id": vm.account.Upload[i].id, "hash": vm.account.Upload[i].Hash})
+          }
+          eventBus.$emit('upload_list', this.up_resource_list);
+          console.log("获取账户信息")
         }
-        eventBus.$emit('buy_list', this.buy_resource_list);
-        for(var i=0;i<vm.account.Upload.length;i++){
-          this.up_resource_list.push({"id":vm.account.Upload[i].id,"hash":vm.account.Upload[i].Hash})
+        catch (err){
+          eventBus.$emit('upload_list', this.up_resource_list);
+          console.log(err)
         }
-        eventBus.$emit('upload_list', this.up_resource_list);
-
+      }).catch(error=>{
+          alert("接口错误")
       })
-    },
-    get_list(){
 
+
+    },
+    get_list() {
     }
   },
 

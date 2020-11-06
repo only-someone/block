@@ -4,7 +4,7 @@
       <el-form-item label="论文标题"  required>
         <el-input  v-model="Paper.title" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="作者"  >
+      <el-form-item label="作者" required >
         <el-input  v-model="Paper.author" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="所属单位"  >
@@ -77,7 +77,7 @@
       <el-form-item label="他人下载积分" required>
            <el-input-number v-model="Paper.price" controls-position="right" ></el-input-number>
       </el-form-item>
-      <el-form-item label="展示图片" >
+      <el-form-item label="展示图片"  required>
         <el-upload
           class="avatar-uploader"
           action="http://192.168.8.103:8002/oss/avataross"
@@ -227,6 +227,7 @@ export default {
               console.log(resp.data.data.paper)
               vm.up_paper_blockchain(resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
               alert("上传成功")
+              this.$route.push({path:"UploadResource"})
           }).catch();
         }).catch();
 

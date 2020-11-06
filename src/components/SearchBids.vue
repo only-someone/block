@@ -52,7 +52,7 @@ export default {
       commendusers:[1,2,3,4,5,6,7,8,9],
       currentPage:1, //初始页
       pagesize:6,    //   每页的数据
-      commendresources:[]
+      commendresources:[1]
     }
   },
   created() {

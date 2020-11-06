@@ -282,27 +282,28 @@ export default {
   created() {
 
   },
+  methods: {
+    handleScroll() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 获取窗口滚动条高度
+      if ((scrollTop >= document.body.clientHeight - 1600) && (this.start === false)) {
+        this.start = true
+        this.$refs.example3.start()
+        this.$refs.example2.start()
+        this.$refs.example1.start()
+      }
+    },
+    submit() {
+
+    },
+
+
+  },
   mounted () {
 
        window.addEventListener('scroll', this.handleScroll)
 
   },
-  methods: {
-    handleScroll(){
-      var scrollTop =  window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 获取窗口滚动条高度
-      if((scrollTop>=document.body.clientHeight-1600) && (this.start===false)){
-        this.start=true
-        this.$refs.example3.start()
-        this.$refs.example2.start()
-        this.$refs.example1.start()
-      }
-   },
-    submit(){
 
-    }
-
-
-  },
 
 }
 </script>

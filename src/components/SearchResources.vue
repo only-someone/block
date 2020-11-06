@@ -8,7 +8,7 @@
         <div class="row clearfix">
 
           <!--Shop Item-->
-          <div class="shop-item col-lg-3 col-md-6 col-sm-12" v-for="(value, index) in Buy_Resources.slice((currentPage-1)*pagesize,currentPage*pagesize)" v-if="isPersonDetail">
+          <div class="shop-item col-lg-3 col-md-6 col-sm-12" v-for="(value, index) in BuyResources.slice((currentPage-1)*pagesize,currentPage*pagesize)" v-if="isPersonDetail">
             <div class="inner-box">
               <div class="image">
                 <a href="resource_detail.html"><img src="static/images/resource/products/1.jpg" alt="" /></a>
@@ -34,7 +34,7 @@
             :page-sizes="[5, 10, 20, 40]"
             :page-size="pagesize"
             layout=" prev, pager, next"
-            :total="Buy_Resources.length"
+            :total="BuyResources.length"
             :hide-on-single-page=true>
           </el-pagination>
         </div>
@@ -52,15 +52,14 @@ export default {
       currentPage:1, //初始页
       pagesize:8,    //   每页的数据
       commendresources:[],
+      BuyResources:[],
       isPersonDetail:this.$route.path==='/PersonDetail',
-      Buy_Resources:[]
+
     }
   },
   created() {
-    if(this.isPersonDetail)
-      this.get_buy_resources()
-
-
+    if( this.isPersonDetail)
+      this.get_account()
   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -72,16 +71,31 @@ export default {
       this.currentPage = currentPage;
       console.log(this.currentPage)  //点击第几页
     },
-    get_buy_resources(){
+    get_account(){
       var vm=this
-      this.axios({
-        method:'post',
-        url:'http://192.168.8.197:8000/api/v1/queryBuyResources',
-        data:{"Id":this.$cookies.get("id")}
-      }).then(resp=>{
-        vm.Buy_Resources=resp.data.data
+      eventBus.$on('buy_list', function(val) {
+        for (var i in val){
+          console.log(val[i])
+          vm.axios({
+            method:'get',
+            url:'http://192.168.8.103:8003/paperservice/paper/getPaper/'+val[i].id
+          }).then(res=> {
+              var RName=res.data.data.title
+              var RAbstract=res.data.data.summary
+              var RTime=res.data.data.pubDate
+              vm.BuyResources.push({"RName":RName,"RAbstract":RAbstract,"RTime":RTime})
+            }
+          )
+        }
+
+        console.log(vm.resultresources)
       })
-    }
+
+
+
+    },
+
+
   },
 
 }

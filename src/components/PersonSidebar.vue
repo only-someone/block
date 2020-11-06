@@ -170,14 +170,19 @@ export default {
   methods: {
     get_account(){
       var vm=this
-      eventBus.$on('buy_list', function(val) {
-        this.buy_resourcelist=val
-        vm.buy_number = this.buy_resourcelist.length
-      })
-      eventBus.$on('upload_list', function(val) {
-        this.upload_resourcelist=val
-        vm.up_number=this.upload_resourcelist.length
-      })
+      try {
+        eventBus.$on('buy_list', function (val) {
+          this.buy_resourcelist = val
+          vm.buy_number = this.buy_resourcelist.length
+        })
+        eventBus.$on('upload_list', function (val) {
+          this.upload_resourcelist = val
+          vm.up_number = this.upload_resourcelist.length
+        })
+      }
+      catch (err){
+          console("用户可能购买上传为零")
+      }
 
     },
 
