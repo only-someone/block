@@ -4,10 +4,10 @@
       <div class="clearfix">
 
         <div class="pull-left logo-box" v-if="(this.$route.path==='/Home') || (this.$route.path==='/')||(this.$route.path==='/HOME')">
-          <div class="logo"><router-link to="Home"><img src="static/images/logo.png" alt="" title=""></router-link></div>
+          <div class="logo"><router-link to="/Home"><img src="static/images/logo.png" alt="" title=""></router-link></div>
         </div>
         <div class="pull-left logo-box" v-else>
-          <div class="logo"><router-link to="Home"><img src="static/images/logo-2.png" alt="" title=""></router-link></div>
+          <div class="logo"><router-link to="/Home"><img src="static/images/logo-2.png" alt="" title=""></router-link></div>
         </div>
 
         <div class="nav-outer pull-right clearfix">
@@ -24,7 +24,7 @@
 
             <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
               <ul class="navigation clearfix">
-                <li><router-link to="Home">主页</router-link></li>
+                <li><router-link to="/Home">主页</router-link></li>
 
                 <li class="dropdown"><a>系统信息</a>
                   <ul>
@@ -35,18 +35,18 @@
                 </li>
                 <li class="dropdown" v-if="this.$cookies.get('id')"><a >个人</a>
                   <ul>
-                    <li><router-link to="PersonDetail">个人信息管理</router-link></li>
+                    <li><router-link to="/PersonDetail">个人信息管理</router-link></li>
 
                   </ul>
                 </li>
                 <li class="dropdown" ><a href="#">资源</a>
                   <ul>
-                    <li><router-link to="Commend">为您推荐</router-link></li>
-                    <li><router-link to="UploadResource" v-if="this.$cookies.get('id')">上传资源</router-link></li>
+                    <li><router-link to="/Commend">为您推荐</router-link></li>
+                    <li><router-link to="/UploadResource" v-if="this.$cookies.get('id')">上传资源</router-link></li>
 
                   </ul>
                 </li>
-                <li><router-link to="Contact">联系我们</router-link></li>
+                <li><router-link to="/Contact">联系我们</router-link></li>
               </ul>
             </div>
           </nav>
@@ -75,11 +75,11 @@
                   </ul>
                 </div>
               </div>
-              <a  class="cart-btn dripicons-shopping-bag"><router-link to="Commend"><span class="total-number"></span></router-link></a>
+              <a  class="cart-btn dripicons-shopping-bag"><router-link to="/Commend"><span class="total-number"></span></router-link></a>
             </div>
 
             <div class="button-box" v-if="!this.$cookies.get('id')">
-              <a  class="theme-btn btn-style-one"><router-link to="Login" style="color: #FFFFFF">Login/Sign</router-link></a>
+              <a  class="theme-btn btn-style-one"><router-link to="/Login" style="color: #FFFFFF">Login/Sign</router-link></a>
             </div>
 
 
@@ -91,7 +91,7 @@
                 <el-dropdown-menu slot="dropdown">
 
                   <el-dropdown-item ><a @click="logout()">退出登录</a></el-dropdown-item>
-                  <el-dropdown-item><router-link to="PersonDetail">个人详情</router-link></el-dropdown-item>
+                  <el-dropdown-item><router-link to="/PersonDetail">个人详情</router-link></el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -118,10 +118,7 @@ export default {
     }
   },
   created() {
-    if(this.$cookies.get("id")){
-      this.get_account()
-      this.get_list()
-    }
+
   },
   methods: {
     logout(){
@@ -131,38 +128,6 @@ export default {
       }
       this.$router.push({path:"/Home"})
     },
-    get_account() {
-      var vm = this
-      this.axios({
-        method: 'post',
-        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
-      }).then(resp => {
-        vm.account = resp.data.data[0]
-        this.$cookies.set("score", this.account.Score)
-        try {
-          for (var i = 0; i < vm.account.Buy.length || 0; i++) {
-            this.buy_resource_list.push({"id": vm.account.Buy[i].id, "hash": vm.account.Buy[i].Hash})
-          }
-          eventBus.$emit('buy_list', this.buy_resource_list);
-          for (var i = 0; i < vm.account.Upload.length; i++) {
-            this.up_resource_list.push({"id": vm.account.Upload[i].id, "hash": vm.account.Upload[i].Hash})
-          }
-          eventBus.$emit('upload_list', this.up_resource_list);
-          console.log("获取账户信息")
-        }
-        catch (err){
-          eventBus.$emit('upload_list', this.up_resource_list);
-          console.log(err)
-        }
-      }).catch(error=>{
-          alert("接口错误")
-      })
-
-
-    },
-    get_list() {
-    }
   },
 
 }

@@ -155,12 +155,13 @@ export default {
   data() {
     return {
       account:{},
-      up_number:0,
-      buy_number:0,
-      bid_number:0,
       upload_resourcelist:[],
       buy_resourcelist:[],
       bid_list:[],
+      up_number:0,
+      buy_number:0,
+      bid_number:0,
+
     }
   },
   created() {
@@ -168,22 +169,31 @@ export default {
 
   },
   methods: {
-    get_account(){
-      var vm=this
-      try {
-        eventBus.$on('buy_list', function (val) {
-          this.buy_resourcelist = val
-          vm.buy_number = this.buy_resourcelist.length
-        })
-        eventBus.$on('upload_list', function (val) {
-          this.upload_resourcelist = val
-          vm.up_number = this.upload_resourcelist.length
-        })
-      }
-      catch (err){
-          console("用户可能购买上传为零")
-      }
+    get_account() {
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        vm.account = resp.data.data[0]
+        this.$cookies.set("score", this.account.Score)
 
+        if(vm.account.Buy!==null){
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            this.buy_resourcelist.push(vm.account.Upload[i].id)
+          }
+        }
+        this.buy_number=this.buy_resourcelist.length
+        if(vm.account.Upload!==null){
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            this.upload_resourcelist.push(vm.account.Upload[i].id)
+          }
+        }
+        this.up_number=this.upload_resourcelist.length
+      }).catch(error=>{
+        console.log(error)
+      })
     },
 
   },

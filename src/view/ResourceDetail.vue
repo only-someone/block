@@ -10,9 +10,9 @@
         <div class="text">Resources</div>
       </div>
     </section>
-    <PatentDetail></PatentDetail>
+    <PatentDetail  v-if="false"></PatentDetail>
 
-      <PaperDetail v-if="false" ></PaperDetail>
+    <PaperDetail ></PaperDetail>
 
 
   </div>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-name: "ResourceDetail"
+  name: "ResourceDetail",
 }
 </script>
 

@@ -144,6 +144,25 @@ export default {
         PatentGraph:"Hash值",
         PatentFile:"Hash值",
       },
+      resource_type: this.$route.params.Id,
+      resource_id:this.$route.params.Type,
+      resource:{},
+    }
+  },
+  created() {
+    getDetail(resource_type,resource_id)
+  },
+
+  methods:{
+    getDetail(Type,Id){
+      var vm= this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8003/paperservice/paper/get"+Type+"/"+Id,
+      }).then(res=>{
+        vm.resource=res.data.data[Object.keys(res.data.data)[0]]
+
+      })
     }
   }
 }

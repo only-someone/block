@@ -8,16 +8,21 @@
         <div class="row clearfix">
 
           <!--Shop Item-->
-          <div class="shop-item col-lg-3 col-md-6 col-sm-12" v-for="(value, index) in BuyResources.slice((currentPage-1)*pagesize,currentPage*pagesize)" v-if="isPersonDetail">
+          <div class="shop-item col-lg-3 col-md-6 col-sm-12" v-for="resource in BuyResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
             <div class="inner-box">
               <div class="image">
-                <a href="resource_detail.html"><img src="static/images/resource/products/1.jpg" alt="" /></a>
+                <a @click="getDetail(resource.Type,resource.RId)"><img :src=resource.RCover alt="" /></a>
               </div>
               <div class="lower-content">
-                <h3><a href="resource_detail.html">Product name</a></h3>
-                <div class="price">$25.99</div>
-                <a href="resource_detail.html" class="theme-btn btn-style-two">查看详情</a>
-                <a href="resource_detail.html" class="theme-btn btn-style-two">购买下载</a>
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="price">{{ resource.RPrice }}积分</div>
+
+
+                <a @click="getDetail(resource.Type,resource.RId)" class="theme-btn btn-style-two" style="color: #ffffff" v-if="isPersonDetail">查看详情</a>
+                <a href="resource_detail.html" class="theme-btn btn-style-two" v-else>购买下载</a>
+
+
+
               </div>
             </div>
           </div>
@@ -73,28 +78,51 @@ export default {
     },
     get_account(){
       var vm=this
-      eventBus.$on('buy_list', function(val) {
-        for (var i in val){
-          console.log(val[i])
-          vm.axios({
-            method:'get',
-            url:'http://192.168.8.103:8003/paperservice/paper/getPaper/'+val[i].id
-          }).then(res=> {
-              var RName=res.data.data.title
-              var RAbstract=res.data.data.summary
-              var RTime=res.data.data.pubDate
-              vm.BuyResources.push({"RName":RName,"RAbstract":RAbstract,"RTime":RTime})
-            }
-          )
+
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        vm.account = resp.data.data[0]
+
+        if(vm.account.Upload!==null){
+          for (var i = 0; i < vm.account.Buy.length; i++) {
+            var [type,id] =vm.account.Buy[i].id.split("_")
+            vm.axios({
+              method:'get',
+              url:'http://192.168.8.103:8003/paperservice/paper/get'+type+'/'+id
+            }).then(res=> {
+                //console.log(res)
+                var resource=res.data.data[Object.keys(res.data.data)[0]]
+                var RId=resource.id
+                var RPrice=resource.price
+                var RName=resource.title
+                var RAbstract=resource.summary
+                var RTime=resource.pubDate
+                var RCover=resource.cover
+                var RAuthorName=resource.author
+                vm.BuyResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+              }
+            )
+          }
         }
 
-        console.log(vm.resultresources)
+      }).catch(error=>{
+        console.log(error)
       })
 
-
-
     },
-
+    getDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    }
 
   },
 

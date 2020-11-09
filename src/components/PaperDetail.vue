@@ -1,237 +1,198 @@
 <template>
-<div>
-  <section class="shop-single-section sidebar-page-container">
-    <div class="auto-container">
-      <div class="row clearfix">
+  <div>
+    <section class="shop-single-section sidebar-page-container">
+      <div class="auto-container">
+        <div class="row clearfix">
 
-        <!--Content Column-->
-        <div class="content-column col-lg-8 col-md-12 col-sm-12">
-          <div class="inner-column">
-            <div class="shop-single">
-              <div class="inner-box">
+          <!--Content Column-->
+          <div class="content-column col-lg-8 col-md-12 col-sm-12">
+            <div class="inner-column">
+              <div class="shop-single">
+                <div class="inner-box"  >
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文名称</div></el-col>
+                    <el-col :span="12"><div class="grid-content bg-purple-light">{{Paper.title}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文作者</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.author}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文机构</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.mechanism}}</div></el-col>
 
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文关键词</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.keywords}}</div></el-col>
+                    <el-col :span="4" ><div class="grid-content bg-purple-dark">分类号</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.classification}}</div></el-col>
+
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.pubDate}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">引用数</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.cited}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.url}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">下载数</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.download}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文简介</div></el-col>
+                    <el-col :span="20" style="height: 100px" ><div class="grid-content bg-purple-light">{{Paper.summary}}</div></el-col>
+                  </el-row>
+
+                </div>
               </div>
             </div>
+          </div>
 
-            <!--Popular Category-->
-<!--            <div class="popular-category">-->
-<!--              <h2>Popular Categories</h2>-->
-<!--              <div class="row clearfix">-->
+          <!--Sidebar Column-->
+          <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
+            <img :src=Paper.cover width="100%" height="500px" alt="" />
+            <div class="inner-column">
 
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-1.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">artwork</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-2.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">coding</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-3.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">courses</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-4.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">photography</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-6.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">backgrounds</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-7.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">graphics</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-8.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">crafts</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash;Category Block&ndash;&gt;-->
-<!--                <div class="category-block">-->
-<!--                  <div class="inner-box">-->
-<!--                    <div class="image">-->
-<!--                      <img src="/static/images/resource/category-9.jpg" alt="" />-->
-<!--                      <div class="overlay-box">-->
-<!--                        <div class="overlay-inner">-->
-<!--                          <div class="content">-->
-<!--                            <h3><a href="blog-single.html">design</a></h3>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--              </div>-->
-
-<!--            </div>-->
-
-            <!--Comments Area-->
-            <div class="comments-area">
-              <div class="group-title">
-                <h2>发布作者及其他作品</h2>
-              </div>
-
-              <!--Comment Box-->
-              <div class="comment-box">
-                <div class="comment">
-                  <div class="author-thumb"><img src="/static/images/resource/author-7.jpg" alt=""></div>
-                  <div class="comment-inner">
-                    <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
-                    <div class="comment-info">This is a beautifully crafted theme! </div>
-                    <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet </div>
-                    <a class="reply-comment" href="#">reply</a>
-                  </div>
+              <!--Purchased Widget-->
+              <div class="purchased-widget" style="margin-top: 40px">
+                <div class="inner-box" style="text-align: center">
+                  <div class="price" >需要 {{ Paper.price }} 积分</div>
+                  <button class="purchased-btn theme-btn" v-if="!this.haveBuy" >购买</button>
+                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">下载</button></a>
                 </div>
               </div>
 
-              <!--Comment Box-->
-              <div class="comment-box reply-comment">
-                <div class="comment">
-                  <div class="author-thumb"><img src="/static/images/resource/author-8.jpg" alt=""></div>
-                  <div class="comment-inner">
-                    <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
-                    <div class="comment-info">This is a beautifully crafted theme! </div>
-                    <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum</div>
-                    <a class="reply-comment" href="#">Reply</a>
-                  </div>
+
+            </div>
+          </div>
+          <div class="comments-area">
+            <div class="group-title">
+              <h2>发布作者及其他作品</h2>
+            </div>
+
+            <!--Comment Box-->
+            <div class="comment-box" style="width: 1000px">
+              <div class="comment">
+                <div class="author-thumb"><img src="/static/images/resource/author-7.jpg" alt="" ></div>
+                <div class="comment-inner">
+                  <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
+                  <div class="comment-info">This is a beautifully crafted theme! </div>
+                  <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet </div>
+                  <a class="reply-comment" href="#">reply</a>
                 </div>
               </div>
-
             </div>
 
-            <!-- Comment Form -->
-
-
-          </div>
-        </div>
-
-        <!--Sidebar Column-->
-        <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-          <img src="static/images/resource/shop-single.jpg" width="100%" height="500px" alt="" />
-          <div class="inner-column">
-
-            <!--Purchased Widget-->
-            <div class="purchased-widget" style="margin-top: 40px">
-              <div class="inner-box" style="text-align: center">
-                <div class="price" >积分7.00</div>
-                <button class="purchased-btn theme-btn"  >购买/下载</button>
+            <!--Comment Box-->
+            <div class="comment-box reply-comment" style="width: 1000px">
+              <div class="comment">
+                <div class="author-thumb"><img src="/static/images/resource/author-8.jpg" alt=""></div>
+                <div class="comment-inner">
+                  <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
+                  <div class="comment-info">This is a beautifully crafted theme! </div>
+                  <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum</div>
+                  <a class="reply-comment" href="#">Reply</a>
+                </div>
               </div>
             </div>
 
-            <!--You Get Widget-->
-<!--            <div class="you-get-widget">-->
-<!--              <div class="inner-box">-->
-<!--                <h3>发布作者和其他作品//下面</h3>-->
-<!--                <ul>-->
-<!--                  <li><a href="#">LIncludes 300 glyphs</a></li>-->
-<!--                  <li><a href="#">Scales to any size</a></li>-->
-<!--                  <li><a href="#">File size: 2mb</a></li>-->
-<!--                  <li><a href="#">LIncludes 300 glyphs</a></li>-->
-<!--                  <li><a href="#">Scales to any size</a></li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--            </div>-->
-
           </div>
-        </div>
 
+        </div>
       </div>
-    </div>
-  </section>
-</div>
+    </section>
+  </div>
 </template>
 
 <script>
+
 export default {
-  name: "PaperDetail"
+  name: "PaperDetail",
+  data() {
+    return {
+      account:{},
+      resource_type: this.$route.params.Type,
+      resource_id:this.$route.params.Id,
+      Paper:{},
+      haveBuy:false,
+      download_url:"",
+      owner:"",
+      buy_resourcelist:[],
+      upload_resourcelist:[],
+      up_number:1,
+
+    }
+  },
+  created() {
+    this.getDetail(this.resource_type,this.resource_id)
+
+  },
+
+  methods:{
+    getDetail(Type,Id){
+      var vm= this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8003/paperservice/paper/get"+Type+"/"+Id,
+      }).then(res=>{
+        vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
+        this.download_url="http://192.168.8.197:8081/ipfs/"+this.Paper.file
+        this.isBuyer("Paper_"+this.Paper.id)
+      })
+    },
+    isBuyer(resourceid){
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        vm.account = resp.data.data[0]
+        if(vm.account.Buy!==null){
+          for (var i = 0; i < vm.account.Buy.length; i++) {
+            this.buy_resourcelist.push(vm.account.Buy[i].id)
+          }
+        }
+        if(vm.account.Upload!==null){
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            this.upload_resourcelist.push(vm.account.Upload[i].id)
+          }
+        }
+        console.log(this.buy_resourcelist)
+        console.log(this.upload_resourcelist)
+        if(resourceid.indexOf(this.buy_resourcelist)!==-1||resourceid.indexOf(this.upload_resourcelist)!==-1){
+          this.haveBuy=true
+        }
+      }).catch(error=>{
+        console.log(error)
+      })
+    }
+  }
+
 }
 </script>
 
+
 <style scoped>
+.bg-purple-dark {
+  text-align: center;
+}
+.bg-purple {
+  background: #d3dce6;
+}
+.bg-purple-light {
+  background: #e5e9f2;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
 
 </style>
+

@@ -52,7 +52,7 @@ export default new Router({
       component: PersonDetail
     },
     {
-      path: '/ResourceDetail',
+      path: '/ResourceDetail/:Type/:Id',
       name: 'ResourceDetail',
       component: ResourceDetail
     },

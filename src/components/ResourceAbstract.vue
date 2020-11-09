@@ -6,13 +6,13 @@
 
 				<!--News Block Two-->
 
-				<div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid" >
+				<div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
 					<div class="inner-box" v-if="isPersonDetail">
 						<div class="image" >
-							<a href="bid_detail.html"  ><img :src="resource.RCover" onerror="this.src='static/images/resource/featured-4.jpg'" style="width: 300px;height: 200px"/></a>
+							<a><img :src="resource.RCover" onerror="this.src='static/images/resource/featured-4.jpg'"  @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px"/></a>
 						</div>
 						<div class="post-date">{{resource.RTime}}</div>
-						<h3><a href="bid_detail.html">{{resource.RName}}</a></h3>
+						<h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
 						<div class="text">{{resource.RAbstract}}</div>
 						<div class="author">
 							<div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
@@ -62,6 +62,7 @@ export default {
   name: "UserAbstract",
   data() {
     return {
+        account:{},
         currentPage:1, //初始页
         pagesize:6,    //   每页的数据
         UploadResources:[],
@@ -85,31 +86,50 @@ export default {
         },
         get_account(){
           var vm=this
-          eventBus.$on('upload_list', function(val) {
-            for (var i in val){
-              console.log(val[i])
-              vm.axios({
-                method:'get',
-                url:'http://192.168.8.103:8003/paperservice/paper/getPaper/'+val[i].id
-              }).then(res=> {
-                console.log(res)
-                  var RName=res.data.data.paper.title
-                  var RAbstract=res.data.data.paper.summary
-                  var RTime=res.data.data.paper.pubDate
-                  var RCover=res.data.data.paper.cover
-                  console.log(RCover)
-                  var RAuthorName=res.data.data.paper.author
-                  vm.UploadResources.push({"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
-                }
-              )
+
+          var vm = this
+          this.axios({
+            method: 'post',
+            url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+            data: {"Id": this.$cookies.get("id")}
+          }).then(resp => {
+            vm.account = resp.data.data[0]
+
+            if(vm.account.Upload!==null){
+              for (var i = 0; i < vm.account.Upload.length; i++) {
+                var [type,id] =vm.account.Upload[i].id.split("_")
+                vm.axios({
+                  method:'get',
+                  url:'http://192.168.8.103:8003/paperservice/paper/get'+type+'/'+id
+                }).then(res=> {
+                    //console.log(res)
+                    var resource=res.data.data[Object.keys(res.data.data)[0]]
+                    var RId=resource.id
+                    var RName=resource.title
+                    var RAbstract=resource.summary
+                    var RTime=resource.pubDate
+                    var RCover=resource.cover
+                    var RAuthorName=resource.author
+                    vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
+                  }
+                )
+              }
             }
 
+          }).catch(error=>{
+            console.log(error)
           })
 
-
-
         },
-
+        getDetail(Type,Id){
+          this.$router.push({
+            name:'ResourceDetail',
+            params:{
+              Type:Type,
+              Id:Id
+            }
+          })
+        }
 
   },
 

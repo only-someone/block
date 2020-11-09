@@ -217,6 +217,7 @@ export default {
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
           vm.Paper.keywords=keywords_tostring
+
           console.log(vm.Paper)
           vm.axios
             .post('http://192.168.8.103:8003/paperservice/paper/addPaper', vm.Paper, {
@@ -225,9 +226,9 @@ export default {
               }
             }).then(function(resp){
               console.log(resp.data.data.paper)
-              vm.up_paper_blockchain(resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
+              vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
               alert("上传成功")
-              this.$route.push({path:"UploadResource"})
+              vm.$route.push({path:"/UploadResource"})
           }).catch();
         }).catch();
 
