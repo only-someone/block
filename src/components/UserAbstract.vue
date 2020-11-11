@@ -6,16 +6,17 @@
 
         <!--Team Block-->
         <div class="team-block col-lg-3 col-md-6 col-sm-12" v-for="user in commendusers.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="user.Id">
-          <div class="inner-box">
-            <div class="image">
-              <a href="#"><img src="static/images/resource/team-1.jpg" alt="" /></a>
-            </div>
-            <div class="lower-content">
-              <h3><a href="#">{{user.Id}}</a></h3>
-              <div class="designation">{{user.Affiliation}}</div>
-              <div class="text">{{user.Instroduction}}</div>
+          <div class="inner-box class" >
+            <div class="lower-content" >
+              <div class="image">
+                <img :src="user.UCover || 'static/images/resource/team-2.jpg'" alt="" ondragover=""/>
+              </div>
+              <h3><a href="#">{{user.UName}}</a></h3>
+              <div class="designation">{{user.UIntro}}</div>
+              <div class="text">{{user.UInstitution}}</div>
             </div>
           </div>
+
         </div>
 
 			</div>
@@ -53,17 +54,7 @@ export default {
     }
   },
   created() {
-      var vm=this
-      this.axios({
-      method:'get',
-      url:"https://www.easy-mock.com/mock/5f912b94e4d147581af7409b/vuedemo/commend_user",//跨域
-    }).then(function (resp){
-      console.log(resp.data.commendusers)
-      vm.commendusers=resp.data.commendusers
-      console.log( vm.commendusers)
-    })
-
-
+    this.get_commend_resources()
   },
   methods: {
    // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -74,6 +65,26 @@ export default {
         handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
                 console.log(this.currentPage)  //点击第几页
+        },
+        get_commend_resources(){
+          var vm=this
+          this.axios({
+            method:"get",
+            url:"http://192.168.8.103:8005/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+          }).then(resp=>{
+            var users=resp.data.data.items
+            for(var i in users){
+              var UId=users[i].id
+              var UName=users[i].name
+              var UIntro=users[i].intro
+              if(users[i].avatar!=="string"){
+                var UCover=users[i].avatar
+              }else {var UCover=""}
+              var UInstitution=users[i].institution
+              vm.commendusers.push({"UId":UId,"UName":UName,"UIntro":UIntro,"UCover":UCover,"UInstitution":UInstitution})
+            }
+            console.log(vm.commendusers)
+          })
         },
   },
 

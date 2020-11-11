@@ -180,8 +180,8 @@ export default {
         this.$cookies.set("score", this.account.Score)
 
         if(vm.account.Buy!==null){
-          for (var i = 0; i < vm.account.Upload.length; i++) {
-            this.buy_resourcelist.push(vm.account.Upload[i].id)
+          for (var i = 0; i < vm.account.Buy.length; i++) {
+            this.buy_resourcelist.push(vm.account.Buy[i].id)
           }
         }
         this.buy_number=this.buy_resourcelist.length

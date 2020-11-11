@@ -11,7 +11,7 @@
           <div class="shop-item col-lg-3 col-md-6 col-sm-12" v-for="resource in BuyResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
             <div class="inner-box">
               <div class="image">
-                <a @click="getDetail(resource.Type,resource.RId)"><img :src=resource.RCover alt="" /></a>
+                <a @click="getDetail(resource.Type,resource.RId)"><el-image :src="resource.RCover||'static/images/resource/featured-4.jpg'" alt="" /></a>
               </div>
               <div class="lower-content">
                 <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>

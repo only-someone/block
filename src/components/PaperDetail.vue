@@ -30,14 +30,17 @@
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.pubDate}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">引用数</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.cited}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">下载数</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.download}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.url}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">下载数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.download}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Paper.url}}</div></el-col>
+
                   </el-row>
                   <el-row style="margin-bottom: 3%">
 
@@ -52,14 +55,14 @@
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <img :src=Paper.cover width="100%" height="500px" alt="" />
+            <el-image :src="Paper.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:280px" alt=""  lazy/>
             <div class="inner-column">
 
               <!--Purchased Widget-->
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
                   <div class="price" >需要 {{ Paper.price }} 积分</div>
-                  <button class="purchased-btn theme-btn" v-if="!this.haveBuy" >购买</button>
+                  <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">下载</button></a>
                 </div>
               </div>
@@ -127,7 +130,6 @@ export default {
   },
   created() {
     this.getDetail(this.resource_type,this.resource_id)
-
   },
 
   methods:{
@@ -138,8 +140,20 @@ export default {
         url:"http://192.168.8.103:8003/paperservice/paper/get"+Type+"/"+Id,
       }).then(res=>{
         vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
-        this.download_url="http://192.168.8.197:8081/ipfs/"+this.Paper.file
+        if(this.Paper.file.indexOf("http:/smartcity-youngpq.oss-cn-hangzhou.aliyuncs.com")!==-1)
+          this.download_url=this.Paper.file
+        else{
+          this.download_url="http://192.168.8.197:8081/ipfs/"+this.Paper.file
+        }
         this.isBuyer("Paper_"+this.Paper.id)
+        // vm.axios({
+        //   method:"post",
+        //   url:"http://192.168.8.197:8000/api/v1/queryResource",
+        //   data:{"Id":"Paper_"+this.Paper.id}
+        // }).then(res=>{
+        //   console.log(res)
+        //   this.Paper.Uploader=res.data.data.Uploader
+        // })很多资源没有上传至区块链，所以得先默认一个
       })
     },
     isBuyer(resourceid){
@@ -160,14 +174,34 @@ export default {
             this.upload_resourcelist.push(vm.account.Upload[i].id)
           }
         }
-        console.log(this.buy_resourcelist)
-        console.log(this.upload_resourcelist)
-        if(resourceid.indexOf(this.buy_resourcelist)!==-1||resourceid.indexOf(this.upload_resourcelist)!==-1){
+        if(this.upload_resourcelist.indexOf(resourceid)!==-1 || this.buy_resourcelist.indexOf(resourceid)!==-1){
           this.haveBuy=true
         }
       }).catch(error=>{
         console.log(error)
       })
+    },
+    buy(){
+      var vm =this
+      var Dealdata={
+        "Sell_id":this.Paper.Uploader||"1",
+          "Buy_id":this.$cookies.get("id"),
+          "Resource_id":"Paper_"+this.Paper.id,
+          "Cost":this.Paper.price,
+          "Time":new Date().toLocaleString('chinese', { hour12: false })
+      }
+      console.log(Dealdata)
+      this.axios({
+        method:'post',
+        url:'http://192.168.8.197:8000/api/v1/createDeal',
+        data:Dealdata
+      }).then(res=> {
+          alert("购买成功")
+          vm.$router.push({path:"/ResourceDetail/Paper/"+this.Paper.Id})
+        }
+      ).catch(
+        alert("购买失败")
+      )
     }
   }
 

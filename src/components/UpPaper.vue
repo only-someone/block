@@ -56,7 +56,7 @@
             v-model="Paper.pubDate"
             align="right"
             type="date"
-            value-format="yyyy-MM-dd HH:mm:ss "
+            value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期"
             :picker-options="pickerOptions">
           </el-date-picker>

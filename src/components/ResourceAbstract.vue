@@ -9,7 +9,7 @@
 				<div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
 					<div class="inner-box" v-if="isPersonDetail">
 						<div class="image" >
-							<a><img :src="resource.RCover" onerror="this.src='static/images/resource/featured-4.jpg'"  @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px"/></a>
+							<a><el-image :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px" /></a>
 						</div>
 						<div class="post-date">{{resource.RTime}}</div>
 						<h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
@@ -21,12 +21,12 @@
 					</div>
 				</div>
         <div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in commendresources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid" >
-          <div class="inner-box" v-if="!isPersonDetail">
-            <div class="image">
-              <a href="bid_detail.html"><img :src=resource.RCover alt="" /></a>
+          <div class="inner-box" >
+            <div class="image" >
+              <a><img :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px"/></a>
             </div>
             <div class="post-date">{{resource.RTime}}</div>
-            <h3><a href="bid_detail.html">{{resource.RName}}</a></h3>
+            <h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
             <div class="text">{{resource.RAbstract}}</div>
             <div class="author">
               <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
@@ -47,7 +47,7 @@
             :page-sizes="[5, 10, 20, 40]"
             :page-size="pagesize"
             layout=" prev, pager, next"
-            :total="UploadResources.length"
+            :total="commendresources.length"
             :hide-on-single-page=true>
         </el-pagination>
       </div>
@@ -67,26 +67,29 @@ export default {
         pagesize:6,    //   每页的数据
         UploadResources:[],
         commendresources:[],
-        isPersonDetail:this.$route.path==='/PersonDetail'
+        isPersonDetail:this.$route.path==='/PersonDetail',
+        isCommend:this.$route.path==='/Commend'
     }
   },
   created() {
     if( this.isPersonDetail)
       this.get_account()
+    if(this.isCommend){
+      this.get_commend_resources()
+    }
   },
   methods: {
    // 初始页currentPage、初始每页数据数pagesize和数据data
         handleSizeChange: function (size) {
                 this.pagesize = size;
-                console.log(this.pagesize)  //每页下拉显示数据
+
         },
         handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
-                console.log(this.currentPage)  //点击第几页
+
         },
         get_account(){
           var vm=this
-
           var vm = this
           this.axios({
             method: 'post',
@@ -129,7 +132,26 @@ export default {
               Id:Id
             }
           })
-        }
+        },
+        get_commend_resources(){
+          var vm=this
+          this.axios({
+            method:"get",
+            url:"http://192.168.8.103:8005/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+          }).then(resp=>{
+            var resource=resp.data.data.items
+            for(var i in resource){
+              var RId=resource[i].id
+              var RName=resource[i].title
+              var RAbstract=resource[i].summary
+              var RTime=resource[i].pubDate
+              var RCover=resource[i].cover
+              var RAuthorName=resource[i].author
+              vm.commendresources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
+            }
+          })
+        },
+
 
   },
 
