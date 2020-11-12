@@ -62,7 +62,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/UserDetail',
+      path: '/UserDetail/:Type/:Id',
       name: 'UserDetail',
       component: UserDetail
     },

@@ -24,6 +24,15 @@
                       <el-form-item label="职位" >
                         <el-input type="text" v-model="form.Expert.career" ></el-input>
                       </el-form-item>
+                      <el-form-item label="领域" >
+                        <div class="block">
+                          <el-cascader
+                            v-model="form.Expert.domain"
+                            :options="options"
+                            :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+                            @change="handleChange"></el-cascader>
+                        </div>
+                      </el-form-item>
                       <el-form-item label="邮箱" >
                         <el-input type="text" v-model="form.Expert.email" ></el-input>
                       </el-form-item>
@@ -39,7 +48,7 @@
                           <el-upload
                             class="avatar-uploader"
                             :show-file-list="false"
-                            action="http://192.168.8.103:8002/oss/avataross"
+                            action="http://192.168.8.103:8222/oss/avataross"
 
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
@@ -114,18 +123,14 @@
                         </el-col>
                       </el-row>
                       <el-row>
-                        <el-col :span="24">
-                          <el-form-item label="领域"  >
-                            <el-select v-model="form.Institution.Domain" placeholder="请选择"  style="width:83%">
-                              <el-option
-                                v-for="domain in domains"
-                                :key="domain.Id"
-                                :label="domain.Name"
-                                :value="domain.Name">
-                              </el-option>
-                            </el-select>
-                          </el-form-item>
-                        </el-col>
+                        <div class="block">
+                          <el-cascader
+                            v-model="form.Institution.domain"
+                            :options="options"
+                            :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+                            @change="handleChange"></el-cascader>
+                        </div>
+                      </el-row>
 <!--                        <el-col :span="12">-->
 <!--                          <el-form-item label="单位头像">-->
 <!--                            <el-upload-->
@@ -142,7 +147,7 @@
 
 <!--                        </el-col>-->
 
-                      </el-row>
+
                        <button type="button" class="btn btn-primary btn-block " style="width: 50%;margin-left: 8%" ><i class='bx bxs-lock mr-1'></i>注册</button>
                     </el-form>
 
@@ -176,6 +181,7 @@ export default {
           name:"",
           phone:"",
           sort:"",//目前没用
+          domain:"",
         },
         Institution:{
           InstitutionName:'',
@@ -189,19 +195,35 @@ export default {
         }
 
       },
+      options:[],
       imageUrl:"",
       imageUrl_institution:'',
-      domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
+
     }
   },
+  created() {
+    this.get_domain()
+  },
   methods: {
-
+    get_domain(){
+      var vm=this
+      this.axios({
+        method:'get',
+        url:"http://192.168.8.103:8222/domainservice/domain/findAllDomainByTree",
+      }).then(res=>{
+        vm.options=res.data.data.items
+        console.log(vm.options)
+      })
+    },
+    handleChange(value) {
+      console.log(value);
+    },
     register_have_institution(){
       var vm =this;
-      console.log(vm.form.Expert)
+      vm.Expert.domain=vm.form.Expert.domain[0]+"/"+vm.form.Expert.domain[1]
       this.axios({
         method: 'post',
-        url:'http://192.168.8.103:8001/expertservice/expert/addExpert',
+        url:'http://192.168.8.103:8222/expertservice/expert/addExpert',
         data: vm.form.Expert,
         headers: {
           "Content-type": "application/json"

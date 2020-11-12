@@ -28,7 +28,7 @@
 
                 <li class="dropdown"><a>系统信息</a>
                   <ul>
-                    <li><a href="team.html">知识图谱</a></li>
+                    <li><a href="#">知识图谱</a></li>
                     <li><a href="http://192.168.8.197:8080">区块链</a></li>
 
                   </ul>
@@ -64,7 +64,7 @@
                   <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
                     <li class="panel-outer">
                       <div class="form-container">
-                        <form method="post" action="blog.html">
+                        <form method="post" action="#">
                           <div class="form-group">
                             <input type="search" name="field-name" value="" placeholder="在这搜索" required>
                             <button type="submit" class="search-btn"><span class="fa fa-search"></span></button>
@@ -75,7 +75,7 @@
                   </ul>
                 </div>
               </div>
-              <a  class="cart-btn dripicons-shopping-bag"><router-link to="/Commend"><span class="total-number"></span></router-link></a>
+              <router-link to="/Commend"> <a  class="cart-btn dripicons-shopping-bag"><span class="total-number"></span></a></router-link>
             </div>
 
             <div class="button-box" v-if="!this.$cookies.get('id')">
@@ -111,10 +111,7 @@ export default {
   name: "HomeNav",
   data(){
     return{
-      circleUrl:"/static/images/men2.jpg",
-      up_resource_list:[],
-      buy_resource_list:[],
-      bid_list:[]
+      circleUrl:this.$cookies.get("avatar")||'static/images/men2.jpg',
     }
   },
   created() {
@@ -127,6 +124,7 @@ export default {
         this.$cookies.remove(this.$cookies.keys()[0])
       }
       this.$router.push({path:"/Home"})
+      location.reload()
     },
   },
 

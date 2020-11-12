@@ -11,9 +11,8 @@
       </div>
     </section>
     <PatentDetail  v-if="false"></PatentDetail>
-
     <PaperDetail ></PaperDetail>
-
+    <Footer STYLE="margin-top: 100px"></Footer>
 
   </div>
 </template>

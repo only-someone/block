@@ -56,26 +56,25 @@
           <!--不细分专家和城市，类型中标注-->
         </div>
         <div class="row clearfix">
-
           <!--Featured Block-->
-          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(value,index) in fadetime" :key=index>
-            <div class="inner-box wow fadeInLeft" :animation-delay='value'
-                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto;">
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendResources" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+            <div class="inner-box wow fadeInLeft" :animation-delay='resource'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
               <div class="image">
-                <router-link to="ResourceDetail"><img src="static/images/resource/featured-1.jpg" alt="" /></router-link>
+                <img :src="'static/images/resource/featured-1.jpg'" alt="" />
               </div>
               <div class="lower-content">
-                <h3><a href="resource_detail.html">资源标题</a></h3>
-                <div class="text">资源简介</div>
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="text">{{ resource.RAbstract }}</div>
                 <div class="clearfix">
                   <div class="pull-left">
                     <div class="author">
                       <div class="author-image"><img src="static/images/resource/author-1.jpg" alt=""/></div>
-                      by 作者
+                      by {{ resource.RAuthorName }}
                     </div>
                   </div>
                   <div class="pull-right">
-                    <div class="price">积分</div>
+                    <div class="price">{{ resource.RPrice||0 }}积分</div>
                   </div>
                 </div>
               </div>
@@ -95,20 +94,22 @@
 		<div class="auto-container">
 			<!--Sec Title-->
 			<div class="sec-title centered">
-				<h2>Interesd Users</h2>
+				<h2>Interested Users</h2>
 			</div>
-
-      <el-carousel height="400px" type="card">
-        <el-carousel-item v-for="item in 9" :key="item" style="margin:0;text-align:center;">
-
-						<div class="image" style="user-select: auto;" >
-							<a href="#" style="user-select: auto;"><img src="static/images/resource/author-3.jpg" alt="" style="user-select: auto;width:100px;height:100px;"></a>
-						</div>
-						<div class="text" style="user-select: auto;">专家简介</div>
-						    <h3 style="user-select: auto;">{{item}}</h3>
-						<div class="designation" style="user-select: auto;">联系方式</div>
-
-
+      <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
+        <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
+          <div class="testimonial-block" style="margin-top: 50px;text-align:center;" >
+            <div class="inner-box" style="width: 60%;margin-left: 20%;">
+              <div class="image" style="user-select: auto;">
+                <a   @click="getUserDetail(user.UType,user.UId)"  style="user-select: auto;"><img :src="user.UCover||'static/images/resource/author-5.jpg'" alt="" style="user-select: auto;width:100px;height:100px;"></a>
+              </div>
+              <h3 style="user-select: auto;">{{ user.UName}}</h3>
+              <div class="text" style="user-select: auto;">单位:{{user.UInstitution}}</div>
+              <div class="text" style="user-select: auto;">简介:{{user.UIntro}}</div>
+              <div class="designation" style="user-select: auto;">电话：{{ user.UPhone }}</div>
+              <div class="designation" style="user-select: auto;">邮箱：{{user.UEmail}}</div>
+            </div>
+          </div>
         </el-carousel-item>
       </el-carousel>
 
@@ -126,7 +127,6 @@
 			</div> -->
 		</div>
 	</section>
-
 
   <section class="category-section" >
   <div class="auto-container">
@@ -230,7 +230,6 @@
                   <div >
                     <div class="count-outer count-box">
                       <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>
-
                     </div>
                     <h4 class="counter-title">区块大小</h4>
                   </div>
@@ -271,16 +270,22 @@ export default {
   data(){
     return {
       list_users: new Array(8),
+      avatar:"",
       block_mermory:20,
       block_height:20,
       block_node:20,
       start:false,
-      fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"]
+      fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"],
+      commendResources:[],
+      commendUsers:[],
+      commendBids:[]
     }
   },
   watch:{},
   created() {
-
+    this.get_commend_resources()
+    this.get_commend_users()
+    this.get_account()
   },
   methods: {
     handleScroll() {
@@ -292,19 +297,90 @@ export default {
         this.$refs.example1.start()
       }
     },
-    submit() {
-
+    get_account(){
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        var account = resp.data.data[0]
+        this.$cookies.set("score",account.Score)
+      }).catch(error=>{
+        console.log(error)
+      })
+      this.axios({
+        method:'get',
+        url:'http://192.168.8.103:8222/expertservice/expert/getExpert/'+ this.$cookies.get("id"),
+      }).then(res=>{
+        this.$cookies.set("avatar",res.data.data.expert.avatar);
+      })
     },
-
+    get_commend_resources(){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i=0;i<8;i++){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].keywords
+          var RTime=resource[i].pubDate
+          if(resource[i].cover!=="string"){
+            var RCover=resource[i].avatar
+          }else {var RCover=""}
+          var RAuthorName=resource[i].author
+          var RPrice=resource[i].price
+          vm.commendResources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+        }
+      })
+    },
+    get_commend_users(){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+      }).then(resp=>{
+        var users=resp.data.data.items
+        for(var i in users){
+          var UId=users[i].id
+          var UName=users[i].name
+          var UIntro=users[i].intro
+          if(users[i].avatar!=="string"){
+            var UCover=users[i].avatar
+          }else {var UCover=""}
+          var UInstitution=users[i].institution
+          var UPhone=users[i].phone
+          var UEmail=users[i].email
+          vm.commendUsers.push({"UType":"Expert","UId":UId,"UName":UName,"UIntro":UIntro,"UCover":UCover,"UInstitution":UInstitution,"UPhone":UPhone,"UEmail":UEmail})
+        }
+      })
+    },
+    getDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
+    getUserDetail(Type,Id){
+      this.$router.push({
+        name:'UserDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
 
   },
   mounted () {
-
        window.addEventListener('scroll', this.handleScroll)
-
   },
-
-
 }
 </script>
 

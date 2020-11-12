@@ -31,7 +31,28 @@
                   <div class="col-12 col-lg-7 border-right">
                     <div class="d-md-flex align-items-center">
                       <div class="mb-md-0 mb-3">
-                        <img :src=Expert.avatar class="rounded-circle shadow" width="200" height="200" alt="" />
+                        <a><img :src=Expert.avatar class="rounded-circle shadow" style="height: 200px;width: 200px" alt="" @click="showdialog=true"/></a>
+
+                        <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
+                          <el-form >
+                            <el-form-item  style="text-align: center">
+                              <el-upload
+                                class="avatar-uploader"
+                                :show-file-list="false"
+                                action="http://192.168.8.103:8222/oss/avataross"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                              </el-upload>
+                            </el-form-item>
+                          </el-form>
+                          <div  slot="footer"  class="dialog-footer" center>
+                            <el-button @click="showdialog = false">取 消</el-button>
+                            <el-button type="primary" @click="changeavator()">确 定</el-button>
+                          </div>
+                        </el-dialog>
+
                       </div>
                       <div class="ml-md-4 flex-grow-1">
                         <div class="d-flex align-items-center mb-1">
@@ -49,7 +70,7 @@
                       <tbody>
                       <tr>
                         <th>研究领域:</th>
-                        <td>计算机<span class="badge badge-success" style="margin-left: 20px">热门</span>
+                        <td>{{ Expert.domain }}<span class="badge badge-success" style="margin-left: 20px">热门</span>
                         </td>
                       </tr>
                       <tr>
@@ -66,8 +87,9 @@
                       </tr>
                       <tr>
                         <th></th>
-                        <td v-if="this.$cookies.get('type')==='expert'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">已是专家</a></td>
-                        <td v-if="this.$cookies.get('type')==='visiter'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">成为专家</a></td>
+                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===true"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">已是专家</a></td>
+                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===false"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">等待审核</a></td>
+                        <td v-if="this.$cookies.get('type')==='NormalUser'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">申请成为专家</a></td>
 
                       </tr>
                       </tbody>
@@ -124,29 +146,18 @@
                       </div>
 
                       <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" >
                           <label>研究领域</label>
-                          <br>
-                          <el-tag
-                            :key="tag"
-                            v-for="tag in dynamicTags"
-                            closable
-                            :disable-transitions="false"
-                            @close="handleClose(tag)">
-                            {{tag}}
-                          </el-tag>
-                          <el-input
-                            class="input-new-tag"
-                            v-if="inputVisible"
-                            v-model="inputValue"
-                            ref="saveTagInput"
-                            size="small"
-                            @keyup.enter.native="handleInputConfirm"
-                            @blur="handleInputConfirm">
-                          </el-input>
-                          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-
-
+                          <div class="block" v-if="inputVisible">
+                            <el-cascader
+                              v-model="Expert.domain"
+                              :options="options"
+                              :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}">
+                            </el-cascader>
+                          </div>
+                          <br v-if="inputVisible===false">
+                          <el-button @click="inputVisible = true"  v-if="inputVisible===false">
+                            {{ Expert.domain }}</el-button>
                         </div>
 
                       </div>
@@ -161,7 +172,6 @@
                           <label>个人简介</label>
                           <el-input type="textarea" v-model="Expert.intro"   rows=10 ></el-input>
                         </div>
-
                       </div>
 
 
@@ -171,12 +181,14 @@
 
               </el-card>
                 <button type="button" class="btn btn-primary btn-block mt-3" style="height: 50px" @click="update_expert_info()"><i class='bx bxs-lock mr-1'></i>确认修改</button></el-tab-pane>
+
             </el-tabs>
 
           </div>
         </div>
       </div>
     </section>
+
 
 
     <Footer></Footer>
@@ -189,10 +201,12 @@ export default {
   name: "PersonDetail",
   data() {
     return {
-      activeName: 'fourth',//默认进入个人信息修改
+      activeName: 'first',//默认进入个人信息修改
       dynamicTags: ['标签一', '标签二', '标签三'],
       inputVisible: false,
-      inputValue: '',
+      imageUrl:"",
+      options:[],
+      showdialog:false,
       Expert:{
         name:"",
         intro:"",
@@ -207,10 +221,11 @@ export default {
     };
   },
   created() {
+    this.get_domain()
     var id=this.$cookies.get("id")
     this.axios({
       method:'get',
-      url:'http://192.168.8.103:8001/expertservice/expert/getExpert/'+id,
+      url:'http://192.168.8.103:8222/expertservice/expert/getExpert/'+id,
     }).then(res=>{
       this.Expert = res.data.data.expert;
     })
@@ -219,36 +234,59 @@ export default {
     handleClick(tab, event) {
       console.log(tab);
     },
+    changeavator(){
+      var vm =this
+      vm.Expert.id=this.$cookies.get("id")
+      this.axios({
+        method:'post',
+        url:'http://192.168.8.103:8222/expertservice/expert/updateExpert',
+        data:vm.Expert
+      }).then(resp=>{
+        alert("修改头像成功")
+        this.$cookies.set("avatar",vm.Expert.avatar)
+        this.showdialog=false}
+      )
+
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log(res)
+      this.Expert.avatar=res.data.url
+    },
+    beforeAvatarUpload(file) {
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 10MB!');
+      }
+      return  isLt2M;
+    },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
-    },
     update_expert_info(){
       var vm =this
-
       vm.Expert.id=this.$cookies.get("id")
-
+      vm.Expert.domain=vm.Expert.domain[0]+"/"+vm.Expert.domain[1]
       this.axios({
         method:'post',
-        url:'http://192.168.8.103:8001/expertservice/expert/updateExpert',
+        url:'http://192.168.8.103:8222/expertservice/expert/updateExpert',
         data:vm.Expert
-      }).then(alert("修改成功"))
-    }
-
+      }).then(res=>{
+        alert("修改成功")
+        location.reload()
+      })
+    },
+    get_domain(){
+      var vm=this
+      this.axios({
+        method:'get',
+        url:"http://192.168.8.103:8222/domainservice/domain/findAllDomainByTree",
+      }).then(res=>{
+        vm.options=res.data.data.items
+        console.log(vm.options)
+      })
+    },
   }
 }
 </script>

@@ -68,54 +68,42 @@
 
 
     <!-- Category Widget -->
-    <div class="sidebar-widget category-widget"  style="margin-top: 50px">
-    <div class="sidebar-title">
-        <h3>上传的资源</h3>
-    </div>
-    <div class="widget-content">
-        <ul>
-        <li><a href="#">Busines</a></li>
-        <li><a href="#">Marketing</a></li>
-        <li><a href="#">Creative</a></li>
-        <li><a href="#">Trending</a></li>
-        <li><a href="#">Creative</a></li>
-        <li><a href="#">Trending</a></li>
-        </ul>
-    </div>
-    </div>
+    <div style="margin-top: 50px"></div>
 
      <!-- Popular Posts -->
     <div class="sidebar-widget popular-posts">
     <div class="sidebar-title">
-        <h3>购买的资源</h3>
+        <h3>推荐的资源</h3>
     </div>
-    <div class="widget-content">
-
-        <article class="post">
-        <figure class="post-thumb"><a href="bid_detail.html"><img src="static/images/resource/post-thumb-1.jpg" alt=""></a></figure>
-        <div class="post-info">18.09.2018</div>
-        <div class="text"><a href="bid_detail.html">Design solutions for any media.</a></div>
+    <div class="widget-content" >
+        <article class="post" v-for="index in commendresources.slice(0,5)"   style="margin-top: 20px"  :key="index.RId">
+        <figure class="post-thumb" >
+          <a @click="getDetail(index.Type,index.RId)">
+            <img :src="'static/images/resource/featured-4.jpg' "alt="" style="display: block; height: 100px;width:auto">
+          </a>
+        </figure>
+          <a @click="getDetail(index.Type,index.RId)"><div class="text"> {{index.RName}}.</div></a>
+        <div class="post-info">{{index.RTime}}</div>
+        <div class="text">by {{index.RAuthorName}}.</div>
         </article>
-
-        <article class="post">
-        <figure class="post-thumb"><a href="bid_detail.html"><img src="static/images/resource/post-thumb-2.jpg" alt=""></a></figure>
-        <div class="post-info">18.09.2018</div>
-        <div class="text"><a href="bid_detail.html">Design solutions for any media.</a></div>
-        </article>
-
-        <article class="post">
-        <figure class="post-thumb"><a href="bid_detail.html"><img src="static/images/resource/post-thumb-3.jpg" alt=""></a></figure>
-        <div class="post-info">18.09.2018</div>
-        <div class="text"><a href="bid_detail.html">Design solutions for any media.</a></div>
-        </article>
-
     </div>
     </div>
+
+      <div class="sidebar-widget category-widget"  >
+        <div class="sidebar-title">
+          <h3>推荐的用户</h3>
+        </div>
+        <div class="widget-content">
+          <ul>
+            <li v-for="index in commendusers.slice(0,5)"  :key="index.UId"><a @click="getUserDetail('Expert', index.UId)">{{ index.UName }}</a></li>
+          </ul>
+        </div>
+      </div>
 
     <!-- Instagram Widget -->
     <div class="sidebar-widget instagram-widget">
     <div class="sidebar-title">
-        <h3>参与招标项目</h3>
+        <h3>推荐的招标信息</h3>
     </div>
     <div class="widget-content">
         <div class="images-outer clearfix">
@@ -161,14 +149,44 @@ export default {
       up_number:0,
       buy_number:0,
       bid_number:0,
-
+      commendusers:[],
+      commendresources:[],
     }
   },
   created() {
+    this.get_commend_users()
+    this.get_commend_resources()
     this.get_account()
-
   },
   methods: {
+    get_commend_resources(){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i in resource){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RTime=resource[i].pubDate
+          if(resource[i].cover!=="string")
+            var RCover=resource[i].cover
+          var RAuthorName=resource[i].author
+          vm.commendresources.push({"Type":"Paper","RId":RId,"RName":RName,"RCover":RCover,"RTime":RTime,"RAuthorName":RAuthorName})
+        }
+      })
+    },
+
+    getUserDetail(Type,Id){
+      this.$router.push({
+        name:'UserDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
     get_account() {
       var vm = this
       this.axios({
@@ -195,7 +213,29 @@ export default {
         console.log(error)
       })
     },
-
+    getDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
+    get_commend_users(){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+      }).then(resp=>{
+        var users=resp.data.data.items
+        for(var i in users){
+          var UId=users[i].id
+          var UName=users[i].name
+          vm.commendusers.push({"UId":UId,"UName":UName})
+        }
+      })
+    },
   },
 
 

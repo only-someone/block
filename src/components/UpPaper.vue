@@ -34,7 +34,7 @@
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New Keyword</el-button>
+        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New</el-button>
 
       </el-form-item>
 <!--      <el-form-item label="论文领域" >-->
@@ -74,13 +74,13 @@
         <el-input  v-model="Paper.url" style="width: 400PX"></el-input>
       </el-form-item>
 
-      <el-form-item label="他人下载积分" required>
-           <el-input-number v-model="Paper.price" controls-position="right" ></el-input-number>
+      <el-form-item label="购买积分" required>
+           <el-input-number v-model="Paper.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
       <el-form-item label="展示图片"  required>
         <el-upload
           class="avatar-uploader"
-          action="http://192.168.8.103:8002/oss/avataross"
+          action="http://192.168.8.103:8222/oss/avataross"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -220,7 +220,7 @@ export default {
 
           console.log(vm.Paper)
           vm.axios
-            .post('http://192.168.8.103:8003/paperservice/paper/addPaper', vm.Paper, {
+            .post('http://192.168.8.103:8222/paperservice/paper/addPaper', vm.Paper, {
               headers: {
                 "Content-type": "application/json"
               }
@@ -228,7 +228,8 @@ export default {
               console.log(resp.data.data.paper)
               vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
               alert("上传成功")
-              vm.$route.push({path:"/UploadResource"})
+              //刷新当前页面
+              location.reload()
           }).catch();
         }).catch();
 

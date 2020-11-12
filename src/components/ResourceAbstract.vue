@@ -89,7 +89,6 @@ export default {
 
         },
         get_account(){
-          var vm=this
           var vm = this
           this.axios({
             method: 'post',
@@ -97,13 +96,13 @@ export default {
             data: {"Id": this.$cookies.get("id")}
           }).then(resp => {
             vm.account = resp.data.data[0]
-
+            this.$cookies.set("score",vm.account.Score)
             if(vm.account.Upload!==null){
               for (var i = 0; i < vm.account.Upload.length; i++) {
                 var [type,id] =vm.account.Upload[i].id.split("_")
                 vm.axios({
                   method:'get',
-                  url:'http://192.168.8.103:8003/paperservice/paper/get'+type+'/'+id
+                  url:'http://192.168.8.103:8222/paperservice/paper/get'+type+'/'+id
                 }).then(res=> {
                     //console.log(res)
                     var resource=res.data.data[Object.keys(res.data.data)[0]]
@@ -113,10 +112,12 @@ export default {
                     var RTime=resource.pubDate
                     var RCover=resource.cover
                     var RAuthorName=resource.author
-                    vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
+                    if(vm.UploadResources.includes({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
+                    else{ vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})}
                   }
                 )
               }
+
             }
 
           }).catch(error=>{
@@ -137,7 +138,7 @@ export default {
           var vm=this
           this.axios({
             method:"get",
-            url:"http://192.168.8.103:8005/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+            url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
           }).then(resp=>{
             var resource=resp.data.data.items
             for(var i in resource){
@@ -145,7 +146,8 @@ export default {
               var RName=resource[i].title
               var RAbstract=resource[i].summary
               var RTime=resource[i].pubDate
-              var RCover=resource[i].cover
+              if(resource[i].cover!=="string")
+                var RCover=resource[i].cover
               var RAuthorName=resource[i].author
               vm.commendresources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
             }

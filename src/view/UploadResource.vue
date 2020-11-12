@@ -28,13 +28,14 @@
         <div class="row clearfix">
 
           <!--Content Side-->
-          <div class="content-side col-lg-8 col-md-12 col-sm-12">
+          <el-col :span="16">
             <MyUpfile></MyUpfile>
-          </div>
+          </el-col>
+
           <!--Sidebar Side-->
-          <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+          <el-col :span="8">
               <PersonSidebar></PersonSidebar>
-          </div>
+          </el-col>
 
         </div>
       </div>

@@ -158,7 +158,7 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8003/paperservice/paper/get"+Type+"/"+Id,
+        url:"http://192.168.8.103:8222/paperservice/paper/get"+Type+"/"+Id,
       }).then(res=>{
         vm.resource=res.data.data[Object.keys(res.data.data)[0]]
 

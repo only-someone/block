@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%">
         <el-tab-pane label="论文" name="Paper">
             <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
@@ -23,7 +23,6 @@
         <el-tab-pane label="案例" name="Case">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-
 
       </el-tabs>
     </div>

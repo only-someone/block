@@ -5,13 +5,13 @@
         <div class="row clearfix">
 
           <!--Content Column-->
-          <div class="content-column col-lg-8 col-md-12 col-sm-12">
+          <div class="content-column col-lg-8 col-md-12 col-sm-12" >
             <div class="inner-column">
               <div class="shop-single">
                 <div class="inner-box"  >
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">论文名称</div></el-col>
-                    <el-col :span="12"><div class="grid-content bg-purple-light">{{Paper.title}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Paper.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">论文作者</div></el-col>
@@ -47,63 +47,59 @@
                     <el-col :span="4"><div class="grid-content bg-purple-dark">论文简介</div></el-col>
                     <el-col :span="20" style="height: 100px" ><div class="grid-content bg-purple-light">{{Paper.summary}}</div></el-col>
                   </el-row>
+                  <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
+                    <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
+                  </el-row>
 
                 </div>
               </div>
             </div>
+
           </div>
+
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <el-image :src="Paper.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:280px" alt=""  lazy/>
-            <div class="inner-column">
+            <a><el-image :src="Paper.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
 
+            <div class="inner-column">
               <!--Purchased Widget-->
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
                   <div class="price" >需要 {{ Paper.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
-                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">下载</button></a>
+                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已购买，点击下载</button></a>
+                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
                 </div>
               </div>
-
-
             </div>
           </div>
-          <div class="comments-area">
-            <div class="group-title">
-              <h2>发布作者及其他作品</h2>
-            </div>
+        </div>
 
-            <!--Comment Box-->
-            <div class="comment-box" style="width: 1000px">
-              <div class="comment">
-                <div class="author-thumb"><img src="/static/images/resource/author-7.jpg" alt="" ></div>
-                <div class="comment-inner">
-                  <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
-                  <div class="comment-info">This is a beautifully crafted theme! </div>
-                  <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet </div>
-                  <a class="reply-comment" href="#">reply</a>
-                </div>
-              </div>
+        <div v-if="up_loader===this.$cookies.get('id')">
+          <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
+            <el-form >
+              <el-form-item  style="text-align: center">
+                <el-upload
+                  class="avatar-uploader"
+                  :show-file-list="false"
+                  action="http://192.168.8.103:8222/oss/avataross"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-form-item>
+            </el-form>
+            <div  slot="footer"  class="dialog-footer" center>
+              <el-button @click="showdialog = false">取 消</el-button>
+              <el-button type="primary" @click="changecover()">确 定</el-button>
             </div>
+          </el-dialog>
 
-            <!--Comment Box-->
-            <div class="comment-box reply-comment" style="width: 1000px">
-              <div class="comment">
-                <div class="author-thumb"><img src="/static/images/resource/author-8.jpg" alt=""></div>
-                <div class="comment-inner">
-                  <div class="post-info">by Anna Tomson on December 3, 2013 at 1:29 am</div>
-                  <div class="comment-info">This is a beautifully crafted theme! </div>
-                  <div class="text">Lorem Ipsum proin gravida nibh vel velit auctor aliquenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum</div>
-                  <a class="reply-comment" href="#">Reply</a>
-                </div>
-              </div>
-            </div>
-
-          </div>
 
         </div>
+
       </div>
     </section>
   </div>
@@ -125,7 +121,9 @@ export default {
       buy_resourcelist:[],
       upload_resourcelist:[],
       up_number:1,
-
+      up_loader:"",
+      showdialog:false,
+      imageUrl:"",
     }
   },
   created() {
@@ -133,27 +131,67 @@ export default {
   },
 
   methods:{
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log(res)
+      this.Paper.cover=res.data.url
+    },
+    beforeAvatarUpload(file) {
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 10MB!');
+      }
+      return  isLt2M;
+    },
     getDetail(Type,Id){
       var vm= this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8003/paperservice/paper/get"+Type+"/"+Id,
+        url:"http://192.168.8.103:8222/paperservice/paper/get"+Type+"/"+Id,
       }).then(res=>{
         vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
-        if(this.Paper.file.indexOf("http:/smartcity-youngpq.oss-cn-hangzhou.aliyuncs.com")!==-1)
-          this.download_url=this.Paper.file
-        else{
-          this.download_url="http://192.168.8.197:8081/ipfs/"+this.Paper.file
+        this.isBuyer("Paper_"+vm.Paper.id)
+        this.get_uploader("Paper_"+vm.Paper.id)
+        if(vm.Paper.file===null){
+          alert("该资源暂无源文件")
         }
-        this.isBuyer("Paper_"+this.Paper.id)
-        // vm.axios({
-        //   method:"post",
-        //   url:"http://192.168.8.197:8000/api/v1/queryResource",
-        //   data:{"Id":"Paper_"+this.Paper.id}
-        // }).then(res=>{
-        //   console.log(res)
-        //   this.Paper.Uploader=res.data.data.Uploader
-        // })很多资源没有上传至区块链，所以得先默认一个
+        else if(vm.Paper.file.indexOf("http")!==-1)
+          vm.download_url=this.Paper.file
+        else{
+          vm.download_url="http://192.168.8.197:8081/ipfs/"+vm.Paper.file
+        }
+      })
+    },
+    getUserDetail(Type,Id){
+      this.$router.push({
+        name:'UserDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
+    changecover(){
+      var vm =this
+      vm.Paper.cover=this.imageUrl
+      this.axios({
+        method:'post',
+        url:'http://192.168.8.103:8222/paperservice/paper/updatePaper',
+        data:vm.Paper
+      }).then(resp=>{
+        alert("修改头像成功")
+        this.showdialog=false}
+      )
+    },
+    get_uploader(resourceid){
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: 'http://192.168.8.197:8000/api/v1/queryResource',
+        data: {"Id": resourceid}
+      }).then(resp => {
+        vm.up_loader = resp.data.data[0].Uploader
       })
     },
     isBuyer(resourceid){
@@ -166,16 +204,16 @@ export default {
         vm.account = resp.data.data[0]
         if(vm.account.Buy!==null){
           for (var i = 0; i < vm.account.Buy.length; i++) {
-            this.buy_resourcelist.push(vm.account.Buy[i].id)
+            vm.buy_resourcelist.push(vm.account.Buy[i].id)
           }
         }
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            this.upload_resourcelist.push(vm.account.Upload[i].id)
+            vm.upload_resourcelist.push(vm.account.Upload[i].id)
           }
         }
-        if(this.upload_resourcelist.indexOf(resourceid)!==-1 || this.buy_resourcelist.indexOf(resourceid)!==-1){
-          this.haveBuy=true
+        if(vm.upload_resourcelist.indexOf(resourceid)!==-1 || vm.buy_resourcelist.indexOf(resourceid)!==-1){
+          vm.haveBuy=true
         }
       }).catch(error=>{
         console.log(error)
@@ -184,10 +222,10 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-        "Sell_id":this.Paper.Uploader||"1",
+          "Sell_id":this.up_loader||"1",
           "Buy_id":this.$cookies.get("id"),
           "Resource_id":"Paper_"+this.Paper.id,
-          "Cost":this.Paper.price,
+          "Cost":this.Paper.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)
@@ -197,7 +235,6 @@ export default {
         data:Dealdata
       }).then(res=> {
           alert("购买成功")
-          vm.$router.push({path:"/ResourceDetail/Paper/"+this.Paper.Id})
         }
       ).catch(
         alert("购买失败")
