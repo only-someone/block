@@ -1,26 +1,26 @@
 <template>
   <div>
     <div>
-      <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%">
-        <el-tab-pane label="论文" name="Paper">
+      <el-tabs v-model="activeName"  style="width: 90%">
+        <el-tab-pane label="论文" name="Paper" >
             <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="软件著作" name="Software">
+        <el-tab-pane label="软件著作" name="Software" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="专利" name="Patent">
+        <el-tab-pane label="专利" name="Patent" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPatent></UpPatent> </span>
         </el-tab-pane>
-        <el-tab-pane label="技术成果" name="Tech">
+        <el-tab-pane label="技术成果" name="Tech" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="解决方案" name="Relution">
+        <el-tab-pane label="解决方案" name="Relution" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="项目需求" name="Demand">
+        <el-tab-pane label="项目需求" name="Demand" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="案例" name="Case">
+        <el-tab-pane label="案例" name="Case" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
 
@@ -44,9 +44,6 @@ export default {
     onSubmit() {
       console.log('submit!');
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    }
   }
 
 }

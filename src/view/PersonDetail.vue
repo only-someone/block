@@ -25,14 +25,13 @@
         <div class="auto-container">
 
           <div class="user-profile-page" style="margin-top: 50px">
-            <div class="card">
+            <div class="card" v-if="this.$cookies.get('type')!=='Normal'">
               <div class="card-body">
                 <div class="row">
                   <div class="col-12 col-lg-7 border-right">
                     <div class="d-md-flex align-items-center">
-                      <div class="mb-md-0 mb-3">
-                        <a><img :src=Expert.avatar class="rounded-circle shadow" style="height: 200px;width: 200px" alt="" @click="showdialog=true"/></a>
-
+                      <div class="mb-md-0 mb-3" >
+                        <a><img :src=Expert.avatar class="rounded-circle shadow" style="height: 200px;width: 200px" alt="" @click="showdialog=true" /></a>
                         <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
                           <el-form >
                             <el-form-item  style="text-align: center">
@@ -52,7 +51,6 @@
                             <el-button type="primary" @click="changeavator()">确 定</el-button>
                           </div>
                         </el-dialog>
-
                       </div>
                       <div class="ml-md-4 flex-grow-1">
                         <div class="d-flex align-items-center mb-1">
@@ -61,7 +59,6 @@
                         </div>
                         <p class="mb-0 text-muted">{{Expert.institution}}</p>
                         <p class="text-primary"><i class='bx bx-buildings'></i>{{Expert.intro}}</p>
-
                       </div>
                     </div>
                   </div>
@@ -97,14 +94,15 @@
 
                   </div>
                 </div>
-                <!--end row-->
               </div>
             </div>
-            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+            <p class="mb-0 ml-auto" v-if="this.$cookies.get('type')==='Normal'">积分:<span class="badge badge-success" style="margin: 20px;font-size: 20px">{{this.$cookies.get("score")}}</span></p>
+            <el-tabs v-model="activeName" type="card" >
+
               <el-tab-pane label="购买的资源" name="first"> <el-card class="box-card" style="margin-top: -100px"> <search-resources></search-resources> </el-card></el-tab-pane>
-              <el-tab-pane label="上传的资源" name="second"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
-              <el-tab-pane label="参与的招投标" name="third"><el-card class="box-card" style="margin-top: -100px"> <search-bids></search-bids> </el-card></el-tab-pane>
-              <el-tab-pane label="修改个人信息" name="fourth"><el-card class="box-card">
+              <el-tab-pane label="上传的资源" name="second" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
+              <el-tab-pane label="参与的招投标" name="third" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px" > <search-bids></search-bids> </el-card></el-tab-pane>
+              <el-tab-pane label="修改个人信息" name="fourth" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" >
                 <div class="form-body">
                   <div class="row">
                     <div class="col-12 col-lg-5 border-right">
@@ -132,8 +130,8 @@
                         <input type="text" v-model="Expert.phone" class="form-control">
                       </div>
                       <div class="form-group">
-                        <label>住址</label>
-                        <input type="text" v-model="Expert.institution" class="form-control">
+                        <label>传真</label>
+                        <input type="text" v-model="Expert.fax" class="form-control">
                       </div>
 
                     </div>
@@ -225,21 +223,19 @@ export default {
     var id=this.$cookies.get("id")
     this.axios({
       method:'get',
-      url:'http://192.168.8.103:8222/expertservice/expert/getExpert/'+id,
+      url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/getExpert/'+id,
     }).then(res=>{
       this.Expert = res.data.data.expert;
     })
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab);
-    },
+
     changeavator(){
       var vm =this
       vm.Expert.id=this.$cookies.get("id")
       this.axios({
         method:'post',
-        url:'http://192.168.8.103:8222/expertservice/expert/updateExpert',
+        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/updateExpert',
         data:vm.Expert
       }).then(resp=>{
         alert("修改头像成功")
@@ -267,10 +263,10 @@ export default {
     update_expert_info(){
       var vm =this
       vm.Expert.id=this.$cookies.get("id")
-      vm.Expert.domain=vm.Expert.domain[0]+"/"+vm.Expert.domain[1]
+      vm.Expert.domain=vm.Expert.domain.toString()
       this.axios({
         method:'post',
-        url:'http://192.168.8.103:8222/expertservice/expert/updateExpert',
+        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/updateExpert',
         data:vm.Expert
       }).then(res=>{
         alert("修改成功")
@@ -281,7 +277,7 @@ export default {
       var vm=this
       this.axios({
         method:'get',
-        url:"http://192.168.8.103:8222/domainservice/domain/findAllDomainByTree",
+        url:this.GLOBAL.Service_Base_Url+"/domainservice/domain/findAllDomainByTree",
       }).then(res=>{
         vm.options=res.data.data.items
         console.log(vm.options)

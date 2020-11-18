@@ -36,7 +36,8 @@
               <li class="dropdown" ><a href="#">资源</a>
                 <ul>
                   <li><router-link to="/Commend">为您推荐</router-link></li>
-                  <li><router-link to="/UploadResource" v-if="this.$cookies.get('id')">上传资源</router-link></li>
+                  <li v-if="this.$cookies.get('type')==='Normal'"><router-link to="/UploadResource" v-if="this.$cookies.get('id')">上传资源<a style="color: orangered">(仅限论文)</a></router-link></li>
+                  <li v-else><router-link to="/UploadResource" v-if="this.$cookies.get('id')" >上传资源</router-link></li>
 
                 </ul>
               </li>

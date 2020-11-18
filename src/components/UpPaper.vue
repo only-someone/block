@@ -152,14 +152,6 @@ export default {
   },
   created() {
     var vm = this;
-    // this.axios({
-    //   method:'get',
-    //   url:"https://www.easy-mock.com/mock/5f912b94e4d147581af7409b/vuedemo/domains",//跨域
-
-    // }).then(function (resp){
-    //   vm.data
-    //   vm.domains=resp.data.domains
-    // })
   },
   methods: {
     handleChange(file, fileList) {
@@ -183,7 +175,7 @@ export default {
       var vm=this
       var data={
           "Id":id,
-          "Hash":vm.Paper.file,
+          "Hash":vm.Paper.file||"null",
           "Uploader":vm.$cookies.get("id"),
           "Cost":vm.Paper.price.toString(),
           "Time":time,
@@ -193,26 +185,24 @@ export default {
       console.log(data)
       this.axios({
         method:'post',
-        url:"http://192.168.8.197:8000/api/v1/uploadResource",
+        url:vm.GLOBAL.Blockchain_Base_Url+"/api/v1/uploadResource",
         data:data,
-        headers: {
-          "Content-type": "application/json"
-        }
       }).then(function (resp){
         console.log(resp)
       }).catch()
      },
-    up_paper(){
+    up_paper(){//上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
       formData.set("files", this.Paper.file);
       this.axios
-        .post('http://192.168.8.197:8000/api/v1/uploadfile', formData, {
+        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
           headers: {
             "Content-type": "multipart/form-data"
           }
         }).then(function(resp){
-          vm.Paper.file=resp.data.data.toString()
+          if(resp.data.data!==null)
+            vm.Paper.file=resp.data.data.toString()
           var keywords_tostring=""
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
@@ -220,7 +210,7 @@ export default {
 
           console.log(vm.Paper)
           vm.axios
-            .post('http://192.168.8.103:8222/paperservice/paper/addPaper', vm.Paper, {
+            .post(vm.GLOBAL.Service_Base_Url+'/paperservice/paper/addPaper', vm.Paper, {
               headers: {
                 "Content-type": "application/json"
               }
@@ -229,7 +219,7 @@ export default {
               vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
               alert("上传成功")
               //刷新当前页面
-              location.reload()
+            //location.reload(true)
           }).catch();
         }).catch();
 

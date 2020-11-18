@@ -10,25 +10,47 @@
                 <div class="card mb-0 shadow-none bg-transparent w-100 login-card rounded-0">
                   <div class="card-body p-md-5">
                     <img src="static/images/logo-2.png" width="180" alt="" />
-                    <el-form ref="form" :model="form.Institution" label-width="50px"  style="margin-top: 20px">
-                      <el-form-item label="名称">
+                    <h4 class="mt-5"><strong>填写注册信息</strong></h4>
+
+                    <el-form ref="form" :model="form.Institution" label-width="60px"    style="margin-top: 25px">
+                      <el-form-item label="用户名">
+                        <el-input type="text" v-model="form.Institution.username" placeholder="用于登录的用户名"  ></el-input>
+                      </el-form-item>
+                      <el-form-item label="密码">
+                        <el-input type="text" v-model="form.Institution.username" placeholder="用于登录的密码" ></el-input>
+                      </el-form-item>
+
+                      <el-form-item label="名称" >
                         <el-input type="text" v-model="form.Institution.InstitutionName" ></el-input>
                       </el-form-item>
                       <el-form-item label="简介">
                         <el-input type="textarea" v-model="form.Institution.InstitutionIntroduction" rows=5 ></el-input>
                       </el-form-item>
-                      <el-form-item label="地址">
-                        <el-input type="text" v-model="form.Institution.Address" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="邮箱" >
-                        <el-input type="text" v-model="form.Institution.Affiliation" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="电话" >
-                        <el-input type="text" v-model="form.Institution.Telephone" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="传真">
-                        <el-input type="text" v-model="form.Institution.Fax" ></el-input>
-                      </el-form-item>
+                      <el-row :gutter="50"  >
+                        <el-col :span="12">
+                          <el-form-item label="地址" >
+                          <el-input type="text" v-model="form.Institution.Address" ></el-input>
+                        </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="邮箱" >
+                            <el-input type="text" v-model="form.Institution.Affiliation" ></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50"  >
+                        <el-col :span="12">
+                          <el-form-item label="电话" >
+                            <el-input type="text" v-model="form.Institution.Telephone" ></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-form-item label="传真">
+                            <el-input type="text" v-model="form.Institution.Fax" ></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+
                       <el-form-item label="领域" >
                         <el-select v-model="form.Institution.Domain" placeholder="请选择" >
                           <el-option
@@ -52,7 +74,7 @@
                         </el-upload>
                       </el-form-item>
                     </el-form>
-                    <button type="button" class="btn btn-primary btn-block mt-4  col-lg-6  col-md-6" style="width:100px;float: right "><i class='bx bxs-lock mr-1'></i>注册</button>
+                    <button type="button" class="btn btn-primary btn-block mt-4  col-lg-6  col-md-6" style="width:100%;float: right "><i class='bx bxs-lock mr-1'></i>注册</button>
                   </div>
                 </div>
               </div>

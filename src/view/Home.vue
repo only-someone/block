@@ -31,8 +31,8 @@
                 <option>解决方案</option>
                 <option>案例</option>
               </select>
-              <input type="text" name="firstname" value="" placeholder="在这里搜索" required>
-              <router-link to="SearchResult"><button type="submit" class="theme-btn dripicons-search"></button></router-link>
+              <input type="text" name="firstname" value="" placeholder="点击右侧按钮进入搜索页面" required>
+              <router-link to="/SearchResult"><button type="submit" class="theme-btn dripicons-search"></button></router-link>
             </div>
 
           </form>
@@ -52,7 +52,7 @@
       <div class="auto-container">
         <!--Sec Title-->
         <div class="sec-title centered">
-          <h2>Interested Resources</h2>
+          <h2>可能感兴趣的资源</h2>
           <!--不细分专家和城市，类型中标注-->
         </div>
         <div class="row clearfix">
@@ -94,7 +94,7 @@
 		<div class="auto-container">
 			<!--Sec Title-->
 			<div class="sec-title centered">
-				<h2>Interested Users</h2>
+				<h2>可能感兴趣的用户</h2>
 			</div>
       <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
         <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
@@ -189,7 +189,7 @@
       <!--Title Box-->
       <div class="title-box" style="background-image: url(static/images/background/8.jpg)">
         <div class="auto-container">
-          <h2><a  href="http://192.168.8.197:8080/#/" style="color: #FFFFFF" >Blockchain</a><br></h2>
+          <h2><a  href="http://192.168.8.197:8080/#/" style="color: #FFFFFF" >区块链</a><br></h2>
         </div>
       </div>
       <!--Lower Section-->
@@ -248,7 +248,7 @@
     <section class="counter-section">
       <!--Title Box-->
       <div class="sec-title centered">
-        <h2>Knowledge Graph</h2>
+        <h2>知识图谱</h2>
       </div>
 
 
@@ -274,7 +274,7 @@ export default {
       block_mermory:20,
       block_height:20,
       block_node:20,
-      start:false,
+      isstart:false,
       fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"],
       commendResources:[],
       commendUsers:[],
@@ -290,8 +290,8 @@ export default {
   methods: {
     handleScroll() {
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 获取窗口滚动条高度
-      if ((scrollTop >= document.body.clientHeight - 1600) && (this.start === false)) {
-        this.start = true
+      if ((scrollTop >= document.body.clientHeight - 1600) && (this.isstart === false)) {
+        this.isstart = true
         this.$refs.example3.start()
         this.$refs.example2.start()
         this.$refs.example1.start()
@@ -301,7 +301,7 @@ export default {
       var vm = this
       this.axios({
         method: 'post',
-        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
         data: {"Id": this.$cookies.get("id")}
       }).then(resp => {
         var account = resp.data.data[0]
@@ -311,7 +311,7 @@ export default {
       })
       this.axios({
         method:'get',
-        url:'http://192.168.8.103:8222/expertservice/expert/getExpert/'+ this.$cookies.get("id"),
+        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/getExpert/'+ this.$cookies.get("id"),
       }).then(res=>{
         this.$cookies.set("avatar",res.data.data.expert.avatar);
       })
@@ -320,7 +320,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
       }).then(resp=>{
         var resource=resp.data.data.items
         for(var i=0;i<8;i++){
@@ -341,7 +341,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
       }).then(resp=>{
         var users=resp.data.data.items
         for(var i in users){

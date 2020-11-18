@@ -6,158 +6,106 @@
           <div class="card-body p-0">
             <div class="row no-gutters">
               <div class="col-12 col-lg-5 col-xl-5 d-flex align-items-stretch">
-
                 <div class="card mb-0 shadow-none bg-transparent w-100 login-card rounded-0">
                   <div class="card-body p-md-5">
                     <img src="static/images/logo-2.png" width="180px"  alt="" />
+                    <h4 class="mt-5"><strong>填写注册信息</strong></h4>
                   </div>
-                  <h4 style="text-align:center;margin-top: -20px" ><strong>补充个人信息</strong></h4>
-                  <div class="card-body">
-                    <el-form ref="form" :model="form.Expert" label-width="50px" >
-                      <el-form-item label="姓名">
-                        <el-input type="text" v-model="form.Expert.name" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="简介">
-                        <el-input type="textarea" v-model="form.Expert.intro" rows=3></el-input>
-                      </el-form-item>
-
-                      <el-form-item label="职位" >
-                        <el-input type="text" v-model="form.Expert.career" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="领域" >
-                        <div class="block">
-                          <el-cascader
-                            v-model="form.Expert.domain"
-                            :options="options"
-                            :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
-                            @change="handleChange"></el-cascader>
-                        </div>
-                      </el-form-item>
-                      <el-form-item label="邮箱" >
-                        <el-input type="text" v-model="form.Expert.email" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="电话">
-                        <el-input type="text" v-model="form.Expert.phone" ></el-input>
-                      </el-form-item>
-                      <el-form-item label="传真">
-                        <el-input type="text" v-model="form.Expert.fax" ></el-input>
-                      </el-form-item>
-<!--                      name="files"-->
-                      <el-col :span="12">
-                        <el-form-item label="头像">
-                          <el-upload
-                            class="avatar-uploader"
-                            :show-file-list="false"
-                            action="http://192.168.8.103:8222/oss/avataross"
-
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <div class="card-body" style="margin-left: 20px;margin-right: 20px;margin-top: -60px ">
+                    <el-form ref="form"  label-width="50px" >
+                      <el-row :gutter="50" >
+                        <el-col :span="12">
+                          <label style="margin: 15px">用户名</label>
+                          <el-input type="text" v-model="form.registerVo.username" placeholder="用于登录的用户名"  ></el-input>
+                        </el-col>
+                        <el-col :span="12">
+                          <label style="margin: 15px">密码</label>
+                          <el-input  type="password"  v-model="form.registerVo.password" placeholder="用于登录的密码"></el-input>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50">
+                        <el-col :span="24">
+                          <label style="margin: 15px">姓名</label>
+                          <el-input type="text" v-model="form.expert.name" placeholder="真实姓名"></el-input>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50" >
+                        <el-col :span="24" style="display: inline">
+                          <label style="margin: 15px">头像</label>
+                          <el-upload style="width: 500px"
+                                     class="avatar-uploader"
+                                     :show-file-list="false"
+                                     action="http://192.168.8.103:8222/oss/avataross"
+                                     :on-success="handleAvatarSuccess"
+                                     :before-upload="beforeAvatarUpload">
+                            <img v-if="form.expert.avatar" :src="form.expert.avatar" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                           </el-upload>
-                        </el-form-item>
-                      </el-col>
-                      <!--<el-form-item label="领域" >
-                        <el-select v-model="form.Expert.domain" placeholder="请选择" >
-                          <el-option
-                            v-for="domain in domains"
-                            :key="domain.Id"
-                            :label="domain.Name"
-                            :value="domain.Name">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>-->
-
+                        </el-col>
+                      </el-row>
+                      <el-row >
+                        <el-col :span="24">
+                          <label style="margin: 15px">就职单位</label>
+                          <el-input  v-model="form.expert.institution" type="text"  placeholder="若有单位账户填写单位账户名称，若无正常填写" ></el-input>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50">
+                        <el-col :span="24">
+                          <label style="margin: 15px">简介</label>
+                          <el-input type="textarea" v-model="form.expert.intro" rows=5></el-input>
+                        </el-col>
+                        <el-col :span="24">
+                          <label style="margin: 15px">邮箱</label>
+                          <el-input type="text" v-model="form.expert.email" ></el-input>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50">
+                        <el-col :span="12">
+                          <label style="margin: 15px">职位</label>
+                          <el-input type="text" v-model="form.expert.career" ></el-input>
+                        </el-col>
+                        <el-col :span="12">
+                          <label style="margin: 15px">领域</label>
+                          <div class="block">
+                            <el-cascader
+                              v-model="form.expert.domain"
+                              :options="options"
+                              :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+                              @change="handleChange"></el-cascader>
+                          </div>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="50">
+                        <el-col :span="12">
+                          <label style="margin: 15px">电话</label>
+                          <el-input type="text" v-model="form.expert.phone" ></el-input>
+                        </el-col>
+                        <el-col :span="12">
+                          <label style="margin: 15px">传真</label>
+                          <el-input type="text" v-model="form.expert.fax" ></el-input>
+                        </el-col>
+                      </el-row>
+<!--                      name="files"-->
                     </el-form>
                   </div>
-                  <h4 style="text-align: center;float: right; margin-top: -30px"><strong>已有相应单位用户？</strong></h4>
-                  <el-row style="margin:20px" :gutter="30">
-                    <el-col :span="15">
-                      <el-input  v-model="form.Expert.institution" type="text"  placeholder="填写对应单位名" style="margin-left: 10px"></el-input>
-                    </el-col>
-
-                   <el-col :span="9">
-                     <button type="button" class="btn btn-primary btn-block " @click="register_have_institution()" ><i class='bx bxs-lock mr-1'></i>关联并注册</button>
-                   </el-col>
-                  </el-row>
-                  <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
-
+<!--                  <h4 style="text-align: center;float: right; margin-top: -30px"><strong>已有相应单位用户？</strong></h4>-->
+                  <el-col  style="margin-left: 15%;width: 70%;margin-top: 20px">
+                    <button type="button" class="btn btn-primary btn-block " style="margin-bottom: 50px" @click="register" ><i class='bx bxs-lock mr-1'></i>注册</button>
+                  </el-col>
                 </div>
               </div>
               <div class="col-12 col-lg-7 col-xl-7 d-flex align-items-stretch">
                 <div class="card mb-0 shadow-none bg-transparent w-100 rounded-0">
-                     <img src="static/images/3327590.jpg" style="margin-left: 10%" width="80%" alt="" />
-
-
-                    <h4 style="text-align: center;margin-top: -20px;margin-bottom: 20px"><strong>没有相应单位用户？</strong></h4>
-                    <el-form ref="form" :model="form.Institution" label-width="100px" style="margin-right: 30px;margin-left: 2%"  >
-                      <el-form-item label="名称">
-                        <el-input type="text" v-model="form.Institution.InstitutionName" style="width: 60%"></el-input>
-                      </el-form-item>
-                      <el-form-item label="简介">
-                        <el-input type="textarea" v-model="form.Institution.InstitutionIntroduction" rows=3 ></el-input>
-                      </el-form-item>
-
-                      <el-row>
-                        <el-col :span="12">
-                          <el-form-item label="地址" >
-                            <el-input type="text" v-model="form.Institution.Address" ></el-input>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="邮箱" >
-                            <el-input type="text" v-model="form.Institution.Affiliation"  ></el-input>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <el-col :span="12">
-                          <el-form-item label="电话"  >
-                            <el-input type="text" v-model="form.Institution.Telephone" ></el-input>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-form-item label="传真">
-                            <el-input type="text" v-model="form.Institution.Fax"  ></el-input>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <div class="block">
-                          <el-cascader
-                            v-model="form.Institution.domain"
-                            :options="options"
-                            :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
-                            @change="handleChange"></el-cascader>
-                        </div>
-                      </el-row>
-<!--                        <el-col :span="12">-->
-<!--                          <el-form-item label="单位头像">-->
-<!--                            <el-upload-->
-<!--                              class="avatar-uploader"-->
-<!--                              :show-file-list="false"-->
-<!--                              action="http://192.168.8.103:8002/oss/avataross"-->
-<!--                              name="files"-->
-<!--                              :on-success="handleAvatarSuccess"-->
-<!--                              :before-upload="beforeAvatarUpload">-->
-<!--                              <img v-if="imageUrl_institution" :src="imageUrl_institution" class="avatar">-->
-<!--                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--                            </el-upload>-->
-<!--                          </el-form-item>-->
-
-<!--                        </el-col>-->
-
-
-                       <button type="button" class="btn btn-primary btn-block " style="width: 50%;margin-left: 8%" ><i class='bx bxs-lock mr-1'></i>注册</button>
-                    </el-form>
-
+                  <div class="card-body p-md-5">
+                    <h5 class="card-title">Where does it come from?</h5>
+                    <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.</p>
                   </div>
-
+                  <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
+                </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
   </div>
@@ -171,7 +119,7 @@ export default {
   data() {
     return {
       form: {
-        Expert:{
+        expert:{
           avatar:"",
           career:"",
           email:"",
@@ -180,23 +128,16 @@ export default {
           intro:"",
           name:"",
           phone:"",
-          sort:"",//目前没用
+          status:false,
           domain:"",
         },
-        Institution:{
-          InstitutionName:'',
-          InstitutionIntroduction:'',
-          Address:"",
-          EMail:"",
-          Telephone:'',
-          Fax:'',
-          Domain:'',
-
+        registerVo: {
+          password: "",
+          username: ""
         }
 
       },
       options:[],
-      imageUrl:"",
       imageUrl_institution:'',
 
     }
@@ -209,7 +150,7 @@ export default {
       var vm=this
       this.axios({
         method:'get',
-        url:"http://192.168.8.103:8222/domainservice/domain/findAllDomainByTree",
+        url:this.GLOBAL.Service_Base_Url+"/domainservice/domain/findAllDomainByTree",
       }).then(res=>{
         vm.options=res.data.data.items
         console.log(vm.options)
@@ -218,21 +159,55 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    register_have_institution(){
+    register(){
       var vm =this;
-      vm.Expert.domain=vm.form.Expert.domain[0]+"/"+vm.form.Expert.domain[1]
+      vm.form.expert.domain=vm.form.expert.domain.toString()||""
+      console.log(vm.form)
       this.axios({
         method: 'post',
-        url:'http://192.168.8.103:8222/expertservice/expert/addExpert',
-        data: vm.form.Expert,
-        headers: {
-          "Content-type": "application/json"
+        url:this.GLOBAL.Service_Base_Url+'/ucenter/member/registerExpert',        //url:'http://192.168.8.103:8150//ucenter/member/rigisterExpert',
+        data: vm.form
+      }).then(res=>{
+        console.log(res.data)
+        if(res.data.success===true) {
+          vm.axios({
+            method: 'post',
+            url: this.GLOBAL.Blockchain_Base_Url + '/api/v1/createUser',
+            data: {
+              "Id":res.data.data.expert.id,
+              "Score":"50"
+            }
+          }).then(res=> {
+            alert("注册成功,区块链初始积分为50分")
+            vm.$router.push("/Login")
+            }
+          ).catch(error => {
+            console.log(error)
+            alert("区块链注册失败,请重新注册")
+            location.reload()
+            //删掉之前的专家
+          })
         }
+        else{
+          alert(res.data.message)
+        }
+      })
+    },
+    register_have_institution(){
+      var vm =this;
+      vm.form.expert.domain=vm.form.expert.domain.toString()
+      this.axios({
+        // method: 'post',
+        // url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/addExpert',
+        // data: vm.form.Expert,
+        method: 'post',
+        url:this.GLOBAL.Service_Base_Url+'/ucenter/member/registerExpert',
+        data: vm.form
       }).then(res=>{
         console.log(res)
         vm.axios({
           method:'post',
-          url:'http://192.168.8.197:8000/api/v1/createUser',
+          url:this.GLOBAL.Blockchain_Base_Url+'/api/v1/createUser',
           data:{
             "Id":res.data.data.expert.id,
             "Score":"50"
@@ -249,10 +224,10 @@ export default {
       })
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.form.expert.url = URL.createObjectURL(file.raw);
       console.log(res)
-      this.form.Expert.avatar=res.data.url
-      console.log( this.form.Expert.avatar)
+      this.form.expert.avatar=res.data.url
+      console.log( this.form.expert.avatar)
     },
     beforeAvatarUpload(file) {
 

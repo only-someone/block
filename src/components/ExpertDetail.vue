@@ -60,8 +60,8 @@
           <div  v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
             <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
               <div class="comment" style="margin-top: 30px">
-                <div class="author-thumb"><img :src=" resource.RCover ||'/static/images/resource/author-7.jpg'" alt="" style="height: 100px"></div>
-                <div class="comment-inner">
+                <div class="author-thumb"><img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt="" style="height: 130px;width: 130px"></div>
+                <div class="comment-inner" style="margin-left: 30px">
                   <div class="post-info">{{ resource.RTime }}</div>
                   <div class="comment-info">{{ resource.RName }} </div>
                   <div class="text">{{ resource.RAbstract }}</div>
@@ -121,7 +121,7 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/expertservice/expert/get"+Type+"/"+Id,
+        url:this.GLOBAL.Service_Base_Url+"/expertservice/expert/get"+Type+"/"+Id,
       }).then(res=>{
         vm.user=res.data.data[Object.keys(res.data.data)[0]]
       })
@@ -139,7 +139,7 @@ export default {
       var vm= this
       this.axios({
         method:"post",
-        url:"http://192.168.8.197:8000/api/v1/queryUpload",
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryUpload",
         data:{"Id":vm.user_id}
       }).then(res=>{
         var upload_resourcelist=res.data.data  //Hash也传出来了，购买失去了意义
@@ -148,7 +148,7 @@ export default {
             var [type,id] = upload_resourcelist[i].id.split("_")
             vm.axios({
               method:'get',
-              url:'http://192.168.8.103:8222/paperservice/paper/get'+type+'/'+id
+              url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type+'/'+id
             }).then(res=> {
                 var resource=res.data.data[Object.keys(res.data.data)[0]]
                 var RId=resource.id

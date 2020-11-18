@@ -43,6 +43,9 @@ Vue.use(VueCookies)
 Vue.use (VueAxios,axios)
 Vue.use(countTo)
 
+import global_ from './components/Global'//引用文件
+Vue.prototype.GLOBAL = global_//挂载到Vue实例上面
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -85,3 +88,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+

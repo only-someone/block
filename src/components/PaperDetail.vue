@@ -68,7 +68,7 @@
                 <div class="inner-box" style="text-align: center">
                   <div class="price" >需要 {{ Paper.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
-                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已购买，点击下载</button></a>
+                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
                   <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
                 </div>
               </div>
@@ -148,18 +148,18 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/paperservice/paper/get"+Type+"/"+Id,
+        url:this.GLOBAL.Service_Base_Url+"/paperservice/paper/get"+Type+"/"+Id,
       }).then(res=>{
         vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
         this.isBuyer("Paper_"+vm.Paper.id)
         this.get_uploader("Paper_"+vm.Paper.id)
-        if(vm.Paper.file===null){
+        if(vm.Paper.file===null||vm.Paper.file===""){
           alert("该资源暂无源文件")
         }
         else if(vm.Paper.file.indexOf("http")!==-1)
           vm.download_url=this.Paper.file
         else{
-          vm.download_url="http://192.168.8.197:8081/ipfs/"+vm.Paper.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Paper.file
         }
       })
     },
@@ -177,7 +177,7 @@ export default {
       vm.Paper.cover=this.imageUrl
       this.axios({
         method:'post',
-        url:'http://192.168.8.103:8222/paperservice/paper/updatePaper',
+        url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/updatePaper',
         data:vm.Paper
       }).then(resp=>{
         alert("修改头像成功")
@@ -188,7 +188,7 @@ export default {
       var vm = this
       this.axios({
         method: 'post',
-        url: 'http://192.168.8.197:8000/api/v1/queryResource',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
         vm.up_loader = resp.data.data[0].Uploader
@@ -198,7 +198,7 @@ export default {
       var vm = this
       this.axios({
         method: 'post',
-        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
         data: {"Id": this.$cookies.get("id")}
       }).then(resp => {
         vm.account = resp.data.data[0]
@@ -222,7 +222,7 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.up_loader||"1",
+          "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
           "Buy_id":this.$cookies.get("id"),
           "Resource_id":"Paper_"+this.Paper.id,
           "Cost":this.Paper.price.toString(),
@@ -231,14 +231,16 @@ export default {
       console.log(Dealdata)
       this.axios({
         method:'post',
-        url:'http://192.168.8.197:8000/api/v1/createDeal',
+        url:this.GLOBAL.Blockchain_Base_Url+'/api/v1/createDeal',
         data:Dealdata
       }).then(res=> {
+        console.log(res)
           alert("购买成功")
         }
-      ).catch(
+      ).catch(error=>{
         alert("购买失败")
-      )
+      })
+      location.reload()
     }
   }
 

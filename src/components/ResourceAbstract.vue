@@ -1,44 +1,44 @@
 <template>
   <div>
-	<section class="blog-page-section" >
-		<div class="auto-container" >
-			<div class="masonry-items row clearfix">
+    <section class="blog-page-section" >
+      <div class="auto-container" >
+        <div class="masonry-items row clearfix">
 
-				<!--News Block Two-->
+          <!--News Block Two-->
 
-				<div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
-					<div class="inner-box" v-if="isPersonDetail">
-						<div class="image" >
-							<a><el-image :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px" /></a>
-						</div>
-						<div class="post-date">{{resource.RTime}}</div>
-						<h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
-						<div class="text">{{resource.RAbstract}}</div>
-						<div class="author">
-							<div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
-							by {{resource.RAuthorName}}
-						</div>
-					</div>
-				</div>
-        <div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in commendresources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid" >
-          <div class="inner-box" >
-            <div class="image" >
-              <a><img :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px"/></a>
-            </div>
-            <div class="post-date">{{resource.RTime}}</div>
-            <h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
-            <div class="text">{{resource.RAbstract}}</div>
-            <div class="author">
-              <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
-              by {{resource.RAuthorName}}
+          <div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId" >
+            <div class="inner-box" v-if="isPersonDetail">
+              <div class="image" >
+                <a><el-image :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px" /></a>
+              </div>
+              <div class="post-date">{{resource.RTime}}</div>
+              <h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
+              <div class="text">{{resource.RAbstract}}</div>
+              <div class="author">
+                <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
+                by {{resource.RAuthorName}}
+              </div>
             </div>
           </div>
+          <div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in commendresources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid" >
+            <div class="inner-box" >
+              <div class="image" >
+                <a><img :src="resource.RCover ||'/static/images/resource/featured-4.jpg'"   @click="getDetail(resource.Type,resource.RId)" style="width: 300px;height: 200px"/></a>
+              </div>
+              <div class="post-date">{{resource.RTime}}</div>
+              <h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
+              <div class="text">{{resource.RAbstract}}</div>
+              <div class="author">
+                <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
+                by {{resource.RAuthorName}}
+              </div>
+            </div>
+          </div>
+
+
         </div>
-
-
-			</div>
-      <div style="margin-left: 40%">
-        <el-pagination
+        <div style="margin-left: 40%">
+          <el-pagination
             :background=true
 
             @size-change="handleSizeChange"
@@ -49,11 +49,11 @@
             layout=" prev, pager, next"
             :total="commendresources.length"
             :hide-on-single-page=true>
-        </el-pagination>
+          </el-pagination>
+        </div>
       </div>
-		</div>
-	</section>
-    </div>
+    </section>
+  </div>
 
 </template>
 
@@ -62,13 +62,13 @@ export default {
   name: "UserAbstract",
   data() {
     return {
-        account:{},
-        currentPage:1, //初始页
-        pagesize:6,    //   每页的数据
-        UploadResources:[],
-        commendresources:[],
-        isPersonDetail:this.$route.path==='/PersonDetail',
-        isCommend:this.$route.path==='/Commend'
+      account:{},
+      currentPage:1, //初始页
+      pagesize:6,    //   每页的数据
+      UploadResources:[],
+      commendresources:[],
+      isPersonDetail:this.$route.path==='/PersonDetail',
+      isCommend:this.$route.path==='/Commend'
     }
   },
   created() {
@@ -79,80 +79,81 @@ export default {
     }
   },
   methods: {
-   // 初始页currentPage、初始每页数据数pagesize和数据data
-        handleSizeChange: function (size) {
-                this.pagesize = size;
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function (size) {
+      this.pagesize = size;
 
-        },
-        handleCurrentChange: function(currentPage){
-                this.currentPage = currentPage;
+    },
+    handleCurrentChange: function(currentPage){
+      this.currentPage = currentPage;
 
-        },
-        get_account(){
-          var vm = this
-          this.axios({
-            method: 'post',
-            url: 'http://192.168.8.197:8000/api/v1/queryAccount',
-            data: {"Id": this.$cookies.get("id")}
-          }).then(resp => {
-            vm.account = resp.data.data[0]
-            this.$cookies.set("score",vm.account.Score)
-            if(vm.account.Upload!==null){
-              for (var i = 0; i < vm.account.Upload.length; i++) {
-                var [type,id] =vm.account.Upload[i].id.split("_")
-                vm.axios({
-                  method:'get',
-                  url:'http://192.168.8.103:8222/paperservice/paper/get'+type+'/'+id
-                }).then(res=> {
-                    //console.log(res)
-                    var resource=res.data.data[Object.keys(res.data.data)[0]]
-                    var RId=resource.id
-                    var RName=resource.title
-                    var RAbstract=resource.summary
-                    var RTime=resource.pubDate
-                    var RCover=resource.cover
-                    var RAuthorName=resource.author
-                    if(vm.UploadResources.includes({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
-                    else{ vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})}
-                  }
-                )
+    },
+    get_account(){
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
+        data: {"Id": this.$cookies.get("id")}
+      }).then(resp => {
+        console.log(resp)
+        vm.account = resp.data.data[0]
+        this.$cookies.set("score",vm.account.Score)
+        if(vm.account.Upload!==null){
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            var [type,id] =vm.account.Upload[i].id.split("_")
+            vm.axios({
+              method:'get',
+              url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type+'/'+id
+            }).then(res=> {
+                //console.log(res)
+                var resource=res.data.data[Object.keys(res.data.data)[0]]
+                var RId=resource.id
+                var RName=resource.title
+                var RAbstract=resource.summary
+                var RTime=resource.pubDate
+                var RCover=resource.cover
+                var RAuthorName=resource.author
+                if(vm.UploadResources.includes({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
+                else{ vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})}
               }
+            )
+          }
 
-            }
+        }
 
-          }).catch(error=>{
-            console.log(error)
-          })
+      }).catch(error=>{
+        console.log(error)
+      })
 
-        },
-        getDetail(Type,Id){
-          this.$router.push({
-            name:'ResourceDetail',
-            params:{
-              Type:Type,
-              Id:Id
-            }
-          })
-        },
-        get_commend_resources(){
-          var vm=this
-          this.axios({
-            method:"get",
-            url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
-          }).then(resp=>{
-            var resource=resp.data.data.items
-            for(var i in resource){
-              var RId=resource[i].id
-              var RName=resource[i].title
-              var RAbstract=resource[i].summary
-              var RTime=resource[i].pubDate
-              if(resource[i].cover!=="string")
-                var RCover=resource[i].cover
-              var RAuthorName=resource[i].author
-              vm.commendresources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
-            }
-          })
-        },
+    },
+    getDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+    },
+    get_commend_resources(){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i in resource){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].summary
+          var RTime=resource[i].pubDate
+          if(resource[i].cover!=="string")
+            var RCover=resource[i].cover
+          var RAuthorName=resource[i].author
+          vm.commendresources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
+        }
+      })
+    },
 
 
   },

@@ -59,7 +59,7 @@
             <h5><countTo :startVal=0 :endVal=this.buy_number :duration='3000'></countTo></h5>
             <p>购买资源</p>
           </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" align="center" v-if="this.$cookies.get('type')!=='Normal'">
             <h5><countTo :startVal=0 :endVal=this.bid_number :duration='3000'></countTo></h5>
             <p>参与招投标</p>
           </div>
@@ -101,9 +101,9 @@
       </div>
 
     <!-- Instagram Widget -->
-    <div class="sidebar-widget instagram-widget">
+    <div class="sidebar-widget instagram-widget" v-if="this.$cookies.get('type')!=='Normal'">
     <div class="sidebar-title">
-        <h3>推荐的招标信息</h3>
+        <h3 >推荐的招标信息</h3>
     </div>
     <div class="widget-content">
         <div class="images-outer clearfix">
@@ -163,7 +163,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
       }).then(resp=>{
         var resource=resp.data.data.items
         for(var i in resource){
@@ -191,7 +191,7 @@ export default {
       var vm = this
       this.axios({
         method: 'post',
-        url: 'http://192.168.8.197:8000/api/v1/queryAccount',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
         data: {"Id": this.$cookies.get("id")}
       }).then(resp => {
         vm.account = resp.data.data[0]
@@ -226,7 +226,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:"http://192.168.8.103:8222/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
       }).then(resp=>{
         var users=resp.data.data.items
         for(var i in users){

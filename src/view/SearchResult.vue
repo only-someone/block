@@ -17,11 +17,11 @@
     </section>
     <section class="page-title" style="background-image: url(static/images/background/5.jpg);padding:40px">
       <div class="auto-container">
-        <h1>检索到的招标信息</h1>
-        <div class="text">Bid</div>
+        <h1>检索到的用户</h1>
+        <div class="text">Search User</div>
       </div>
     </section>
-    <search-bids></search-bids>
+    <commend-user></commend-user>
     <!--Page Title-->
     <section class="page-title" style="background-image: url(static/images/background/7.jpg);padding: 40px">
       <div class="auto-container">
@@ -30,7 +30,6 @@
       </div>
     </section>
     <!--End Page Title-->
-
     <!--Shop Features Section-->
     <section class="shop-features-section">
       <div class="auto-container">
@@ -73,9 +72,7 @@
       </div>
     </section>
     <!--End Shop Features Section-->
-
     <SearchResources></SearchResources>
-    <commend-user></commend-user>
     <Footer></Footer>
   </div>
 </template>

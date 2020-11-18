@@ -1,6 +1,6 @@
 <template>
 <div style="background-image: url('static/images/bg8.jpg');background-repeat:no-repeat ;background-size:100% 100%">
-  <div  style="padding-top: 5%;padding-bottom: 15%">
+  <div  style="padding-top: 6%;padding-bottom: 15%">
 
     <div class="section-authentication"  style="margin-left:18%;width: 70%;height:100%;text-align: center">
       <div class="container-fluid">
@@ -76,11 +76,46 @@ export default {
   },
   methods:{
     Login(){
-      console.log(this.password)
-      console.log(this.username)
-      this.$cookies.set("id","1189426464967995393")   //return this
-      this.$cookies.set("type","Expert")
-      this.$router.push({path:'/HOME'})
+      this.axios({
+        method:"post",
+        url:this.GLOBAL.Service_Base_Url+"/ucenter/member/login",
+        data:{
+          username:this.username,
+          password:this.password
+        },
+      }).then(res=>{
+        console.log(res.data.data)
+        if(res.data.data.hasOwnProperty("token")) {
+          console.log(res.data)
+          this.$cookies.set("token", res.data.data.token)
+          this.get_userinfo(res.data.data.token)
+        }
+        else alert("登陆失败")
+      }).catch(error=>{
+        alert("登陆失败"+error)
+      })
+      // console.log(this.password)
+      // console.log(this.username)
+      // this.$cookies.set("id","1328219403044622337")   //return this
+      // this.$cookies.set("type","Expert")
+      // this.$router.push({path:'/HOME'})
+    },
+    get_userinfo(token){
+      this.axios({
+        method:"get",
+        url:this.GLOBAL.Service_Base_Url+"/ucenter/member/getLoginInfo",
+        headers:{token:token}
+      }).then(res=>{
+        var user=res.data.data.loginInfo
+        this.$cookies.set("id",user.userId)   //return this
+        if(user.type===1)
+          this.$cookies.set("type","Normal")
+        else if(user.type===2)
+          this.$cookies.set("type","Expert")
+        else if(user.type===3)
+          this.$cookies.set("type","Institution")
+        this.$router.push({path:'/HOME'})
+      })
     }
   }
 }

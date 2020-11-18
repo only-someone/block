@@ -42,8 +42,8 @@
                 <li class="dropdown" ><a href="#">资源</a>
                   <ul>
                     <li><router-link to="/Commend">为您推荐</router-link></li>
-                    <li><router-link to="/UploadResource" v-if="this.$cookies.get('id')">上传资源</router-link></li>
-
+                    <li v-if="this.$cookies.get('type')==='Normal'"><router-link to="/UploadResource" v-if="this.$cookies.get('id')">上传资源<a style="color: orangered">(仅限论文)</a></router-link></li>
+                    <li v-else><router-link to="/UploadResource" v-if="this.$cookies.get('id')" >上传资源</router-link></li>
                   </ul>
                 </li>
                 <li><router-link to="/Contact">联系我们</router-link></li>
@@ -66,8 +66,8 @@
                       <div class="form-container">
                         <form method="post" action="#">
                           <div class="form-group">
-                            <input type="search" name="field-name" value="" placeholder="在这搜索" required>
-                            <button type="submit" class="search-btn"><span class="fa fa-search"></span></button>
+                            <input type="search" name="field-name" value="" placeholder="点击右侧按钮进入搜索页面" >
+                            <router-link to="SearchResult"><button type="submit" class="search-btn"><span class="fa fa-search"></span></button></router-link>
                           </div>
                         </form>
                       </div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="button-box" v-if="!this.$cookies.get('id')">
-              <a  class="theme-btn btn-style-one"><router-link to="/Login" style="color: #FFFFFF">Login/Sign</router-link></a>
+              <a  class="theme-btn btn-style-one"><router-link to="/Login" style="color: #FFFFFF">Log in/Sign UP</router-link></a>
             </div>
 
 
@@ -124,7 +124,7 @@ export default {
         this.$cookies.remove(this.$cookies.keys()[0])
       }
       this.$router.push({path:"/Home"})
-      location.reload()
+      location.reload(true)
     },
   },
 

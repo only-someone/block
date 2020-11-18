@@ -57,17 +57,7 @@ export default {
   },
   created() {
     var vm=this
-    this.axios({
-      method:'get',
-      url:"https://www.easy-mock.com/mock/5f912b94e4d147581af7409b/vuedemo/commendresources",//跨域
-    }).then(function (resp){
-      console.log(resp.data.commendresources)
-      vm.commendresources=resp.data.commendresources
-      console.log( vm.commendresources)
-    })
-
-
-  },
+   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function (size) {

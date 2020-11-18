@@ -38,14 +38,13 @@
     </section>
     <CommendResource></CommendResource>
 
-    <section class="page-title" style="background-image: url(static/images/background/4.jpg); padding:40px" >
-      <div class="auto-container">
+    <section class="page-title" style="background-image: url(static/images/background/4.jpg); padding:40px"  v-if="this.$cookies.get('type')!=='Normal'">
+      <div class="auto-container" >
         <h1>推荐招标信息</h1>
         <div class="text">提供更好的招标信息</div>
       </div>
     </section>
-
-    <CommendBid></CommendBid>
+    <CommendBid v-if="this.$cookies.get('type')!=='Normal'"></CommendBid>
    	<!--Main Footer-->
     <Footer></Footer>
 
