@@ -14,6 +14,11 @@ import Footer from './components/Footer'
 
 import UpPaper from './components/UpPaper'
 import UpPatent from './components/UpPatent'
+import UpAchievement from './components/UpAchievement'
+import UpCase from './components/UpCase'
+import UpRequirement from './components/UpRequirement'
+import UpSolution from './components/UpSolution'
+
 
 import Commend_User from './components/Commend_User'
 import Commend_Resource from './components/Commend_Resource'
@@ -27,6 +32,11 @@ import PersonSidebar from './components/PersonSidebar'
 
 import PaperDetail from "./components/PaperDetail";
 import PatentDetail from "./components/PatentDetail";
+import AchievementDetail from "./components/AchievementDetail";
+import SolutionDetail from "./components/SolutionDetail";
+import CaseDetail from "./components/CaseDetail";
+import RequirementDetail from "./components/RequirementDetail";
+
 
 import RegisterBasic from './components/RegisterBasic'
 import RegisterExpert from './components/RegisterExpert'
@@ -61,6 +71,10 @@ Vue.component('HomeNav',HomeNav)
 
 Vue.component('UpPaper',UpPaper)
 Vue.component('UpPatent',UpPatent)
+Vue.component('UpAchievement',UpAchievement)
+Vue.component('UpCase',UpCase)
+Vue.component('UpSolution',UpSolution)
+Vue.component('UpRequirement',UpRequirement)
 
 
 Vue.component('CommendUser',Commend_User)
@@ -81,6 +95,11 @@ Vue.component('RegisterCity',RegisterCity)
 
 Vue.component('PaperDetail',PaperDetail)
 Vue.component('PatentDetail',PatentDetail)
+Vue.component('AchievementDetail',AchievementDetail)
+Vue.component('SolutionDetail',SolutionDetail)
+Vue.component('RequirementDetail',RequirementDetail)
+Vue.component('CaseDetail',CaseDetail)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

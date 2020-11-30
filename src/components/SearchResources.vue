@@ -92,7 +92,7 @@
               </div>
               <div class="post-date">{{resource.RTime}}</div>
               <h3><a @click="getDetail(resource.Type,resource.RId)">{{resource.RName}}</a></h3>
-              <div class="text">{{resource.RAbstract}}</div>
+              <div class="text" style="max-height: 300px;overflow: hidden;text-overflow: ellipsis;">{{resource.RAbstract}}</div>
               <div class="author">
                 <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
                 {{resource.RAuthorName}}
@@ -145,13 +145,16 @@ export default {
         value:'Solution'
       }, {
         label: '技术成果',
-        value: 'Result'
+        value: 'Achievement'
       }, {
         label: '软件著作',
         value: 'Software'
       }, {
         label: '项目需求',
-        value:'Demand'
+        value:'Requirement'
+      },{
+        label: '案例',
+        value:'Case'
       }],
     }
   },
@@ -234,19 +237,22 @@ export default {
           requesturl = this.GLOBAL.Service_Base_Url + "/paperservice/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
           break;
         case "Patent":
-          requesturl = this.GLOBAL.Service_Base_Url + "/patent/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
+          requesturl = this.GLOBAL.Service_Base_Url + "/patentservice/patent/pagePatentCondition/" + this.currentPage + "/" + this.pagesize;
           break;
         case "Solution":
-          requesturl = this.GLOBAL.Service_Base_Url + "/paperservice/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
+          requesturl = this.GLOBAL.Service_Base_Url + "/solutionservice/solution/pageSolutionCondition/" + this.currentPage + "/" + this.pagesize;
           break;
-        case "Result":
-          requesturl = this.GLOBAL.Service_Base_Url + "/paperservice/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
+        case "Achievement":
+          requesturl = this.GLOBAL.Service_Base_Url + "/achievementservice/achievement/pageAchievementCondition/" + this.currentPage + "/" + this.pagesize;
           break;
         case "Software":
           requesturl = this.GLOBAL.Service_Base_Url + "/paperservice/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
           break;
-        case "Demand":
-          requesturl = this.GLOBAL.Service_Base_Url + "/paperservice/paper/pagePaperCondition/" + this.currentPage + "/" + this.pagesize;
+        case "Requirement":
+          requesturl = this.GLOBAL.Service_Base_Url + "/requirementservice/requirement/pageRequirementCondition/" + this.currentPage + "/" + this.pagesize;
+          break;
+        case "Case":
+          requesturl = this.GLOBAL.Service_Base_Url + "/caseservice/case/pageCaseCondition/" + this.currentPage + "/" + this.pagesize;
           break;
       }
       this.axios({

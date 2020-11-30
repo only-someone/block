@@ -55,13 +55,18 @@
         </div>
         <div class="comments-area">
           <div class="group-title">
-            <h2>该用户上传的资源</h2>
+            <h2>该用户上传的其他资源</h2>
           </div>
           <div  v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
             <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
-              <div class="comment" style="margin-top: 30px">
-                <div class="author-thumb"><img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt="" style="height: 130px;width: 130px"></div>
-                <div class="comment-inner" style="margin-left: 30px">
+              <div class="comment" style="min-height:120px;margin-top: 30px">
+                <div class="author-thumb">
+                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px">
+                <div style="text-align: center">
+                  <span class="badge badge-success" >{{ resource.Type }}</span>
+                </div>
+                </div>
+                <div class="comment-inner" >
                   <div class="post-info">{{ resource.RTime }}</div>
                   <div class="comment-info">{{ resource.RName }} </div>
                   <div class="text">{{ resource.RAbstract }}</div>
@@ -148,9 +153,11 @@ export default {
             var [type,id] = upload_resourcelist[i].id.split("_")
             vm.axios({
               method:'get',
-              url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type+'/'+id
+              url:this.GLOBAL.Service_Base_Url+'/'+type.toLowerCase()+'service/'+type.toLowerCase()+'/get'+type+'/'+id
             }).then(res=> {
-                var resource=res.data.data[Object.keys(res.data.data)[0]]
+                type=Object.keys(res.data.data)[0]
+                var resource=res.data.data[type]
+                type = type.charAt(0).toUpperCase() + type.slice(1);
                 var RId=resource.id
                 var RName=resource.title
                 var RAbstract=resource.summary

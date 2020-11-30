@@ -12,16 +12,16 @@
           <span> <UpPatent></UpPatent> </span>
         </el-tab-pane>
         <el-tab-pane label="技术成果" name="Tech" v-if="this.$cookies.get('type')!=='Normal'">
-          <span> <UpPaper></UpPaper> </span>
+          <span> <UpAchievement></UpAchievement> </span>
         </el-tab-pane>
         <el-tab-pane label="解决方案" name="Relution" v-if="this.$cookies.get('type')!=='Normal'">
-          <span> <UpPaper></UpPaper> </span>
+          <span> <UpSolution></UpSolution> </span>
         </el-tab-pane>
         <el-tab-pane label="项目需求" name="Demand" v-if="this.$cookies.get('type')!=='Normal'">
-          <span> <UpPaper></UpPaper> </span>
+          <span> <UpRequirement></UpRequirement> </span>
         </el-tab-pane>
         <el-tab-pane label="案例" name="Case" v-if="this.$cookies.get('type')!=='Normal'">
-          <span> <UpPaper></UpPaper> </span>
+          <span> <UpCase></UpCase> </span>
         </el-tab-pane>
 
       </el-tabs>
@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       activeName: 'Paper',
-
     }
   },
   methods: {

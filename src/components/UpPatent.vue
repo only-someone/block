@@ -1,56 +1,72 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
-      <el-form-item label="专利名称">
-        <el-input  v-model="form.PatentName" prefix rows=1  ></el-input>
+      <el-form-item label="专利名称"  required>
+        <el-input  v-model="Patent.title" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="专利标号" >
-        <el-input  v-model="form.PatentName" prefix rows=1  ></el-input>
+      <el-form-item label="申请人" required >
+        <el-input  v-model="Patent.applicant" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="专利摘要"  >
-        <el-input type="textarea" v-model="form.PatentAbstract" rows=10 ></el-input>
+      <el-form-item label="联合申请人"  >
+        <el-input  v-model="Patent.coApplicants" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="申请日期" >
-        <div class="block"  >
-          <el-date-picker
-            v-model="form.PatentDate"
-            align="right"
-            type="date"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </div>
+      <el-form-item label="总页数"  >
+        <el-input-number v-model="Patent.pages"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
-      <el-form-item label="专利类型" >
-        <el-input v-model="form.PatentType" rows=1 ></el-input>
+      <el-form-item label="代理机构"  >
+        <el-input  v-model="Patent.agency" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="公开号" >
-        <el-input v-model="form.PatentOpen" rows=1></el-input>
+      <el-form-item label="版本号"  >
+        <el-input-number v-model="Patent.version"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
-      <el-form-item label="公开日" >
-        <div class="block" >
-          <el-date-picker
-            v-model="form.PatentOpenDate"
-            align="right"
-            type="date"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </div>
+      <el-form-item label="公开日"  >
+        <el-input  v-model="Patent.openDate" style="width: 400PX" placeholder="2017-01-03"></el-input>
       </el-form-item>
-      <el-form-item label="主权项">
-        <el-input v-model="form.PatentRight" rows=1 style="width: 600px"></el-input>
+      <el-form-item label="公开号"  >
+        <el-input  v-model="Patent.openId" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="法律状态" >
-        <el-input v-model="form.PatentState" rows=1 ></el-input>
+      <el-form-item label="应用日"  >
+        <el-input  v-model="Patent.applicationDate" style="width: 400PX"  placeholder="2017-01-03"></el-input>
       </el-form-item>
-      <el-form-item label="内容" >
-        <el-input v-model="form.PatentContent" rows=1 ></el-input>
+      <el-form-item label="应用号"  >
+        <el-input  v-model="Patent.applicationId" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="展示图片" >
+      <el-form-item label="enterCountryDate"  >
+        <el-input  v-model="Patent.enterCountryDate" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="proviceId"  >
+        <el-input  v-model="Patent.proviceId" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="主分类号"  >
+        <el-input  v-model="Patent.mainClassification" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="专利分类号"  >
+        <el-input  v-model="Patent.patentClassification" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="网页链接"  >
+        <el-input  v-model="Patent.url" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="专利简介" required>
+        <el-input type="textarea" v-model="Patent.summary" rows=10 ></el-input>
+      </el-form-item>
+      <el-form-item label="主要技术" required>
+        <el-input type="textarea" v-model="Patent.mainClain" rows=10 ></el-input>
+      </el-form-item>
+      <el-form-item label="成果文件" required>
+        <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
+                   :on-remove="handleRemove" >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
+        </el-upload>
+      </el-form-item>
+
+      <el-form-item label="购买积分" required>
+        <el-input-number v-model="Patent.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
+      </el-form-item>
+      <el-form-item label="展示图片"  >
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://192.168.8.103:8222/oss/avataross"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -58,29 +74,8 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="专利领域" >
-        <el-select v-model="form.PatentDomain" placeholder="请选择" >
-        <el-option
-          v-for="domain in domains"
-          :key="domain.Id"
-          :label="domain.Name"
-          :value="domain.Name">
-        </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="专利文件" >
-        <el-upload ref="upload" :auto-upload="false" :limit="1"  action=""
-                   :on-change="handleChange" :on-remove="handleRemove" >
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="他人下载积分">
-           <el-input-number v-model="form.Cost" controls-position="right" ></el-input-number>
-      </el-form-item>
       <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="margin-left:450px;width:150px" round>立即创建</el-button>
+        <el-button type="primary" @click="up_Patent" style="margin-left:450px;width:150px;margin-top: 50px" round>上传专利</el-button>
       </el-form-item>
     </el-form>
 
@@ -92,100 +87,134 @@ export default {
   name: "UpPatent",
   data() {
     return {
-      form: {
-        PTitle: '',
-        PAbstract: '',
-        PKeyword: '',
-        PDate: '',
-        PFile:'',
-        Cost:'',
-        Domain:'',
+      form:{},
+      Patent: {
+        title:"",
+        applicationDate: "",
+        openDate: "",
+        applicationId: "",
+        openId: "",
+        applicant: "",
+        coApplicants: "",
+        inventor: "",
+        viewCount: "",
+        enterCountryDate: "",
+        agency: "",
+        originalApplicationId: "",
+        provinceId: "",
+        summary: "" ,
+        mainClain: "" ,
+        pages:0,
+        mainClassification: "",
+        patentClassification: "",
+        price:0,
+        version: 1,
+        code: "",
+        cover:"",
+        url: "",
+        file: "",
       },
+      keyword_pre:[],
+      inputVisible: false,
+      inputValue: '',
       imageUrl: '',
-      domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
-      },
+      options:[],
     }
   },
   created() {
-    var vm = this;
-    // this.axios({
-    //   method:'get',
-    //   url:"https://www.easy-mock.com/mock/5f912b94e4d147581af7409b/vuedemo/domains",//跨域
-
-    // }).then(function (resp){
-    //   vm.data
-    //   vm.domains=resp.data.domains
-    // })
 
   },
   methods: {
+
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
         this.$message.error('上传文件大小不能超过 50MB')
-        this.form.PFile = null
+        this.Patent.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
       } else {
         if (file.status === 'ready') {
-          this.form.PFile = file.raw
+          this.Patent.file= file.raw
         }
       }
     },
     handleRemove(file, fileList) {
       if (file.uid === this.uploadFile.uid) {
         this.uploadFile = {}
+        this.Patent.file=""
       }
     },
-    onSubmit() {
-      console.log(this.form)
-      //this.axios()
+    up_Patent_blockchain(id,time){
+      var vm=this
+      var data={
+        "Id":id,
+        "Hash":vm.Patent.file||"null",
+        "Uploader":vm.$cookies.get("id"),
+        "Cost":vm.Patent.price.toString(),
+        "Time":time,
+        "State":"false",
+        "GetScore":"20"
+      }
+      console.log(data)
+      this.axios({
+        method:'post',
+        url:vm.GLOBAL.Blockchain_Base_Url+"/api/v1/uploadResource",
+        data:data,
+      }).then(function (resp){
+        console.log(resp)
+      }).catch()
+    },
+    up_Patent(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
+      var vm=this;
+      let formData = new FormData();
+      formData.set("files", this.Patent.file);
+      this.axios
+        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
+          headers: {
+            "Content-type": "multipart/form-data"
+          }
+        }).then(function(resp){
+        if(resp.data.data!==null)
+          vm.Patent.file=resp.data.data.toString()
+        console.log(vm.Patent)
+        vm.axios
+          .post(vm.GLOBAL.Service_Base_Url+'/patentservice/patent/addPatent', vm.Patent, {
+            headers: {
+              "Content-type": "application/json"
+            }
+          }).then(function(resp){
+          console.log(resp.data.data.patent)
+          vm.up_Patent_blockchain("Patent_"+resp.data.data.patent.id,resp.data.data.patent.gmtCreate)
+          alert("上传成功")
+          //刷新当前页面
+          location.reload(true)
+        }).catch();
+      }).catch();
 
     },
+
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+      this.Achievement.cover=imageUrl
+      console.log(this.Achievement.cover)
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 10MB!');
       }
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
-
+      return  isLt2M;
     }
-  },
-
-
+  }
 }
 </script>
 

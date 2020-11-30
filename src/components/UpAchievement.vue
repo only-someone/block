@@ -1,17 +1,14 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
-      <el-form-item label="论文标题"  required>
-        <el-input  v-model="Paper.title" style="width: 400PX"></el-input>
+      <el-form-item label="成果标题"  required>
+        <el-input  v-model="Achievement.title" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="作者" required >
-        <el-input  v-model="Paper.author" style="width: 400PX"></el-input>
+        <el-input  v-model="Achievement.author" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="所属单位"  >
-        <el-input  v-model="Paper.machanism" style="width: 400PX"></el-input>
-      </el-form-item>
-      <el-form-item label="分类号"  >
-        <el-input  v-model="Paper.classification" style="width: 400PX"></el-input>
+        <el-input  v-model="Achievement.mechanism" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="关键字" required>
         <el-tag
@@ -35,22 +32,25 @@
           @blur="handleInputConfirm">
         </el-input>
         <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New</el-button>
-
       </el-form-item>
-<!--      <el-form-item label="论文领域" >-->
-<!--        <el-select v-model="form.Domain" placeholder="请选择" >-->
-<!--        <el-option-->
-<!--          v-for="domain in domains"-->
-<!--          :key="domain.Id"-->
-<!--          :label="domain.Name"-->
-<!--          :value="domain.Name">-->
-<!--        </el-option>-->
-<!--       </el-select>-->
-<!--      </el-form-item>-->
+      <el-form-item label="研究领域" required>
+        <el-cascader
+          v-model="Achievement.Domain"
+          :options="options"
+          :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+         ></el-cascader>
+      </el-form-item>
       <el-form-item label="论文摘要" required>
-        <el-input type="textarea" v-model="Paper.summary" rows=10 ></el-input>
+        <el-input type="textarea" v-model="Achievement.summary" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="发表日期" required>
+      <el-form-item label="number"  >
+        <el-input  v-model="Achievement.number" style="width: 400PX"></el-input>
+      </el-form-item>
+      <el-form-item label="年份"  >
+        <el-input-number v-model="Achievement.year"  :step="1" step-strictly controls-position="right" ></el-input-number>
+      </el-form-item>
+
+      <!--<el-form-item label="发表日期" required>
         <div class="block"  >
           <el-date-picker
             v-model="Paper.pubDate"
@@ -61,23 +61,26 @@
             :picker-options="pickerOptions">
           </el-date-picker>
         </div>
-      </el-form-item>
+      </el-form-item>-->
 
-      <el-form-item label="论文文件" required>
+      <el-form-item label="成果文件" required>
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                                 :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
         </el-upload>
       </el-form-item>
+      <el-form-item label="版本"  >
+        <el-input-number v-model="Achievement.version"  :step="1" step-strictly controls-position="right" ></el-input-number>
+      </el-form-item>
       <el-form-item label="网络链接"  >
-        <el-input  v-model="Paper.url" style="width: 400PX"></el-input>
+        <el-input  v-model="Achievement.url" style="width: 400PX"></el-input>
       </el-form-item>
 
       <el-form-item label="购买积分" required>
-           <el-input-number v-model="Paper.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
+           <el-input-number v-model="Achievement.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
-      <el-form-item label="展示图片"  required>
+      <el-form-item label="展示图片"  >
         <el-upload
           class="avatar-uploader"
           action="http://192.168.8.103:8222/oss/avataross"
@@ -89,7 +92,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-          <el-button type="primary" @click="up_paper" style="margin-left:450px;width:150px;margin-top: 50px" round>上传资源</el-button>
+          <el-button type="primary" @click="up_achievement" style="margin-left:450px;width:150px;margin-top: 50px" round>上传成果</el-button>
       </el-form-item>
     </el-form>
 
@@ -98,32 +101,35 @@
 
 <script>
 export default {
-  name: "UpPaper",
+  name: "UpAchievement",
   data() {
     return {
       form:{},
-      Paper: {
+      Achievement: {
         title:'',
         author:'',
-        cited:'',
-        classification:"",
-        machanism:'',
+        //cited:'',
+        //classification:"",
+        mechanism:'',
         summary:'',
         keywords:"",
-        pubDate:'',
-        download:'',
+        number:"",
+        year:0,
+        version:0,
+        //pubDate:'',
+        //download:'',
         url:'',//本地存储
         file:'',//网络链接
         price:'',//修改成本地积分
         cover:"",//封面
-        // Domain:'',
+        Domain:'',
       },
       keyword_pre:[],
       inputVisible: false,
       inputValue: '',
       imageUrl: '',
-      domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
-      pickerOptions: {
+      options:[],
+     /* pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
         },
@@ -147,38 +153,48 @@ export default {
             picker.$emit('pick', date);
           }
         }]
-      },
+      },*/
     }
   },
   created() {
-    var vm = this;
+    this.get_domain()
   },
   methods: {
+    get_domain(){
+      var vm=this
+      this.axios({
+        method:'get',
+        url:this.GLOBAL.Service_Base_Url+"/domainservice/domain/findAllDomainByTree",
+      }).then(res=>{
+        vm.options=res.data.data.items
+        console.log(vm.options)
+      })
+    },
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
         this.$message.error('上传文件大小不能超过 50MB')
-        this.Paper.file = null
+        this.Achievement.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
       } else {
         if (file.status === 'ready') {
-          this.Paper.file= file.raw
+          this.Achievement.file= file.raw
         }
       }
     },
     handleRemove(file, fileList) {
       if (file.uid === this.uploadFile.uid) {
         this.uploadFile = {}
-        this.Paper.file=""
+        this.Achievement.file=""
       }
     },
-    up_paper_blockchain(id,time){
+    up_achievement_blockchain(id,time){
       var vm=this
       var data={
           "Id":id,
-          "Hash":vm.Paper.file||"null",
+          "Hash":vm.Achievement.file||"null",
           "Uploader":vm.$cookies.get("id"),
-          "Cost":vm.Paper.price.toString(),
+          "Cost":vm.Achievement.price.toString(),
           "Time":time,
           "State":"false",
           "GetScore":"20"
@@ -192,10 +208,10 @@ export default {
         console.log(resp)
       }).catch()
      },
-    up_paper(){//上传区块链失败，但是数据库上传成功   hash不能为空
+    up_achievement(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
-      formData.set("files", this.Paper.file);
+      formData.set("files", this.Achievement.file);
       this.axios
         .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
           headers: {
@@ -203,21 +219,21 @@ export default {
           }
         }).then(function(resp){
           if(resp.data.data!==null)
-            vm.Paper.file=resp.data.data.toString()
+            vm.Achievement.file=resp.data.data.toString()
           var keywords_tostring=""
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
-          vm.Paper.keywords=keywords_tostring
-
-          console.log(vm.Paper)
+          vm.Achievement.keywords=keywords_tostring
+          vm.Achievement.Domain=vm.Achievement.Domain.toString()
+          console.log(vm.Achievement)
           vm.axios
-            .post(vm.GLOBAL.Service_Base_Url+'/paperservice/paper/addPaper', vm.Paper, {
+            .post(vm.GLOBAL.Service_Base_Url+'/achievementservice/achievement/addAchievement', vm.Achievement, {
               headers: {
                 "Content-type": "application/json"
               }
             }).then(function(resp){
-              console.log(resp.data.data.paper)
-              vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
+              console.log(resp.data.data.achievement)
+              vm.up_achievement_blockchain("Achievement_"+resp.data.data.achievement.id,resp.data.data.achievement.gmtCreate)
               alert("上传成功")
               //刷新当前页面
             //location.reload(true)
@@ -247,8 +263,8 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Paper.cover=res.data.url
-      console.log( res.data.url)
+      this.Achievement.cover=imageUrl
+      console.log(this.Achievement.cover)
     },
     beforeAvatarUpload(file) {
 

@@ -10,70 +10,41 @@
               <div class="shop-single">
                 <div class="inner-box"   >
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">专利名称</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Patent.title}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">成果名称</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Achievement.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">申请人</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicant}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">联合申请人</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.coApplicants}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">作者</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.author}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">所属单位</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.mechanism}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">发明人</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.inventor}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">总页数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.pages}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">成果关键词</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.keywords}}</div></el-col>
+                    <el-col :span="4" ><div class="grid-content bg-purple-dark">研究领域</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.Domain}}</div></el-col>
+
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">代理机构</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.agency}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">number</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.number}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">年份</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.year}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">版本号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.version}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.openDate}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.openId}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">应用日</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicationDate}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">应用号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicationId}}</div></el-col>
-
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">查看次数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.viewCount}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">初始应用号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.originalApplicationId}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">enterCountryDate</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.enterCountryDate}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">provinceId</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.provinceId}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">主分类号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.mainClassification}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">专利分类号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.patentClassification}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.version}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Patent.url}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Achievement.url}}</div></el-col>
+
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"  ><div class="grid-content bg-purple-dark">成果简介</div></el-col>
-                    <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Patent.summary}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%" >
-                    <el-col :span="4"  ><div class="grid-content bg-purple-dark">主要技术</div></el-col>
-                    <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Patent.mainClain}}</div></el-col>
+                    <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Achievement.summary}}</div></el-col>
                   </el-row>
                   <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
                     <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
@@ -87,13 +58,13 @@
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <a><el-image :src="Patent.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
+            <a><el-image :src="Achievement.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
 
             <div class="inner-column">
               <!--Purchased Widget-->
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
-                  <div class="price" >需要 {{ Patent.price }} 积分</div>
+                  <div class="price" >需要 {{ Achievement.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
                   <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
@@ -135,7 +106,7 @@
 <script>
 
 export default {
-  name: "PatentDetail",
+  name: "AchievementDetail",
   data() {
     return {
       account:{},
@@ -150,7 +121,7 @@ export default {
       up_loader:"",
       showdialog:false,
       imageUrl:"",
-      Patent:{},
+      Achievement:{},
     }
   },
   created() {
@@ -161,7 +132,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(res)
-      this.Patent.cover=res.data.url
+      this.Achievement.cover=res.data.url
     },
     beforeAvatarUpload(file) {
 
@@ -175,19 +146,19 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/patentservice/patent/get"+Type+"/"+Id,
+        url:this.GLOBAL.Service_Base_Url+"/achievementservice/achievement/get"+Type+"/"+Id,
       }).then(res=>{
         console.log(res)
-        vm.Patent=res.data.data[Object.keys(res.data.data)[0]]
-        this.isBuyer("Patent_"+vm.Patent.id)
-        this.get_uploader("Patent_"+vm.Patent.id)
-        if(vm.Patent.file===null||vm.Patent.file===""){
+        vm.Achievement=res.data.data[Object.keys(res.data.data)[0]]
+        this.isBuyer("Achievement_"+vm.Achievement.id)
+        this.get_uploader("Achievement_"+vm.Achievement.id)
+        if(vm.Achievement.file===null||vm.Achievement.file===""){
           alert("该资源暂无源文件")
         }
-        else if(vm.Patent.file.indexOf("http")!==-1)
-          vm.download_url=this.Patent.file
+        else if(vm.Achievement.file.indexOf("http")!==-1)
+          vm.download_url=this.Achievement.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Patent.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Achievement.file
         }
       })
     },
@@ -202,11 +173,11 @@ export default {
     },
     changecover(){
       var vm =this
-      vm.Patent.cover=this.imageUrl
+      vm.Achievement.cover=this.imageUrl
       this.axios({
         method:'post',
-        url:this.GLOBAL.Service_Base_Url+'/patentservice/patent/updatePatent',
-        data:vm.Patent
+        url:this.GLOBAL.Service_Base_Url+'/achievementservice/achievement/updateAchievement',
+        data:vm.Achievement
       }).then(resp=>{
         alert("修改头像成功")
         this.showdialog=false}
@@ -252,8 +223,8 @@ export default {
       var Dealdata={
           "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
           "Buy_id":this.$cookies.get("id"),
-          "Resource_id":"Patent_"+this.Patent.id,
-          "Cost":this.Patent.price.toString(),
+          "Resource_id":"Achievement_"+this.Achievement.id,
+          "Cost":this.Achievement.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)

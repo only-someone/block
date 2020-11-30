@@ -16,10 +16,13 @@
               <div class="text">{{resource.RAbstract}}</div>
               <div class="author">
                 <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
-                by {{resource.RAuthorName}}
+                by {{resource.RAuthorName}}<span class="badge badge-success" style="margin-left: 20px">{{resource.Type}}</span>
+
               </div>
             </div>
           </div>
+
+
           <div class="news-block-two masonry-item col-lg-4 col-md-6 col-sm-12" v-for="resource in commendresources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.Rid" >
             <div class="inner-box" >
               <div class="image" >
@@ -30,7 +33,7 @@
               <div class="text">{{resource.RAbstract}}</div>
               <div class="author">
                 <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
-                by {{resource.RAuthorName}}
+                by {{resource.RAuthorName}}<span class="badge badge-success" style="margin-left: 20px">{{resource.Type}}</span>
               </div>
             </div>
           </div>
@@ -48,6 +51,20 @@
             :page-size="pagesize"
             layout=" prev, pager, next"
             :total="commendresources.length"
+            :hide-on-single-page=true>
+          </el-pagination>
+        </div>
+        <div style="margin-left: 40%">
+          <el-pagination
+            :background=true
+
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="pagesize"
+            layout=" prev, pager, next"
+            :total="UploadResources.length"
             :hide-on-single-page=true>
           </el-pagination>
         </div>
@@ -103,17 +120,18 @@ export default {
             var [type,id] =vm.account.Upload[i].id.split("_")
             vm.axios({
               method:'get',
-              url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type+'/'+id
+              url:this.GLOBAL.Service_Base_Url+"/"+type.toLowerCase()+'service/'+type.toLowerCase()+'/get'+type+'/'+id
             }).then(res=> {
-                //console.log(res)
-                var resource=res.data.data[Object.keys(res.data.data)[0]]
+                type=Object.keys(res.data.data)[0]
+                var resource=res.data.data[type]
+                type = type.charAt(0).toUpperCase() + type.slice(1);
                 var RId=resource.id
                 var RName=resource.title
                 var RAbstract=resource.summary
                 var RTime=resource.pubDate
                 var RCover=resource.cover
                 var RAuthorName=resource.author
-                if(vm.UploadResources.includes({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
+                if(vm.UploadResources.includes({"Type":type.keys,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
                 else{ vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})}
               }
             )
