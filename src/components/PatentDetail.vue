@@ -14,6 +14,10 @@
                     <el-col :span="20"><div class="grid-content bg-purple-light">{{Patent.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">上传时间</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.gmtCreate}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">申请人</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicant}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">联合申请人</div></el-col>
@@ -23,39 +27,27 @@
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">发明人</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.inventor}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开日期</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.openDate}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">总页数</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.pages}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">代理机构</div></el-col>
+                    <el-col :span="4" ><div class="grid-content bg-purple-dark">代理机构</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.agency}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">版本号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.version}}</div></el-col>
                   </el-row>
+
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.openDate}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.openId}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">应用日</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">应用日期</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicationDate}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">应用号</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.applicationId}}</div></el-col>
-
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">查看次数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.viewCount}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">初始应用号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.originalApplicationId}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">enterCountryDate</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.enterCountryDate}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">provinceId</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.provinceId}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">enterCountryDate</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Patent.enterCountryDate}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">主分类号</div></el-col>
@@ -66,12 +58,14 @@
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
                     <el-col :span="20"><div class="grid-content bg-purple-light">{{Patent.url}}</div></el-col>
+
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"  ><div class="grid-content bg-purple-dark">成果简介</div></el-col>
-                    <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Patent.summary}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">专利简介</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Patent.summary}}</div></el-col>
                   </el-row>
-                  <el-row style="margin-bottom: 3%" >
+
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"  ><div class="grid-content bg-purple-dark">主要技术</div></el-col>
                     <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Patent.mainClain}}</div></el-col>
                   </el-row>
@@ -250,11 +244,11 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
-          "Buy_id":this.$cookies.get("id"),
-          "Resource_id":"Patent_"+this.Patent.id,
-          "Cost":this.Patent.price.toString(),
-          "Time":new Date().toLocaleString('chinese', { hour12: false })
+        "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
+        "Buy_id":this.$cookies.get("id"),
+        "Resource_id":"Patent_"+this.Patent.id,
+        "Cost":this.Patent.price.toString(),
+        "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)
       this.axios({
@@ -262,7 +256,7 @@ export default {
         url:this.GLOBAL.Blockchain_Base_Url+'/api/v1/createDeal',
         data:Dealdata
       }).then(res=> {
-        console.log(res)
+          console.log(res)
           alert("购买成功")
         }
       ).catch(error=>{

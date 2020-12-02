@@ -128,7 +128,7 @@ export default {
                 var RId=resource.id
                 var RName=resource.title
                 var RAbstract=resource.summary
-                var RTime=resource.pubDate
+                var RTime=resource.gmtCreate
                 var RCover=resource.cover
                 var RAuthorName=resource.author
                 if(vm.UploadResources.includes({"Type":type.keys,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}

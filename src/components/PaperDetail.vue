@@ -14,6 +14,10 @@
                     <el-col :span="20"><div class="grid-content bg-purple-light">{{Paper.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">上传时间</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.gmtCreate}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">论文作者</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.author}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">论文机构</div></el-col>

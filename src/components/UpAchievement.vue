@@ -35,7 +35,7 @@
       </el-form-item>
       <el-form-item label="研究领域" required>
         <el-cascader
-          v-model="Achievement.Domain"
+          v-model="Achievement.domain"
           :options="options"
           :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
          ></el-cascader>
@@ -70,9 +70,7 @@
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="版本"  >
-        <el-input-number v-model="Achievement.version"  :step="1" step-strictly controls-position="right" ></el-input-number>
-      </el-form-item>
+
       <el-form-item label="网络链接"  >
         <el-input  v-model="Achievement.url" style="width: 400PX"></el-input>
       </el-form-item>
@@ -115,45 +113,17 @@ export default {
         keywords:"",
         number:"",
         year:0,
-        version:0,
-        //pubDate:'',
-        //download:'',
         url:'',//本地存储
         file:'',//网络链接
         price:'',//修改成本地积分
         cover:"",//封面
-        Domain:'',
+        domain:'',
       },
       keyword_pre:[],
       inputVisible: false,
       inputValue: '',
       imageUrl: '',
       options:[],
-     /* pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
-      },*/
     }
   },
   created() {
@@ -224,8 +194,7 @@ export default {
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
           vm.Achievement.keywords=keywords_tostring
-          vm.Achievement.Domain=vm.Achievement.Domain.toString()
-          console.log(vm.Achievement)
+          vm.Achievement.domain=vm.Achievement.domain.toString()
           vm.axios
             .post(vm.GLOBAL.Service_Base_Url+'/achievementservice/achievement/addAchievement', vm.Achievement, {
               headers: {
@@ -263,7 +232,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Achievement.cover=imageUrl
+      this.Achievement.cover=res.data.url
       console.log(this.Achievement.cover)
     },
     beforeAvatarUpload(file) {

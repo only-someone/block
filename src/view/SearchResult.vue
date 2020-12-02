@@ -4,9 +4,8 @@
       <HomeNav></HomeNav>
       <MyNav></MyNav>
     </header>
-    <!--End Main Header -->
 
-    <!--Breadcrumb Title-->
+
     <section class="breadcrumb-section">
       <div class="auto-container">
         <ul>
@@ -22,57 +21,81 @@
       </div>
     </section>
     <commend-user></commend-user>
-    <!--Page Title-->
+
+
     <section class="page-title" style="background-image: url(static/images/background/7.jpg);padding: 40px">
       <div class="auto-container">
         <h1>检索到的数据资源</h1>
         <div class="text">Resources</div>
       </div>
     </section>
-    <!--End Page Title-->
-    <!--Shop Features Section-->
     <section class="shop-features-section">
       <div class="auto-container">
         <div class="row clearfix">
 
           <!--Feature Block-->
-          <div class="feature-block-three col-lg-4 col-md-6 col-sm-12">
+          <div class="feature-block-three col-lg-2 col-md-2 col-sm-2">
             <div class="inner-box">
               <div class="icon-box">
                 <span class="icon dripicons-basket"></span>
               </div>
-              <h3><a href="#">Free Shipping</a></h3>
-              <div class="text">Duis aute irure dolor in reprehend erit in voluptate velit esse cillu.</div>
+              <h3><a href="#">论文</a></h3>
+              <div class="text">Paper.</div>
             </div>
           </div>
 
           <!--Feature Block-->
-          <div class="feature-block-three col-lg-4 col-md-6 col-sm-12">
+          <div class="feature-block-three col-lg-2 col-md-2 col-sm-2">
             <div class="inner-box">
               <div class="icon-box">
                 <span class="icon dripicons-tags"></span>
               </div>
-              <h3><a href="#">Sale 15% Off</a></h3>
-              <div class="text">Duis aute irure dolor in reprehend erit in voluptate velit esse cillu.</div>
+              <h3><a href="#">专利</a></h3>
+              <div class="text">Patent</div>
             </div>
           </div>
 
-          <!--Feature Block-->
-          <div class="feature-block-three col-lg-4 col-md-6 col-sm-12">
+          <div class="feature-block-three col-lg-2 col-md-2 col-sm-2">
             <div class="inner-box">
               <div class="icon-box">
                 <span class="icon dripicons-home"></span>
               </div>
-              <h3><a href="#">New Arriaval</a></h3>
-              <div class="text">Duis aute irure dolor in reprehend erit in voluptate velit esse cillu.</div>
+              <h3><a href="#">技术成果</a></h3>
+              <div class="text">Achievement</div>
             </div>
           </div>
-
+          <div class="feature-block-three col-lg-2 col-md-2 col-sm-2">
+            <div class="inner-box">
+              <div class="icon-box">
+                <span class="icon dripicons-tags"></span>
+              </div>
+              <h3><a href="#">软件著作</a></h3>
+              <div class="text">Software</div>
+            </div>
+          </div>
+          <div class="feature-block-three col-lg-2 col-md-2 col-sm-2">
+            <div class="inner-box">
+              <div class="icon-box">
+                <span class="icon dripicons-basket"></span>
+              </div>
+              <h3><a href="#">案例</a></h3>
+              <div class="text">Case</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <!--End Shop Features Section-->
     <SearchResources></SearchResources>
+
+    <section class="page-title" style="background-image: url(static/images/background/5.jpg);padding:40px">
+      <div class="auto-container">
+        <h1>检索到的招标信息</h1>
+        <div class="text">Search Bids</div>
+      </div>
+    </section>
+    <search-bids></search-bids>
+
+
     <Footer></Footer>
   </div>
 </template>

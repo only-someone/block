@@ -15,7 +15,7 @@
                     <p>Log in to your account using username & password</p>
                     <div class="form-group mt-4">
                       <label>Enter Username</label>
-                      <input type="text" class="form-control" placeholder="Enter your Username" v-model="username"/>
+                      <input type="text" class="form-control" placeholder="Enter your Username" v-model="username" required/>
                     </div>
                     <div class="form-group">
                       <label>Enter Password</label>

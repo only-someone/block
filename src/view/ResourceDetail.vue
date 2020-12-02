@@ -14,6 +14,9 @@
       <PaperDetail  v-if="type==='Paper'"></PaperDetail>
       <PatentDetail  v-if="type==='Patent'"></PatentDetail>
       <AchievementDetail  v-if="type==='Achievement'" ></AchievementDetail>
+      <SolutionDetail  v-if="type==='Solution'" ></SolutionDetail>
+      <RequirementDetail  v-if="type==='Requirement'" ></RequirementDetail>
+      <CaseDetail  v-if="type==='Case'" ></CaseDetail>
     </div>
     <div> <Footer ></Footer></div>
   </div>

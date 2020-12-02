@@ -96,54 +96,24 @@ export default {
   data() {
     return {
       form:{},
-      Achievement: {
-        title:'',
-        author:'',
-        //cited:'',
-        //classification:"",
-        mechanism:'',
-        summary:'',
-        keywords:"",
-        number:"",
-        year:"",
-        version:"",
-        //pubDate:'',
-        //download:'',
-        url:'',//本地存储
-        file:'',//网络链接
-        price:'',//修改成本地积分
-        cover:"",//封面
-        Domain:'',
+      Solution: {
+        id: "1331884707670982658",
+        title: "永胜县期纳镇生活垃圾收运设施配套项目",
+        requirementNumber: "永胜县期纳镇生活垃圾收运设施配套项目",
+        orgName: "湖北大鑫汽车销售有限公司",
+        orgAddress: "#",
+        purchasePerson: "沈晓梅",
+        purchasePhone: "赵映洲",
+        budget: "￥104.180000万元",
+        keywords: null,
+        domain: null,
+        url: "http://www.ccgp.gov.cn/cggg/dfgg/cjgg/201812/t20181226_11421781.htm",
+        price: 0,
+        cover: null,
+        status: false,
+        file: null,
       },
-      keyword_pre:[],
-      inputVisible: false,
-      inputValue: '',
       imageUrl: '',
-      /* pickerOptions: {
-         disabledDate(time) {
-           return time.getTime() > Date.now();
-         },
-         shortcuts: [{
-           text: '今天',
-           onClick(picker) {
-             picker.$emit('pick', new Date());
-           }
-         }, {
-           text: '昨天',
-           onClick(picker) {
-             const date = new Date();
-             date.setTime(date.getTime() - 3600 * 1000 * 24);
-             picker.$emit('pick', date);
-           }
-         }, {
-           text: '一周前',
-           onClick(picker) {
-             const date = new Date();
-             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-             picker.$emit('pick', date);
-           }
-         }]
-       },*/
     }
   },
   created() {
@@ -215,31 +185,12 @@ export default {
           vm.up_paper_blockchain("Achievement_"+resp.data.data.achievement.id,resp.data.data.achievement.gmtCreate)
           alert("上传成功")
           //刷新当前页面
-          //location.reload(true)
+          location.reload(true)
         }).catch();
       }).catch();
 
     },
 
-    handleClose(tag) {
-      this.keyword_pre.splice(this.keyword_pre.indexOf(tag), 1);
-    },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.keyword_pre.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
-    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       this.Paper.cover=res.data.url

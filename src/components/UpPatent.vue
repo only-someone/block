@@ -10,32 +10,54 @@
       <el-form-item label="联合申请人"  >
         <el-input  v-model="Patent.coApplicants" style="width: 400PX"></el-input>
       </el-form-item>
+      <el-form-item label="发明人"  >
+        <el-input  v-model="Patent.inventor" style="width: 400PX"></el-input>
+      </el-form-item>
       <el-form-item label="总页数"  >
-        <el-input-number v-model="Patent.pages"  :step="1" step-strictly controls-position="right" ></el-input-number>
+        <el-input-number v-model="Patent.pages"  :step="1" step-strictly controls-position="right"  required></el-input-number>
       </el-form-item>
       <el-form-item label="代理机构"  >
         <el-input  v-model="Patent.agency" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="版本号"  >
-        <el-input-number v-model="Patent.version"  :step="1" step-strictly controls-position="right" ></el-input-number>
+
+      <el-form-item label="公开日期" required>
+        <div class="block"  >
+          <el-date-picker
+            v-model="Patent.openDate"
+            align="right"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
       </el-form-item>
-      <el-form-item label="公开日"  >
-        <el-input  v-model="Patent.openDate" style="width: 400PX" placeholder="2017-01-03"></el-input>
-      </el-form-item>
-      <el-form-item label="公开号"  >
-        <el-input  v-model="Patent.openId" style="width: 400PX"></el-input>
-      </el-form-item>
-      <el-form-item label="应用日"  >
-        <el-input  v-model="Patent.applicationDate" style="width: 400PX"  placeholder="2017-01-03"></el-input>
+      <el-form-item label="应用日期" >
+        <div class="block"  >
+          <el-date-picker
+            v-model="Patent.applicationDate"
+            align="right"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
       </el-form-item>
       <el-form-item label="应用号"  >
         <el-input  v-model="Patent.applicationId" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="enterCountryDate"  >
-        <el-input  v-model="Patent.enterCountryDate" style="width: 400PX"></el-input>
+      <el-form-item label="enterCountryDate" >
+        <div class="block"  >
+          <el-date-picker
+            v-model="Patent.enterCountryDate"
+            align="right"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
       </el-form-item>
       <el-form-item label="proviceId"  >
-        <el-input  v-model="Patent.proviceId" style="width: 400PX"></el-input>
+        <el-input  v-model="Patent.provinceId" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="主分类号"  >
         <el-input  v-model="Patent.mainClassification" style="width: 400PX"></el-input>
@@ -52,7 +74,7 @@
       <el-form-item label="主要技术" required>
         <el-input type="textarea" v-model="Patent.mainClain" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="成果文件" required>
+      <el-form-item label="成果文件" >
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                    :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -183,7 +205,7 @@ export default {
               "Content-type": "application/json"
             }
           }).then(function(resp){
-          console.log(resp.data.data.patent)
+          console.log(resp.data)
           vm.up_Patent_blockchain("Patent_"+resp.data.data.patent.id,resp.data.data.patent.gmtCreate)
           alert("上传成功")
           //刷新当前页面
@@ -203,8 +225,8 @@ export default {
 
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Achievement.cover=imageUrl
-      console.log(this.Achievement.cover)
+      this.Patent.cover=res.data.url
+      console.log(res.data.url)
     },
     beforeAvatarUpload(file) {
 

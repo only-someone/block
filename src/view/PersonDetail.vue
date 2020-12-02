@@ -100,7 +100,7 @@
             <el-tabs v-model="activeName" type="card" >
 
               <el-tab-pane label="购买的资源" name="first"> <el-card class="box-card" style="margin-top: -100px"> <search-resources></search-resources> </el-card></el-tab-pane>
-              <el-tab-pane label="上传的资源" name="second" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
+              <el-tab-pane label="上传的资源" name="second"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
               <el-tab-pane label="参与的招投标" name="third" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px" > <search-bids></search-bids> </el-card></el-tab-pane>
               <el-tab-pane label="修改个人信息" name="fourth" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" >
                 <div class="form-body">

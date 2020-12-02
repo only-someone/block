@@ -174,7 +174,7 @@ export default {
             method: 'post',
             url: this.GLOBAL.Blockchain_Base_Url + '/api/v1/createUser',
             data: {
-              "Id":res.data.data.expert.id,
+              "Id":"Expert_"+res.data.data.expert.id,
               "Score":"50"
             }
           }).then(res=> {
@@ -209,7 +209,7 @@ export default {
           method:'post',
           url:this.GLOBAL.Blockchain_Base_Url+'/api/v1/createUser',
           data:{
-            "Id":res.data.data.expert.id,
+            "Id":"Expert_"+res.data.data.expert.id,
             "Score":"50"
           }
         }).then(

@@ -1,75 +1,48 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
-      <el-form-item label="成果标题"  required>
-        <el-input  v-model="Achievement.title" style="width: 400PX"></el-input>
+      <el-form-item label="案例标题"  required>
+        <el-input  v-model="Case.title" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="作者" required >
-        <el-input  v-model="Achievement.author" style="width: 400PX"></el-input>
+      <el-form-item label="相关人员" required >
+        <el-input  v-model="Case.relationStaff" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="所属单位"  >
-        <el-input  v-model="Achievement.machanism" style="width: 400PX"></el-input>
+      <el-form-item label="实施机构"  >
+        <el-input  v-model="Case.staffInstitution" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="关键字" required>
-        <el-tag
-          style="margin-right: 10px"
-          :key="tag"
-          v-for="tag in keyword_pre"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(tag)">
-          {{tag}}
-
-        </el-tag>
-        <el-input style="width: 100px"
-                  class="input-new-tag"
-                  v-if="inputVisible"
-                  v-model="inputValue"
-                  ref="saveTagInput"
-                  placeholder="按Enter输入"
-                  size="small"
-                  @keyup.enter.native="handleInputConfirm"
-                  @blur="handleInputConfirm">
-        </el-input>
-        <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New</el-button>
-
+      <el-form-item label="联系电话"  >
+        <el-input  v-model="Case.staffPhone" style="width: 400PX"></el-input>
       </el-form-item>
-      <el-form-item label="number"  >
-        <el-input  v-model="Achievement.number" style="width: 400PX"></el-input>
+      <el-form-item label="简介"  >
+        <el-input   type="textarea" v-model="Case.introduction" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="年份"  >
-        <el-input  v-model="Achievement.year" style="width: 400PX"></el-input>
+      <el-form-item label="技术细节"  >
+        <el-input type="textarea"  v-model="Case.indicator" rows=10></el-input>
+      </el-form-item>
+      <el-form-item label="应用场景"  >
+        <el-input type="textarea"  v-model="Case.application" rows=10></el-input>
+      </el-form-item>
+      <el-form-item label="涉及领域" required>
+        <el-cascader
+          v-model="Case.domain"
+          :options="options"
+          :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+        ></el-cascader>
       </el-form-item>
 
-      <!--<el-form-item label="发表日期" required>
-        <div class="block"  >
-          <el-date-picker
-            v-model="Paper.pubDate"
-            align="right"
-            type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </div>
-      </el-form-item>-->
-
-      <el-form-item label="成果文件" required>
+      <el-form-item label="案例文件" required>
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                    :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="版本"  >
-        <el-input  v-model="Achievement.version" style="width: 400PX"></el-input>
-      </el-form-item>
       <el-form-item label="网络链接"  >
-        <el-input  v-model="Achievement.url" style="width: 400PX"></el-input>
+        <el-input  v-model="Case.url" style="width: 400PX"></el-input>
       </el-form-item>
 
       <el-form-item label="购买积分" required>
-        <el-input-number v-model="Achievement.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
+        <el-input-number v-model="Case.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
       <el-form-item label="展示图片"  >
         <el-upload
@@ -83,7 +56,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="up_achievement" style="margin-left:450px;width:150px;margin-top: 50px" round>上传成果</el-button>
+        <el-button type="primary" @click="up_Case" style="margin-left:450px;width:150px;margin-top: 50px" round>上传成果</el-button>
       </el-form-item>
     </el-form>
 
@@ -92,73 +65,60 @@
 
 <script>
 export default {
-  name: "UpAchievement",
+  name: "UpCase",
   data() {
     return {
       form:{},
-      Achievement: {
+      Case: {
         title:'',
-        author:'',
-        //cited:'',
-        //classification:"",
-        mechanism:'',
-        summary:'',
-        keywords:"",
-        number:"",
-        year:"",
-        version:"",
-        //pubDate:'',
-        //download:'',
+        relationStaff:'',
+        staffInstitution:'',
+        staffPhone:'',
+        origin:"",
+        introduction:"",
+        indicator:"",
         url:'',//本地存储
         file:'',//网络链接
         price:'',//修改成本地积分
         cover:"",//封面
-        Domain:'',
+        domain:'',
+        application:"",
       },
+      options:[],
       keyword_pre:[],
       inputVisible: false,
       inputValue: '',
       imageUrl: '',
-      /* pickerOptions: {
-         disabledDate(time) {
-           return time.getTime() > Date.now();
-         },
-         shortcuts: [{
-           text: '今天',
-           onClick(picker) {
-             picker.$emit('pick', new Date());
-           }
-         }, {
-           text: '昨天',
-           onClick(picker) {
-             const date = new Date();
-             date.setTime(date.getTime() - 3600 * 1000 * 24);
-             picker.$emit('pick', date);
-           }
-         }, {
-           text: '一周前',
-           onClick(picker) {
-             const date = new Date();
-             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-             picker.$emit('pick', date);
-           }
-         }]
-       },*/
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+      },
     }
   },
   created() {
-    var vm = this;
+    this.get_domain()
   },
   methods: {
+    get_domain(){
+      var vm=this
+      this.axios({
+        method:'get',
+        url:this.GLOBAL.Service_Base_Url+"/domainservice/domain/findAllDomainByTree",
+      }).then(res=>{
+        vm.options=res.data.data.items
+        console.log(vm.options)
+      })
+    },
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
         this.$message.error('上传文件大小不能超过 50MB')
-        this.Paper.file = null
+        this.Case.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
       } else {
         if (file.status === 'ready') {
-          this.Paper.file= file.raw
+          this.Case.file= file.raw
         }
       }
     },
@@ -167,13 +127,13 @@ export default {
         this.uploadFile = {}
       }
     },
-    up_achievement_blockchain(id,time){
+    up_Case_blockchain(id,time){
       var vm=this
       var data={
         "Id":id,
-        "Hash":vm.Achievement.file||"null",
+        "Hash":vm.Case.file||"null",
         "Uploader":vm.$cookies.get("id"),
-        "Cost":vm.Achievement.price.toString(),
+        "Cost":vm.Case.price.toString(),
         "Time":time,
         "State":"false",
         "GetScore":"20"
@@ -187,10 +147,10 @@ export default {
         console.log(resp)
       }).catch()
     },
-    up_achievement(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
+    up_Case(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
-      formData.set("files", this.Achievement.file);
+      formData.set("files", this.Case.file);
       this.axios
         .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
           headers: {
@@ -198,51 +158,51 @@ export default {
           }
         }).then(function(resp){
         if(resp.data.data!==null)
-          vm.Achievement.file=resp.data.data.toString()
+          vm.Case.file=resp.data.data.toString()
         var keywords_tostring=""
         for (var i=0;i<vm.keyword_pre.length;i++)
         { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
-        vm.Paper.keywords=keywords_tostring
-
-        console.log(vm.Achievement)
+        vm.Case.keywords=keywords_tostring
+        vm.Case.domain=vm.Case.domain.toString()
+        console.log(vm.Case)
         vm.axios
-          .post(vm.GLOBAL.Service_Base_Url+'/achievementservice/achievement/addAchievement', vm.Achievement, {
+          .post(vm.GLOBAL.Service_Base_Url+'/caseservice/case/addCase', vm.Case, {
             headers: {
               "Content-type": "application/json"
             }
           }).then(function(resp){
-          console.log(resp.data.data.up_achievement())
-          vm.up_paper_blockchain("Achievement_"+resp.data.data.achievement.id,resp.data.data.achievement.gmtCreate)
+            console.log(resp.data.data)
+          vm.up_Case_blockchain("Case_"+resp.data.data.case.id,resp.data.data.case.gmtCreate)
           alert("上传成功")
           //刷新当前页面
-          //location.reload(true)
+          location.reload(true)
         }).catch();
       }).catch();
 
     },
 
-    handleClose(tag) {
-      this.keyword_pre.splice(this.keyword_pre.indexOf(tag), 1);
-    },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.keyword_pre.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
-    },
+    // handleClose(tag) {
+    //   this.keyword_pre.splice(this.keyword_pre.indexOf(tag), 1);
+    // },
+    //
+    // showInput() {
+    //   this.inputVisible = true;
+    //   this.$nextTick(_ => {
+    //     this.$refs.saveTagInput.$refs.input.focus();
+    //   });
+    // },
+    //
+    // handleInputConfirm() {Case
+    //   let inputValue = this.inputValue;
+    //   if (inputValue) {
+    //     this.keyword_pre.push(inputValue);
+    //   }
+    //   this.inputVisible = false;
+    //   this.inputValue = '';
+    // },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Paper.cover=res.data.url
+      this.Case.cover=res.data.url
       console.log( res.data.url)
     },
     beforeAvatarUpload(file) {

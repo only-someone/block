@@ -14,6 +14,10 @@
                     <el-col :span="20"><div class="grid-content bg-purple-light">{{Achievement.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">上传时间</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.gmtCreate}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">作者</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.author}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">所属单位</div></el-col>
@@ -24,7 +28,7 @@
                     <el-col :span="4"><div class="grid-content bg-purple-dark">成果关键词</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.keywords}}</div></el-col>
                     <el-col :span="4" ><div class="grid-content bg-purple-dark">研究领域</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.Domain}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.domain}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
@@ -34,8 +38,6 @@
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">年份</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.year}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">版本号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.version}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>

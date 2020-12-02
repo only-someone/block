@@ -58,7 +58,7 @@
             type="date"
             value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期"
-            :picker-options="pickerOptions">
+            :picker-options="this.pickerOptions">
           </el-date-picker>
         </div>
       </el-form-item>
@@ -127,26 +127,7 @@ export default {
         disabledDate(time) {
           return time.getTime() > Date.now();
         },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+
       },
     }
   },
@@ -220,7 +201,7 @@ export default {
               vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
               alert("上传成功")
               //刷新当前页面
-            //location.reload(true)
+            location.reload(true)
           }).catch();
         }).catch();
 

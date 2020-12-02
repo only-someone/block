@@ -36,18 +36,9 @@
       </div>
     </section>
     <section class="shop-page-section" v-if="this.$route.path==='/SearchResult'" >
-      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%">
-        <el-form-item>
-          <el-input v-model="expertQuery.author" placeholder="作者"/>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="expertQuery.summary" placeholder="简介"/>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="expertQuery.keyword" placeholder="关键词"/>
-        </el-form-item>
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Paper'">
         <el-form-item style="width: 110px">
-          <el-select v-model="type" placeholder="请选择" >
+          <el-select v-model="type" placeholder="请先选择资源类型" >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -56,6 +47,19 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.author" placeholder="作者"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.title" placeholder="标题"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.summary" placeholder="简介"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.keyword" placeholder="关键词"/>
+        </el-form-item>
+
         <el-form-item  label="大于" >
           <el-input v-model="expertQuery.price_left" placeholder="积分数" style="width: 80px"/>
         </el-form-item >
@@ -82,6 +86,282 @@
         </el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
+
+      <el-form :inline="true"  style="text-align: center;margin-top: -6%" v-if="type==='Patent'">
+
+        <el-row>
+          <el-form-item style="width: 110px">
+            <el-select v-model="type" placeholder="请先选择资源类型" >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.applicant" placeholder="申请人"/>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.title" placeholder="标题"/>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.summary" placeholder="简介"/>
+          </el-form-item>
+
+          <el-form-item  label="大于" >
+            <el-input v-model="expertQuery.price_left" placeholder="积分整数" style="width: 80px"/>
+          </el-form-item >
+          <el-form-item label="小于" >
+            <el-input v-model="expertQuery.price_right" placeholder="积分整数" style="width: 80px"/>
+          </el-form-item>
+        </el-row>
+          <el-form-item label="应用时间区间">
+            <el-date-picker
+              v-model="expertQuery.application_begin"
+              type="datetime"
+              placeholder="选择应用开始时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+            <el-date-picker
+              v-model="expertQuery.application_end"
+              type="datetime"
+              placeholder="选择应用结束时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+
+        <el-form-item label="开放时间区间">
+          <el-date-picker
+            v-model="expertQuery.open_begin"
+            type="datetime"
+            placeholder="选择开放开始时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="expertQuery.open_end"
+            type="datetime"
+            placeholder="选择开放截止时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
+      </el-form>
+
+      <el-form :inline="true"  style="text-align: center;margin-top: -6%" v-if="type==='Solution'">
+
+        <el-row>
+          <el-form-item style="width: 110px">
+            <el-select v-model="type" placeholder="请先选择资源类型" >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.applicant" placeholder="申请人"/>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.title" placeholder="标题"/>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="expertQuery.summary" placeholder="简介"/>
+          </el-form-item>
+
+          <el-form-item  label="大于" >
+            <el-input v-model="expertQuery.price_left" placeholder="积分整数" style="width: 80px"/>
+          </el-form-item >
+          <el-form-item label="小于" >
+            <el-input v-model="expertQuery.price_right" placeholder="积分整数" style="width: 80px"/>
+          </el-form-item>
+        </el-row>
+        <el-form-item label="应用时间区间">
+          <el-date-picker
+            v-model="expertQuery.application_begin"
+            type="datetime"
+            placeholder="选择应用开始时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+          <el-date-picker
+            v-model="expertQuery.application_end"
+            type="datetime"
+            placeholder="选择应用结束时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+
+        <el-form-item label="开放时间区间">
+          <el-date-picker
+            v-model="expertQuery.open_begin"
+            type="datetime"
+            placeholder="选择开放开始时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="expertQuery.open_end"
+            type="datetime"
+            placeholder="选择开放截止时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
+      </el-form>
+
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Achievement'">
+        <el-form-item style="width: 110px">
+          <el-select v-model="type" placeholder="请先选择资源类型" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.author" placeholder="作者"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.title" placeholder="标题"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.summary" placeholder="简介"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.keyword" placeholder="关键词"/>
+        </el-form-item>
+
+        <el-form-item  label="大于" >
+          <el-input v-model="expertQuery.price_left" placeholder="积分数" style="width: 80px"/>
+        </el-form-item >
+        <el-form-item label="小于" >
+          <el-input v-model="expertQuery.price_right" placeholder="积分数" style="width: 80px"/>
+        </el-form-item>
+        <el-form-item label="时间区间">
+          <el-date-picker
+            v-model="expertQuery.begin"
+            type="datetime"
+            placeholder="选择开始时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="expertQuery.end"
+            type="datetime"
+            placeholder="选择截止时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
+      </el-form>
+
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Software'">
+        <el-form-item style="width: 110px">
+          <el-select v-model="type" placeholder="请先选择资源类型" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.author" placeholder="作者"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.title" placeholder="标题"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.summary" placeholder="简介"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.keyword" placeholder="关键词"/>
+        </el-form-item>
+
+        <el-form-item  label="大于" >
+          <el-input v-model="expertQuery.price_left" placeholder="积分数" style="width: 80px"/>
+        </el-form-item >
+        <el-form-item label="小于" >
+          <el-input v-model="expertQuery.price_right" placeholder="积分数" style="width: 80px"/>
+        </el-form-item>
+        <el-form-item label="时间区间">
+          <el-date-picker
+            v-model="expertQuery.begin"
+            type="datetime"
+            placeholder="选择开始时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="expertQuery.end"
+            type="datetime"
+            placeholder="选择截止时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00"
+          />
+        </el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
+      </el-form>
+
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Case'">
+        <el-form-item style="width: 110px">
+          <el-select v-model="type" placeholder="请先选择资源类型" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.title" placeholder="标题"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.introduction" placeholder="简介"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.indicator" placeholder="技术细节"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.application" placeholder="应用场景"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="expertQuery.staffInstitution" placeholder="实施机构"/>
+        </el-form-item>
+        <el-form-item  label="大于" >
+          <el-input v-model="expertQuery.price_left" placeholder="积分数" style="width: 80px"/>
+        </el-form-item >
+        <el-form-item label="小于" >
+          <el-input v-model="expertQuery.price_right" placeholder="积分数" style="width: 80px"/>
+        </el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
+      </el-form>
+
       <div class="auto-container">
         <div class="row clearfix">
           <!--Shop Item-->
@@ -141,18 +421,12 @@ export default {
         label: '专利',
         value:'Patent'
       }, {
-        label: '解决方案',
-        value:'Solution'
-      }, {
         label: '技术成果',
         value: 'Achievement'
       }, {
         label: '软件著作',
         value: 'Software'
       }, {
-        label: '项目需求',
-        value:'Requirement'
-      },{
         label: '案例',
         value:'Case'
       }],
@@ -172,41 +446,6 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function (size) {
       this.pagesize = size;
-    },
-    get_account(){
-      var vm = this
-      this.axios({
-        method: 'post',
-        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
-      }).then(resp => {
-        vm.account = resp.data.data[0]
-        if(vm.account.Buy!==null){
-          for (var i = 0; i < vm.account.Buy.length; i++) {
-            var [type,id] =vm.account.Buy[i].id.split("_")
-            vm.axios({
-              method:'get',
-              url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type +'/'+id
-            }).then(res=> {
-                //console.log(res)
-                var resource=res.data.data[Object.keys(res.data.data)[0]]
-                var RId=resource.id
-                var RPrice=resource.price
-                var RName=resource.title
-                var RAbstract=resource.summary
-                var RTime=resource.pubDate
-                var RCover=resource.cover
-                var RAuthorName=resource.author
-                var resource_1={"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice}
-                vm.BuyResources.push(resource_1)
-              }
-            )
-          }
-        }
-
-      }).catch(error=>{
-        console.log(error)
-      })
     },
     getDetail(Type,Id){
       this.$router.push({
@@ -266,8 +505,8 @@ export default {
         for( i in resources){
           var RId=resources[i].id
           var RName=resources[i].title
-          var RAbstract=resources[i].summary
-          var RTime=resources[i].pubDate
+          var RAbstract=resources[i].summary||resources[i].introduction
+          var RTime=resources[i].pubDate||resources[i].gmtCreate
           var RCover=resources[i].cover
           var RAuthorName=resources[i].author
           vm.searchresources.push({"Type":this.type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})
