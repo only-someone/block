@@ -37,16 +37,7 @@
         <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New</el-button>
 
       </el-form-item>
-<!--      <el-form-item label="论文领域" >-->
-<!--        <el-select v-model="form.Domain" placeholder="请选择" >-->
-<!--        <el-option-->
-<!--          v-for="domain in domains"-->
-<!--          :key="domain.Id"-->
-<!--          :label="domain.Name"-->
-<!--          :value="domain.Name">-->
-<!--        </el-option>-->
-<!--       </el-select>-->
-<!--      </el-form-item>-->
+
       <el-form-item label="论文摘要" required>
         <el-input type="textarea" v-model="Paper.summary" rows=10 ></el-input>
       </el-form-item>
@@ -89,7 +80,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-          <el-button type="primary" @click="up_paper" style="margin-left:450px;width:150px;margin-top: 50px" round>上传资源</el-button>
+          <el-button type="primary" @click="up_paper" style="margin-left:450px;width:150px;margin-top: 50px" round>上传论文</el-button>
       </el-form-item>
     </el-form>
 
@@ -122,7 +113,6 @@ export default {
       inputVisible: false,
       inputValue: '',
       imageUrl: '',
-      domains:[{"Id":"1","Name":"计算机"},{"Id":"2","Name":"医学"}],
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();

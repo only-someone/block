@@ -1,14 +1,17 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="100px" style="margin-top: 40px" >
-      <el-form-item label="成果标题"  required>
-        <el-input  v-model="Achievement.title" style="width: 400PX"></el-input>
+      <el-form-item label="方案标题"  required>
+        <el-input  v-model="Solution.title" style="width: 90%"></el-input>
       </el-form-item>
-      <el-form-item label="作者" required >
-        <el-input  v-model="Achievement.author" style="width: 400PX"></el-input>
+      <el-form-item label="对应需求ID" required >
+        <input v-model="Solution.requirementNumber" style="width: 90%" readonly></input>
       </el-form-item>
-      <el-form-item label="所属单位"  >
-        <el-input  v-model="Achievement.machanism" style="width: 400PX"></el-input>
+      <el-form-item label="机构名"  >
+        <el-input  v-model="Solution.orgName" style="width: 90%"></el-input>
+      </el-form-item>
+      <el-form-item label="机构地址"  >
+        <el-input  v-model="Solution.orgAddress" style="width: 90%"></el-input>
       </el-form-item>
       <el-form-item label="关键字" required>
         <el-tag
@@ -19,7 +22,6 @@
           :disable-transitions="false"
           @close="handleClose(tag)">
           {{tag}}
-
         </el-tag>
         <el-input style="width: 100px"
                   class="input-new-tag"
@@ -34,44 +36,40 @@
         <el-button v-else class="button-new-tag col-md-2" size="small" @click="showInput" >+ New</el-button>
 
       </el-form-item>
-      <el-form-item label="number"  >
-        <el-input  v-model="Achievement.number" style="width: 400PX"></el-input>
+      <el-form-item label="联系人" required>
+        <el-input type="text" v-model="Solution.purchasePerson"  style="width: 60%"></el-input>
       </el-form-item>
-      <el-form-item label="年份"  >
-        <el-input  v-model="Achievement.year" style="width: 400PX"></el-input>
+      <el-form-item label="联系电话" required>
+        <el-input type="text" v-model="Solution.purchasePhone"  style="width: 60%"></el-input>
       </el-form-item>
-
-      <!--<el-form-item label="发表日期" required>
-        <div class="block"  >
-          <el-date-picker
-            v-model="Paper.pubDate"
-            align="right"
-            type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </div>
-      </el-form-item>-->
-
-      <el-form-item label="成果文件" required>
+      <el-form-item label="预算" required>
+        <el-input type="text" v-model="Solution.budget" style="width: 60%"></el-input>
+      </el-form-item>
+      <el-form-item label="介绍" required>
+        <el-input type="textarea" v-model="summary" rows=10 placeholder="若使用多个本系统的资源，可以将网页链接写入该项便于查看" style="width: 90%"></el-input>
+      </el-form-item>
+      <el-form-item label="涉及领域" required>
+        <el-cascader
+          v-model="Solution.domain"
+          :options="options"
+          :props="{ expandTrigger: 'hover' ,value:'title',label:'title'}"
+        ></el-cascader>
+      </el-form-item>
+      <el-form-item label="方案文件" required>
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                    :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="版本"  >
-        <el-input  v-model="Achievement.version" style="width: 400PX"></el-input>
-      </el-form-item>
       <el-form-item label="网络链接"  >
-        <el-input  v-model="Achievement.url" style="width: 400PX"></el-input>
+        <el-input  v-model="Solution.url" placeholder="本网站或者其他网站的链接" style="width: 60%"></el-input>
       </el-form-item>
 
       <el-form-item label="购买积分" required>
-        <el-input-number v-model="Achievement.price"  :step="1" step-strictly controls-position="right" ></el-input-number>
+        <el-input-number v-model="Solution.price"  :step="1" step-strictly controls-position="right"  placeholder="需求方查看文件需要花费的积分"></el-input-number>
       </el-form-item>
-      <el-form-item label="展示图片"  >
+      <el-form-item label="展示图片"  required>
         <el-upload
           class="avatar-uploader"
           action="http://192.168.8.103:8222/oss/avataross"
@@ -83,7 +81,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="up_achievement" style="margin-left:450px;width:150px;margin-top: 50px" round>上传成果</el-button>
+        <el-button type="primary" @click="up_Solution" style="margin-left:450px;width:150px;margin-top: 50px" round>上传解决方案</el-button>
       </el-form-item>
     </el-form>
 
@@ -92,58 +90,80 @@
 
 <script>
 export default {
-  name: "UpAchievement",
+  name: "UpSolution",
   data() {
     return {
       form:{},
       Solution: {
-        id: "1331884707670982658",
-        title: "永胜县期纳镇生活垃圾收运设施配套项目",
-        requirementNumber: "永胜县期纳镇生活垃圾收运设施配套项目",
-        orgName: "湖北大鑫汽车销售有限公司",
-        orgAddress: "#",
-        purchasePerson: "沈晓梅",
-        purchasePhone: "赵映洲",
-        budget: "￥104.180000万元",
-        keywords: null,
-        domain: null,
-        url: "http://www.ccgp.gov.cn/cggg/dfgg/cjgg/201812/t20181226_11421781.htm",
+        title: "",
+        requirementNumber: this.$route.path.split("/").slice(-1).toString(),
+        orgName: "",
+        orgAddress: "",
+        purchasePerson: "",
+        purchasePhone: "",
+        budget: "",
+        keywords: "",
+        domain: "",
+        url: "",
         price: 0,
-        cover: null,
-        status: false,
-        file: null,
+        cover: "",
+        status:"" ,
+        file: "",
+
       },
+      summary: "",
+      options:[],
+      keyword_pre:[],
+      inputVisible: false,
+      inputValue: '',
       imageUrl: '',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+
+      },
     }
   },
   created() {
-    var vm = this;
+    this.get_domain()
   },
   methods: {
+    get_domain(){
+      var vm=this
+      this.axios({
+        method:'get',
+        url:this.GLOBAL.Service_Base_Url+"/domainservice/domain/findAllDomainByTree",
+      }).then(res=>{
+        vm.options=res.data.data.items
+        console.log(vm.options)
+      })
+    },
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
         this.$message.error('上传文件大小不能超过 50MB')
-        this.Paper.file = null
+        this.Solution.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
       } else {
         if (file.status === 'ready') {
-          this.Paper.file= file.raw
+          this.Solution.file= file.raw
         }
       }
     },
     handleRemove(file, fileList) {
       if (file.uid === this.uploadFile.uid) {
         this.uploadFile = {}
+        this.Solution.file=""
       }
     },
-    up_achievement_blockchain(id,time){
+    up_Solution_blockchain(id,time){
       var vm=this
       var data={
         "Id":id,
-        "Hash":vm.Achievement.file||"null",
+        "Hash":vm.Solution.file||"null",
         "Uploader":vm.$cookies.get("id"),
-        "Cost":vm.Achievement.price.toString(),
+        "Cost":vm.Solution.price.toString(),
         "Time":time,
         "State":"false",
         "GetScore":"20"
@@ -157,10 +177,10 @@ export default {
         console.log(resp)
       }).catch()
     },
-    up_achievement(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
+    up_Solution(){//上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
-      formData.set("files", this.Achievement.file);
+      formData.set("files", this.Solution.file);
       this.axios
         .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
           headers: {
@@ -168,21 +188,21 @@ export default {
           }
         }).then(function(resp){
         if(resp.data.data!==null)
-          vm.Achievement.file=resp.data.data.toString()
+          vm.Solution.file=resp.data.data.toString()
         var keywords_tostring=""
         for (var i=0;i<vm.keyword_pre.length;i++)
         { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
-        vm.Paper.keywords=keywords_tostring
-
-        console.log(vm.Achievement)
+        vm.Solution.keywords=keywords_tostring
+        vm.Solution.domain=vm.Solution.domain.toString()
+        console.log(vm.Solution)
         vm.axios
-          .post(vm.GLOBAL.Service_Base_Url+'/achievementservice/achievement/addAchievement', vm.Achievement, {
+          .post(vm.GLOBAL.Service_Base_Url+'/solutionservice/solution/addSolution', vm.Solution, {
             headers: {
               "Content-type": "application/json"
             }
           }).then(function(resp){
-          console.log(resp.data.data.up_achievement())
-          vm.up_paper_blockchain("Achievement_"+resp.data.data.achievement.id,resp.data.data.achievement.gmtCreate)
+          console.log(resp.data)
+          vm.up_Solution_blockchain("Solution_"+resp.data.data.solution.id,resp.data.data.solution.gmtCreate)
           alert("上传成功")
           //刷新当前页面
           location.reload(true)
@@ -191,9 +211,28 @@ export default {
 
     },
 
+    handleClose(tag) {
+      this.keyword_pre.splice(this.keyword_pre.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.keyword_pre.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Paper.cover=res.data.url
+      this.Solution.cover=res.data.url
       console.log( res.data.url)
     },
     beforeAvatarUpload(file) {

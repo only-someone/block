@@ -160,11 +160,11 @@ export default {
                 type = type.charAt(0).toUpperCase() + type.slice(1);
                 var RId=resource.id
                 var RName=resource.title
-                var RAbstract=resource.summary
-                var RTime=resource.pubDate
+                var RAbstract=resource.summary||resource.orgName
+                var RTime=resource.pubDate||resource.gmtCreate
                 var RCover=resource.cover
                 var RPrice=resource.price
-                var RAuthorName=resource.author
+                var RAuthorName=resource.author||resource.purchaseInstitution||resource.purchasePerson
                 vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
               }
             )

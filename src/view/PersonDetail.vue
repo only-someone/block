@@ -229,7 +229,41 @@ export default {
     })
   },
   methods: {
-
+    // get_account(){
+    //   var vm = this
+    //   this.axios({
+    //     method: 'post',
+    //     url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
+    //     data: {"Id": this.$cookies.get("id")}
+    //   }).then(resp => {
+    //     vm.account = resp.data.data[0]
+    //     if(vm.account.Buy!==null){
+    //       for (var i = 0; i < vm.account.Buy.length; i++) {
+    //         var [type,id] =vm.account.Buy[i].id.split("_")
+    //         vm.axios({
+    //           method:'get',
+    //           url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/get'+type +'/'+id
+    //         }).then(res=> {
+    //             //console.log(res)
+    //             var resource=res.data.data[Object.keys(res.data.data)[0]]
+    //             var RId=resource.id
+    //             var RPrice=resource.price
+    //             var RName=resource.title
+    //             var RAbstract=resource.summary
+    //             var RTime=resource.pubDate
+    //             var RCover=resource.cover
+    //             var RAuthorName=resource.author
+    //             var resource_1={"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice}
+    //             vm.BuyResources.push(resource_1)
+    //           }
+    //         )
+    //       }
+    //     }
+    //
+    //   }).catch(error=>{
+    //     console.log(error)
+    //   })
+    // },
     changeavator(){
       var vm =this
       vm.Expert.id=this.$cookies.get("id")

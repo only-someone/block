@@ -14,8 +14,10 @@
                     <el-col :span="20"><div class="grid-content bg-purple-light">{{Solution.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">对应项目</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Solution.requirementNumber}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">对应需求</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light" >
+                      <a @click="getResourceDetail('Requirement',Solution.requirementNumber)">Requirement_{{Solution.requirementNumber}}</a>
+                    </div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">提供机构</div></el-col>
@@ -131,6 +133,16 @@ export default {
   },
 
   methods:{
+    getResourceDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+      location.reload()
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(res)

@@ -62,9 +62,7 @@
                     <el-col :span="4"  ><div class="grid-content bg-purple-dark">内容描述</div></el-col>
                     <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Requirement.contentDescription}}</div></el-col>
                   </el-row>
-                  <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
-                    <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
-                  </el-row>
+
                 </div>
               </div>
             </div>
@@ -84,9 +82,19 @@
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
                   <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
+
                 </div>
               </div>
             </div>
+            <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
+              <el-button type="primary" >上传者可点击图片修改头像</el-button>
+            </el-row>
+            <el-row style="text-align: center;" v-else-if="this.$cookies.get('type')!=='Normal'">
+              <el-button type="info" @click="dialogTableVisible = true" >点击上传解决方案进行投标</el-button>
+            </el-row>
+            <el-dialog title="上传解决方案" :visible.sync="dialogTableVisible">
+              <up-solution></up-solution>
+            </el-dialog>
           </div>
         </div>
 
@@ -110,10 +118,42 @@
               <el-button type="primary" @click="changecover()">确 定</el-button>
             </div>
           </el-dialog>
-
-
         </div>
-
+        <div class="comments-area">
+          <div class="group-title">
+            <h2>针对本需求上传的解决方案</h2>
+          </div>
+          <div  v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
+            <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
+              <div class="comment" style="min-height:120px;margin-top: 30px">
+                <div class="author-thumb">
+                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px">
+                  <div style="text-align: center">
+                    <span class="badge badge-success" >{{ resource.Type }}</span>
+                  </div>
+                </div>
+                <div class="comment-inner" >
+                  <div class="post-info">{{ resource.RTime }}</div>
+                  <div class="comment-info">{{ resource.RName }} </div>
+                  <div class="text">{{ resource.RAbstract }}</div>
+                  <a class="reply-comment" href="#">{{ resource.RAbstract }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <el-pagination
+          :background=true
+          style="text-align: center"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[5, 10, 20, 40]"
+          :page-size="pagesize"
+          layout=" prev, pager, next"
+          :total="UploadResources.length"
+          :hide-on-single-page=true>
+        </el-pagination>
       </div>
     </section>
   </div>
@@ -138,13 +178,83 @@ export default {
       showdialog:false,
       imageUrl:"",
       Requirement:{},
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      UploadResources:[],
+      user_type: this.$cookies.get('type'),
+      user_id:this.$cookies.get('id'),
+      currentPage:1, //初始页
+      pagesize:2,    //   每页的数据
     }
+
   },
   created() {
     this.getDetail(this.resource_type,this.resource_id)
+    this.getUpload(this.user_type,this.user_id)
   },
 
   methods:{
+    getResourceDetail(Type,Id){
+      this.$router.push({
+        name:'ResourceDetail',
+        params:{
+          Type:Type,
+          Id:Id
+        }
+      })
+      location.reload()
+    },
+    handleSizeChange: function (size) {
+      this.pagesize = size;
+    },
+    handleCurrentChange: function(currentPage){
+      this.currentPage = currentPage;
+    },
+    getUpload(Type,Id){
+      var vm= this
+      this.axios({
+        method:"post",
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryUpload",
+        data:{"Id":vm.user_id}
+      }).then(res=>{
+        var upload_resourcelist=res.data.data  //Hash也传出来了，购买失去了意义
+        if(upload_resourcelist!==null){
+          for (var i = 0; i < upload_resourcelist.length; i++) {
+            var [type,id] = upload_resourcelist[i].id.split("_")
+            if(type="Solution") {
+              vm.axios({
+                method: 'get',
+                url: this.GLOBAL.Service_Base_Url + '/' + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
+              }).then(res => {
+                  type = Object.keys(res.data.data)[0]
+                  var resource = res.data.data[type]
+                  type = type.charAt(0).toUpperCase() + type.slice(1);
+                    var RId=resource.id
+                    var RName=resource.title
+                    var RAbstract=resource.summary||resource.orgName
+                    var RTime=resource.pubDate||resource.gmtCreate
+                    var RCover=resource.cover
+                    var RPrice=resource.price
+                    var RAuthorName=resource.author||resource.purchaseInstitution||resource.purchasePerson
+
+                    vm.UploadResources.push({
+                        "Type": type,
+                        "RId": RId,
+                        "RName": RName,
+                        "RAbstract": RAbstract,
+                        "RTime": RTime,
+                        "RAuthorName": RAuthorName,
+                        "RCover": RCover,
+                        "RPrice": RPrice
+                      })
+                }
+              )
+            }
+          }
+
+        }
+      })
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(res)
@@ -255,7 +365,7 @@ export default {
       ).catch(error=>{
         alert("购买失败")
       })
-      location.reload()
+      //location.reload()
     }
   }
 
