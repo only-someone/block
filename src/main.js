@@ -100,7 +100,16 @@ Vue.component('SolutionDetail',SolutionDetail)
 Vue.component('RequirementDetail',RequirementDetail)
 Vue.component('CaseDetail',CaseDetail)
 
-/* eslint-disable no-new */
+axios.interceptors.request.use(config=>{
+
+  if (Vue.$cookies.get('token')) {
+    config.headers["token"] =Vue.$cookies.get('token');
+  }
+  return config;
+},error => {
+  return Promise.reject(error)
+})
+
 new Vue({
   el: '#app',
   router,

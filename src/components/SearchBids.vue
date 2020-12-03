@@ -127,9 +127,6 @@ export default {
     }
   },
   created() {
-    if( this.isPersonDetail) {
-      this.get_account()
-    }
     if(this.$route.path==="/SearchResult"){
       this.get_search_resources()
     }
