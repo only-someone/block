@@ -1,17 +1,14 @@
 <template>
   <div class="page-wrapper">
 
-    <!-- Preloader -->
-<!--    <div class="preloader"></div>-->
-
-    <!-- Main Header-->
+    <!-- 头-->
     <header class="main-header">
       <HomeNav></HomeNav>
       <MyNav></MyNav>
     </header>
-    <!--End Main Header -->
 
-    <!--Banner Section-->
+
+    <!--大字报-->
     <section class="banner-section" style="background-image: url(static/images/background/8.jpg)">
       <div class="auto-container">
         <h2>基于区块链和知识图谱的 <br> 数据交易平台</h2>
@@ -31,7 +28,7 @@
                 <option>解决方案</option>
                 <option>案例</option>
               </select>
-              <input type="text" name="firstname" value="" placeholder="点击右侧按钮进入搜索页面" required>
+              <input type="text" name="firstname" value="" placeholder="点击右侧或上侧搜索按钮进入搜索页面" required>
               <router-link to="/SearchResult"><button type="submit" class="theme-btn dripicons-search"></button></router-link>
             </div>
 
@@ -45,9 +42,9 @@
         <!--图片要截一下-->
       </div>
     </section>
-    <!--End Banner Section-->
 
-    <!--Featured Section-->
+
+    <!--推荐资源n-->
     <section class="featured-section">
       <div class="auto-container">
         <!--Sec Title-->
@@ -57,7 +54,7 @@
         </div>
         <div class="row clearfix">
           <!--Featured Block-->
-          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendResources" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendPaper" :key=index  @click="getDetail(resource.Type,resource.RId)" >
             <div class="inner-box wow fadeInLeft" :animation-delay='resource'
                  style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
               <div class="image">
@@ -65,7 +62,7 @@
               </div>
               <div class="lower-content">
                 <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
-                <div class="text">{{ resource.RAbstract }}</div>
+                <div class="text" style="max-height: 200px;overflow: hidden;text-overflow: ellipsis;">{{ resource.RAbstract }}</div>
                 <div class="clearfix">
                   <div class="pull-left">
                     <div class="author">
@@ -80,16 +77,103 @@
               </div>
             </div>
           </div>
-
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendPatent" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+            <div class="inner-box wow fadeInLeft" :animation-delay='resource'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
+              <div class="image">
+                <img :src="'/static/images/resource/featured-2.jpg'" alt="" />
+              </div>
+              <div class="lower-content">
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="text" style="max-height: 200px;overflow: hidden;text-overflow: ellipsis;">{{ resource.RAbstract }}</div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="author">
+                      <div class="author-image"><img src="static/images/resource/author-1.jpg" alt=""/></div>
+                      by {{ resource.RAuthorName }}
+                    </div>
+                  </div>
+                  <div class="pull-right">
+                    <div class="price">{{ resource.RPrice||0 }}积分</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendAchievement" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+            <div class="inner-box wow fadeInLeft" :animation-delay='resource'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
+              <div class="image">
+                <img :src="'static/images/resource/featured-3.jpg'" alt="" />
+              </div>
+              <div class="lower-content">
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="text" style="max-height: 200px;overflow: hidden;text-overflow: ellipsis;">{{ resource.RAbstract }}</div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="author">
+                      <div class="author-image"><img src="static/images/resource/author-1.jpg" alt=""/></div>
+                      by {{ resource.RAuthorName }}
+                    </div>
+                  </div>
+                  <div class="pull-right">
+                    <div class="price">{{ resource.RPrice||0 }}积分</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendCase" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+            <div class="inner-box wow fadeInLeft" :animation-delay='resource'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
+              <div class="image">
+                <img :src="'static/images/resource/featured-4.jpg'" alt="" />
+              </div>
+              <div class="lower-content">
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="text" style="max-height: 200px;overflow: hidden;text-overflow: ellipsis;">{{ resource.RAbstract }}</div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="author">
+                      <div class="author-image"><img src="static/images/resource/author-1.jpg" alt=""/></div>
+                      by {{ resource.RAuthorName }}
+                    </div>
+                  </div>
+                  <div class="pull-right">
+                    <div class="price">{{ resource.RPrice||0 }}积分</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="featured-block col-lg-3 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendSoftware" :key=index  @click="getDetail(resource.Type,resource.RId)" >
+            <div class="inner-box wow fadeInLeft" :animation-delay='resource'
+                 style="visibility: visible; animation-duration:1500ms; animation-name: fadeInLeft; user-select: auto; ">
+              <div class="image">
+                <img :src="'static/images/resource/featured-5.jpg'" alt="" />
+              </div>
+              <div class="lower-content">
+                <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
+                <div class="text" style="max-height: 200px;overflow: hidden;text-overflow: ellipsis;">{{ resource.RAbstract }}</div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <div class="author">
+                      <div class="author-image"><img src="static/images/resource/author-1.jpg" alt=""/></div>
+                      by {{ resource.RAuthorName }}
+                    </div>
+                  </div>
+                  <div class="pull-right">
+                    <div class="price">{{ resource.RPrice||0 }}积分</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <!--End Featured Section-->
 
-    <!--Testimonial Section-->
-
-
-    <!--Category Section-->
+    <!--推荐用户-->
   <section class="testimonial-section">
 		<div class="auto-container">
 			<!--Sec Title-->
@@ -137,14 +221,140 @@
     <div class="row clearfix">
 
       <!--Category Block-->
-      <div class="category-block" v-for=" index in Array(10)" :key=index>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-1.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">北京</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-2.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">上海</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-3.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">广州</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-4.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">深圳</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
         <div class="inner-box">
           <div class="image">
             <img src="static/images/resource/category-5.jpg" alt="" />
             <div class="overlay-box">
               <div class="overlay-inner">
                 <div >
-                  <h3><a href="city_info.html">城市名</a></h3>
+                  <h3><a href="city_info.html">杭州</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-10.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">苏州</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-6.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">武汉</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-7.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">成都</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-8.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">重庆</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-block">
+        <div class="inner-box">
+          <div class="image">
+            <img src="static/images/resource/category-9.jpg" alt="" />
+            <div class="overlay-box">
+              <div class="overlay-inner">
+                <div >
+                  <h3><a href="city_info.html">天津</a></h3>
                 </div>
               </div>
             </div>
@@ -164,14 +374,15 @@
         <div class="row clearfix">
 
           <!--News Block-->
-          <div class="news-block col-lg-4 col-md-6 col-sm-12" v-for=" index in Array(3)" :key=index>
+          <div class="news-block col-lg-4 col-md-6 col-sm-12" v-for="(resource,index ) in this.commendBids" :key=index  @click="getDetail(resource.Type,resource.RId)" >
             <div class="inner-box">
-              <div class="post-date">招标开始至结束日期</div>
-              <h3><a href="bid_detail.html">招标标题</a></h3>
-              <div class="text">招标简介</div>
+              <img :src="resource.RCover||'static/images/resource/news-1.jpg'" alt="" />
+              <div class="post-date">{{ resource.announceTime||"暂无" }} 至  {{resource.openTime||"暂无"}}</div>
+              <h3><a href="bid_detail.html">{{ resource.RName }}</a></h3>
+              <div class="text">{{ resource.RAbstract}}</div>
               <div class="author">
                 <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>
-                by 用户
+                by {{ resource.RAuthorName }}
               </div>
             </div>
           </div>
@@ -276,15 +487,26 @@ export default {
       block_node:20,
       isstart:false,
       fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"],
-      commendResources:[],
+      commendPaper:[],
+      commendAchievement:[],
+      commendPatent:[],
+      commendCase:[],
+      commendSoftware:[],
       commendUsers:[],
-      commendBids:[]
+      commendExpert:[],
+      commendInstitution:[],
+      commendBids:[],
     }
   },
   watch:{},
   created() {
-    this.get_commend_resources()
+    this.get_commend_papers()
+    this.get_commend_patents()
+    this.get_commend_achievements()
+    this.get_commend_cases()
+    this.get_commend_softwares()
     this.get_commend_users()
+    this.get_commend_bids()
     this.get_account()
   },
   methods: {
@@ -309,31 +531,33 @@ export default {
       }).catch(error=>{
         console.log(error)
       })
+      //之后加ins
       this.axios({
         method:'get',
-        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/getExpert/'+ this.$cookies.get("id"),
+        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/getExpert/'+ this.$cookies.get("id").split("_").slice(-1),
       }).then(res=>{
         this.$cookies.set("avatar",res.data.data.expert.avatar);
       })
     },
-    get_commend_resources(){
+    get_commend_papers(){
       var vm=this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+        //推荐专家
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/7"
       }).then(resp=>{
         var resource=resp.data.data.items
-        for(var i=0;i<8;i++){
+        for(var i=0;i<2;i++){
           var RId=resource[i].id
           var RName=resource[i].title
-          var RAbstract=resource[i].keywords
+          var RAbstract=resource[i].summary
           var RTime=resource[i].pubDate
           if(resource[i].cover!=="string"){
-            var RCover=resource[i].avatar
+            var RCover=resource[i].cover
           }else {var RCover=""}
           var RAuthorName=resource[i].author
           var RPrice=resource[i].price
-          vm.commendResources.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+          vm.commendPaper.push({"Type":"Paper","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
         }
       })
     },
@@ -341,7 +565,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/1"
       }).then(resp=>{
         var users=resp.data.data.items
         for(var i in users){
@@ -357,7 +581,117 @@ export default {
           vm.commendUsers.push({"UType":"Expert","UId":UId,"UName":UName,"UIntro":UIntro,"UCover":UCover,"UInstitution":UInstitution,"UPhone":UPhone,"UEmail":UEmail})
         }
       })
+      this.axios({
+        method:"get",
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/2"
+      }).then(resp=>{
+        var users=resp.data.data.items
+        for(var i in users){
+          var UId=users[i].id
+          var UName=users[i].name
+          var UIntro=users[i].orgaddress
+          if(users[i].avatar!=="string"){
+            var UCover=users[i].avatar||"static/images/resource/news-13.jpg"
+          }else {var UCover="static/images/resource/news-3.jpg"}
+          var UInstitution=users[i].domain
+          var UPhone=users[i].phone
+          var UEmail=users[i].businessscope
+          vm.commendUsers.push({"UType":"Institution","UId":UId,"UName":UName,"UIntro":UIntro,"UCover":UCover,"UInstitution":UInstitution,"UPhone":UPhone,"UEmail":UEmail})
+        }
+      })
     },
+    get_commend_patents(){
+      var vm=this
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/8"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i=0;i<2;i++){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].summary
+          var RTime=resource[i].gmtCreate
+          if(resource[i].cover!=="string"){
+            var RCover=resource[i].cover
+          }else {var RCover=""}
+          var RAuthorName=resource[i].inventor
+          var RPrice=resource[i].price
+          vm.commendPaper.push({"Type":"Patent","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+        }
+      })
+    },
+    get_commend_achievements(){
+      var vm=this
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/6"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i=0;i<2;i++){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].summary
+          var RTime=resource[i].gmtCreate
+          if(resource[i].cover!=="string"){
+            var RCover=resource[i].cover
+          }else {var RCover=""}
+          var RAuthorName=resource[i].author
+          var RPrice=resource[i].price
+          vm.commendPaper.push({"Type":"Achievement","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+        }
+      })
+    },
+    get_commend_cases(){
+      var vm=this
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/5"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i=0;i<2;i++){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].introduction
+          var RTime=resource[i].gmtCreate
+          if(resource[i].cover!=="string"){
+            var RCover=resource[i].cover
+          }else {var RCover=""}
+          var RAuthorName=resource[i].staffInstitution
+          var RPrice=resource[i].price
+          vm.commendPaper.push({"Type":"Case","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+        }
+      })
+    },
+    get_commend_softwares(){},
+    get_commend_bids(){
+      var vm=this
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/3"
+      }).then(resp=>{
+        var resource=resp.data.data.items
+        for(var i=0;i<9;i++){
+          var RId=resource[i].id
+          var RName=resource[i].title
+          var RAbstract=resource[i].contentDescription
+          var RTime=resource[i].gmtCreate
+          if(resource[i].cover!=="string"){
+            var RCover=resource[i].cover
+          }else {var RCover=""}
+          var RAuthorName=resource[i].purchasePerson
+          var RPrice=resource[i].price
+          var announceTime=resource[i].announceTime
+          var opentime=resource[i].openTime
+          vm.commendBids.push({"Type":"Requirement","RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice,"announceTime":announceTime,"opentime":opentime})
+        }
+      })
+    },
+
     getDetail(Type,Id){
       this.$router.push({
         name:'ResourceDetail',

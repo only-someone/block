@@ -118,7 +118,7 @@ export default {
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
             var [type,id] =vm.account.Upload[i].id.split("_")
-            if(type==="Solution") {
+            if(type!=="Solution") {
               vm.axios({
                 method: 'get',
                 url: this.GLOBAL.Service_Base_Url + "/" + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id

@@ -1,47 +1,5 @@
 <template>
     <aside class="sidebar">
-
-    <!-- 个人信息 -->
-<!--      <div class="inner-box" style="margin-bottom:50px">-->
-<!--        <div class="image" >-->
-
-<!--          <a href="#"> <img src="static/images/resource/team-1.jpg" height="30px" width="100px"   style="float:left" alt="" /></a>-->
-<!--        </div>-->
-<!--        <div class="lower-content"  style="margin-left:150px" >-->
-<!--          <h3><a href="#">姓名</a></h3>-->
-<!--          <div class="designation">单位</div>-->
-<!--          <div class="text">简介</div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <el-row>-->
-<!--        <el-col :span="14">-->
-<!--          <div class="main_style_8" >-->
-<!--            <div id="hipster">-->
-<!--              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3" >-->
-<!--                <div class="circle"  align="center">-->
-<!--                  <div class="main-c" style="float: right;margin-left: 500px">-->
-<!--                    <div class="quarter quarter1"></div>-->
-<!--                    <div class="quarter quarter2"></div>-->
-<!--                    <div class="quarter quarter3"></div>-->
-<!--                    <div class="quarter quarter4"></div>-->
-<!--                    <div class="cutout" style="background-image:  url(/static/images/men2.jpg)"></div>-->
-<!--                  </div>-->
-
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </el-col>-->
-<!--        <el-col :span="10">-->
-<!--          <div style="margin-top: 30px">-->
-<!--            <h5 style="color: #000000">姓名</h5>-->
-<!--            <h5 style="color: #000000">单位</h5>-->
-<!--          </div>-->
-<!--        </el-col>-->
-<!--      </el-row>-->
-
-
       <div class="sidebar-widget category-widget"  style="margin-top: 50px">
         <div class="sidebar-title">
           <h3>概况</h3>
@@ -163,7 +121,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/2"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/7"
       }).then(resp=>{
         var resource=resp.data.data.items
         for(var i in resource){
@@ -205,10 +163,19 @@ export default {
         this.buy_number=this.buy_resourcelist.length
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            this.upload_resourcelist.push(vm.account.Upload[i].id)
+            if(vm.account.Upload[i].id.split("_")[0]!=="Solution")
+              this.upload_resourcelist.push(vm.account.Upload[i].id)
           }
         }
         this.up_number=this.upload_resourcelist.length
+
+        if(vm.account.Upload!==null){
+          for (var i = 0; i < vm.account.Upload.length; i++) {
+            if(vm.account.Upload[i].id.split("_")[0]==="Solution")
+              this.bid_list.push(vm.account.Upload[i].id)
+          }
+        }
+        this.bid_number=this.bid_list.length
       }).catch(error=>{
         console.log(error)
       })
@@ -226,7 +193,7 @@ export default {
       var vm=this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getExpertRS/" +this.$cookies.get("id")+ "/1"
+        url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/1"
       }).then(resp=>{
         var users=resp.data.data.items
         for(var i in users){

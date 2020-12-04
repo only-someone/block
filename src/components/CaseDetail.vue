@@ -23,9 +23,10 @@
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">联系电话</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.staffPhone}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
                     <el-col :span="4" ><div class="grid-content bg-purple-dark">简介</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.introduction }}</div></el-col>
-
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.introduction }}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">技术细节</div></el-col>

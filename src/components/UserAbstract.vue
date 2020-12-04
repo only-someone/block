@@ -1,41 +1,5 @@
 <template>
   <div>
-	<section class="team-page-section"  v-if="this.$route.path==='/Commend'">
-		<div class="auto-container">
-			<div class="row clearfix">
-
-        <!--Team Block-->
-        <div class="team-block col-lg-3 col-md-6 col-sm-12" v-for="user in commendusers.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="user.UId"  >
-          <div class="inner-box class" >
-            <div class="lower-content" >
-              <div class="image" @click="getUserDetail('Expert',user.UId)">
-                <img :src="user.UCover || 'static/images/resource/team-2.jpg'"   alt="" style="display:block;width:auto;height:280px" />
-              </div>
-              <h3><a href="#">{{user.UName}}</a></h3>
-              <div class="designation">{{user.UIntro}}</div>
-              <div class="text">{{user.UInstitution}}</div>
-            </div>
-          </div>
-        </div>
-			</div>
-      <div style="margin-left: 40%">
-        <el-pagination
-          :background=true
-          style="margin:auto;margin-top:0px"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 40]"
-          :page-size="pagesize"
-          layout=" prev, pager, next"
-          :total="commendusers.length"
-          :hide-on-single-page=true>
-        </el-pagination>
-      </div>
-		</div>
-	</section>
-
-	<!--End Team Page Section-->
     <section class="team-page-section"  v-if="this.$route.path==='/SearchResult'" >
       <div style="text-align: center">
         <div class="app-container" >

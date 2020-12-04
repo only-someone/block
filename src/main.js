@@ -20,9 +20,6 @@ import UpRequirement from './components/UpRequirement'
 import UpSolution from './components/UpSolution'
 
 
-import Commend_User from './components/Commend_User'
-import Commend_Resource from './components/Commend_Resource'
-import Commend_Bid from './components/Commend_Bid'
 
 import SearchBids from './components/SearchBids'
 import SearchResources from './components/SearchResources'
@@ -77,11 +74,8 @@ Vue.component('UpSolution',UpSolution)
 Vue.component('UpRequirement',UpRequirement)
 
 
-Vue.component('CommendUser',Commend_User)
 Vue.component('UserAbstract',UserAbstract)
-Vue.component('CommendResource',Commend_Resource)
 Vue.component('ResourceAbstract',ResourceAbstract)
-Vue.component('CommendBid',Commend_Bid)
 Vue.component('PersonSidebar',PersonSidebar)
 Vue.component('SearchResources',SearchResources)
 

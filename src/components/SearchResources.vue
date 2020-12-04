@@ -88,7 +88,6 @@
       </el-form>
 
       <el-form :inline="true"  style="text-align: center;margin-top: -6%" v-if="type==='Patent'">
-
         <el-row>
           <el-form-item style="width: 110px">
             <el-select v-model="type" placeholder="请先选择资源类型" >

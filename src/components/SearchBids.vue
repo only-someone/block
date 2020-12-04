@@ -3,7 +3,7 @@
 
     <section class="shop-page-section"  >
       <!--搜索页面-->
-      <div v-if="this.$route.path==='/SearchResource'" >
+      <div v-if="this.$route.path==='/SearchResult'" >
         <el-form :inline="true" class="demo-form-inline"  style="text-align: center;margin-top: -2%">
           <el-row>
             <el-form-item>
