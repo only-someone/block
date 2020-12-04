@@ -50,6 +50,10 @@
 
                   </el-row>
 
+                  <el-row style="text-align: center;" >
+                    <el-button  v-if="Solution.isAccepted" type="primary" style="width: 30%" >已被采用</el-button>
+                    <el-button  v-if="!Solution.isAccepted" type="info" style="width: 30%" >暂未被采用</el-button>
+                  </el-row>
                   <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
                     <el-button type="primary"style="width: 30%" >上传者可点击图片修改封面</el-button>
                   </el-row>

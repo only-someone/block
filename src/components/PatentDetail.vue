@@ -213,7 +213,9 @@ export default {
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.up_loader = resp.data.data[0].Uploader
+        if(resp.data.data[0].Uploader.split("_")[0]===this.cookie.get("type")){
+          vm.up_loader = resp.data.data[0].Uploader.split("_")[1]
+        }
       })
     },
     isBuyer(resourceid){

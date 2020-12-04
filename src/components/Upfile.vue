@@ -14,17 +14,15 @@
         <el-tab-pane label="技术成果" name="Tech" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpAchievement></UpAchievement> </span>
         </el-tab-pane>
-<!--        <el-tab-pane label="解决方案" name="Relution" v-if="this.$cookies.get('type')!=='Normal'">-->
-<!--          <span> <UpSolution></UpSolution> </span>-->
-<!--        </el-tab-pane>-->
-<!--        -->
         <el-tab-pane label="项目需求" name="Demand" v-if="this.$cookies.get('type')==='Institution'">
           <span> <UpRequirement></UpRequirement> </span>
         </el-tab-pane>
         <el-tab-pane label="案例" name="Case" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpCase></UpCase> </span>
         </el-tab-pane>
-
+        <el-tab-pane label="解决方案需要通过需求详情界面上传" name="Relution" v-if="this.$cookies.get('type')!=='Normal'">
+          <!--          <span> <UpSolution></UpSolution> </span>-->
+        </el-tab-pane>
       </el-tabs>
     </div>
 

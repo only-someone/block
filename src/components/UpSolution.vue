@@ -81,7 +81,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="up_Solution" style="margin-left:450px;width:150px;margin-top: 50px" round>上传解决方案</el-button>
+        <el-button type="primary" @click="up_Solution" style="margin-left:70%;width:25%;margin-top: 50px" round>上传解决方案</el-button>
       </el-form-item>
     </el-form>
 
@@ -175,7 +175,7 @@ export default {
         data:data,
       }).then(function (resp){
         console.log(resp)
-      }).catch()
+      })
     },
     up_Solution(){//上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
@@ -205,7 +205,7 @@ export default {
           vm.up_Solution_blockchain("Solution_"+resp.data.data.solution.id,resp.data.data.solution.gmtCreate)
           alert("上传成功")
           //刷新当前页面
-          location.reload(true)
+         // location.reload(true)
         }).catch();
       }).catch();
 

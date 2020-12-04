@@ -98,7 +98,73 @@
           </div>
         </div>
 
+        <!--   上传项目需求可以查看别人发送的解决方案\修改cover-->
         <div v-if="up_loader===this.$cookies.get('id')">
+          <div class="group-title">
+            <h2>投标信息</h2>
+          </div>
+          <el-table
+            :data="table_solution"
+            style="width: 100%"
+            height="500">
+            <el-table-column
+              prop="gmtCreate"
+              label="上传日期"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="方案标题"
+              width="300">
+            </el-table-column>
+            <el-table-column
+              prop="orgName"
+              label="投标机构"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="keywords"
+              label="关键词"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="purchasePerson"
+              label="联系人"
+              width="100">
+            </el-table-column>
+            <el-table-column
+              prop="purchasePhone"
+              label="联系电话"
+              width="100">
+            </el-table-column>
+            <el-table-column
+              prop="budget"
+              label="预算"
+              width="100">
+            </el-table-column>
+            <el-table-column
+              prop="price"
+              label="购买需要积分"
+              width="80">
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope" >
+                <div>
+                  <el-button type="primary" @click="getResourceDetail('Solution',scope.row.id,scope.rowIndex)"  size="small">点击查看</el-button>
+                </div>
+                <div>
+                  <el-button type="info" v-if="!scope.row.isAccepted" size="small" @click="changeAcc(scope.row.id,scope.row.isAccepted,scope.$index)">点击采用</el-button>
+                  <el-button type="success" v-if="scope.row.isAccepted" size="small" @click="changeAcc(scope.row.id,scope.row.isAccepted,scope.$index)" >取消采用</el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+
+
+<!--          更换头像的dialog-->
           <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
             <el-form >
               <el-form-item  style="text-align: center">
@@ -119,9 +185,12 @@
             </div>
           </el-dialog>
         </div>
-        <div class="comments-area">
+
+
+        <!--   其他人可以查看自己上传的解决方案-->
+        <div class="comments-area"  v-if="up_loader!==this.$cookies.get('id')">
           <div class="group-title">
-            <h2>针对本需求上传的解决方案</h2>
+            <h2>自己针对本需求上传的解决方案</h2>
           </div>
           <div  v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
             <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
@@ -142,18 +211,8 @@
             </div>
           </div>
         </div>
-        <el-pagination
-          :background=true
-          style="text-align: center"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 40]"
-          :page-size="pagesize"
-          layout=" prev, pager, next"
-          :total="UploadResources.length"
-          :hide-on-single-page=true>
-        </el-pagination>
+
+
       </div>
     </section>
   </div>
@@ -185,16 +244,41 @@ export default {
       user_id:this.$cookies.get('id'),
       currentPage:1, //初始页
       pagesize:2,    //   每页的数据
+      table_solution:[],
     }
 
   },
   created() {
     this.getDetail(this.resource_type,this.resource_id)
     this.getUpload(this.user_type,this.user_id)
+    this.get_table(this.resource_type,this.resource_id)
   },
 
   methods:{
+    changeAcc(id,status,index){
+      console.log(index)
+      var vm=this
+      this.axios({
+        method:"get",
+        url:this.GLOBAL.Service_Base_Url+"/solutionservice/solution/modifyIsAccepted/"+id+"/"+!status,
+      }).then(resp=>{
+        vm.table_solution[index]['isAccepted']=!status
+        alert("操作成功")
+        //location.reload()
+      })
+    },
+    get_table(type,id){
+      var vm=this
+      this.axios({
+        method:"get",
+        url:this.GLOBAL.Service_Base_Url+"/solutionservice/solution/getSolutionListByRequirementNumber/"+id,
+      }).then(resp=>{
+        console.log(resp.data.data)
+        vm.table_solution=resp.data.data.items
+      })
+    },
     getResourceDetail(Type,Id){
+
       this.$router.push({
         name:'ResourceDetail',
         params:{
@@ -221,7 +305,8 @@ export default {
         if(upload_resourcelist!==null){
           for (var i = 0; i < upload_resourcelist.length; i++) {
             var [type,id] = upload_resourcelist[i].id.split("_")
-            if(type="Solution") {
+            //值判断Solution
+            if(type==="Solution") {
               vm.axios({
                 method: 'get',
                 url: this.GLOBAL.Service_Base_Url + '/' + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
@@ -229,29 +314,29 @@ export default {
                   type = Object.keys(res.data.data)[0]
                   var resource = res.data.data[type]
                   type = type.charAt(0).toUpperCase() + type.slice(1);
-                    var RId=resource.id
-                    var RName=resource.title
-                    var RAbstract=resource.summary||resource.orgName
-                    var RTime=resource.pubDate||resource.gmtCreate
-                    var RCover=resource.cover
-                    var RPrice=resource.price
-                    var RAuthorName=resource.author||resource.purchaseInstitution||resource.purchasePerson
-
+                  if(resource.requirementNumber===vm.resource_id) {
+                    var RId = resource.id
+                    var RName = resource.title
+                    var RAbstract = resource.summary || resource.orgName
+                    var RTime = resource.pubDate || resource.gmtCreate
+                    var RCover = resource.cover
+                    var RPrice = resource.price
+                    var RAuthorName = resource.author || resource.purchaseInstitution || resource.purchasePerson
                     vm.UploadResources.push({
-                        "Type": type,
-                        "RId": RId,
-                        "RName": RName,
-                        "RAbstract": RAbstract,
-                        "RTime": RTime,
-                        "RAuthorName": RAuthorName,
-                        "RCover": RCover,
-                        "RPrice": RPrice
-                      })
+                      "Type": type,
+                      "RId": RId,
+                      "RName": RName,
+                      "RAbstract": RAbstract,
+                      "RTime": RTime,
+                      "RAuthorName": RAuthorName,
+                      "RCover": RCover,
+                      "RPrice": RPrice
+                    })
+                  }
                 }
               )
             }
           }
-
         }
       })
     },
@@ -316,7 +401,10 @@ export default {
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.up_loader = resp.data.data[0].Uploader
+        vm.up_loader = resp.data.data[0].Uploader.split("_")[0]
+        if(resp.data.data[0].Uploader.split("_")[0]===this.$cookies.get("type")){
+          vm.up_loader = resp.data.data[0].Uploader.split("_")[1]
+        }
       })
     },
     isBuyer(resourceid){

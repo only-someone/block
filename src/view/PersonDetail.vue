@@ -31,7 +31,7 @@
                   <div class="col-12 col-lg-7 border-right">
                     <div class="d-md-flex align-items-center">
                       <div class="mb-md-0 mb-3" >
-                        <a><img :src=Expert.avatar class="rounded-circle shadow" style="height: 200px;width: 200px" alt="" @click="showdialog=true" /></a>
+                        <a><img :src="Expert.avatar" class="rounded-circle shadow" style="height: 200px;width: 200px" alt="" @click="showdialog=true" /></a>
                         <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
                           <el-form >
                             <el-form-item  style="text-align: center">
@@ -101,7 +101,7 @@
 
               <el-tab-pane label="购买的资源" name="first"> <el-card class="box-card" style="margin-top: -100px"> <search-resources></search-resources> </el-card></el-tab-pane>
               <el-tab-pane label="上传的资源" name="second"><el-card class="box-card" style="margin-top: -100px"> <resource-abstract></resource-abstract></el-card></el-tab-pane>
-              <el-tab-pane label="参与的招投标" name="third" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px" > <search-bids></search-bids> </el-card></el-tab-pane>
+              <el-tab-pane label="参与的招投标" name="third" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" style="margin-top: -100px" > <search-bids></search-bids></el-card></el-tab-pane>
               <el-tab-pane label="修改个人信息" name="fourth" v-if="this.$cookies.get('type')!=='Normal'"><el-card class="box-card" >
                 <div class="form-body">
                   <div class="row">
@@ -213,7 +213,7 @@ export default {
         phone:"",
         fax:"",
         institution: "",
-        avatar: "",
+        avatar: "static/images/men2.jpg",
         sort:""
       }
     };
@@ -280,7 +280,6 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      console.log(res)
       this.Expert.avatar=res.data.url
     },
     beforeAvatarUpload(file) {

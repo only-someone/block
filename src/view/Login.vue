@@ -107,13 +107,14 @@ export default {
         headers:{token:token}
       }).then(res=>{
         var user=res.data.data.loginInfo
-        this.$cookies.set("id",user.userId)   //return this
+
         if(user.type===1)
           this.$cookies.set("type","Normal")
         else if(user.type===2)
           this.$cookies.set("type","Expert")
         else if(user.type===3)
           this.$cookies.set("type","Institution")
+        this.$cookies.set("id",this.$cookies.get("type")+"_"+user.userId)   //return this
         this.$router.push({path:'/HOME'})
       })
     }

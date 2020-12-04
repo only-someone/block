@@ -90,7 +90,7 @@
                   </div>
 <!--                  <h4 style="text-align: center;float: right; margin-top: -30px"><strong>已有相应单位用户？</strong></h4>-->
                   <el-col  style="margin-left: 15%;width: 70%;margin-top: 20px">
-                    <button type="button" class="btn btn-primary btn-block " style="margin-bottom: 50px" @click="register" ><i class='bx bxs-lock mr-1'></i>注册</button>
+                    <button type="button" class="btn btn-primary btn-block " style="margin-bottom: 50px" @click="register" ><i class='bx bxs-lock mr-1'></i>注册（区块链需要共识，时间较长）</button>
                   </el-col>
                 </div>
               </div>

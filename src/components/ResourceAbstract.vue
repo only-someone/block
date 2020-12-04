@@ -118,23 +118,43 @@ export default {
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
             var [type,id] =vm.account.Upload[i].id.split("_")
-            vm.axios({
-              method:'get',
-              url:this.GLOBAL.Service_Base_Url+"/"+type.toLowerCase()+'service/'+type.toLowerCase()+'/get'+type+'/'+id
-            }).then(res=> {
-                type=Object.keys(res.data.data)[0]
-                var resource=res.data.data[type]
-                type = type.charAt(0).toUpperCase() + type.slice(1);
-                var RId=resource.id
-                var RName=resource.title
-                var RAbstract=resource.summary
-                var RTime=resource.gmtCreate
-                var RCover=resource.cover
-                var RAuthorName=resource.author
-                if(vm.UploadResources.includes({"Type":type.keys,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})){}
-                else{ vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover})}
-              }
-            )
+            if(type==="Solution") {
+              vm.axios({
+                method: 'get',
+                url: this.GLOBAL.Service_Base_Url + "/" + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
+              }).then(res => {
+                  type = Object.keys(res.data.data)[0]
+                  var resource = res.data.data[type]
+                  type = type.charAt(0).toUpperCase() + type.slice(1);
+                  var RId = resource.id
+                  var RName = resource.title
+                  var RAbstract = resource.summary
+                  var RTime = resource.gmtCreate
+                  var RCover = resource.cover
+                  var RAuthorName = resource.author
+                  if (vm.UploadResources.includes({
+                    "Type": type.keys,
+                    "RId": RId,
+                    "RName": RName,
+                    "RAbstract": RAbstract,
+                    "RTime": RTime,
+                    "RAuthorName": RAuthorName,
+                    "RCover": RCover
+                  })) {
+                  } else {
+                    vm.UploadResources.push({
+                      "Type": type,
+                      "RId": RId,
+                      "RName": RName,
+                      "RAbstract": RAbstract,
+                      "RTime": RTime,
+                      "RAuthorName": RAuthorName,
+                      "RCover": RCover
+                    })
+                  }
+                }
+              )
+            }
           }
 
         }
