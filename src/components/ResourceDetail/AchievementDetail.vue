@@ -11,51 +11,45 @@
                 <div class="inner-box"   >
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">成果名称</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Solution.title}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Achievement.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">对应需求</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light" >
-                      <a @click="getResourceDetail('Requirement',Solution.requirementNumber)">Requirement_{{Solution.requirementNumber}}</a>
-                    </div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">上传时间</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.gmtCreate}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">提供机构</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.orgName}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">机构地址</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.orgAddress}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">作者</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.author}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">所属单位</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.mechanism}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">购买人</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.purchasePerson}}</div></el-col>
-                    <el-col :span="4" ><div class="grid-content bg-purple-dark">联系电话</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.purchasePhone}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">成果关键词</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.keywords}}</div></el-col>
+                    <el-col :span="4" ><div class="grid-content bg-purple-dark">研究领域</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.domain}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">预算</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.budget}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">关键词</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.keywords}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">number</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.number}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">领域</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Solution.domain}}</div></el-col>
-
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">年份</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.year}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Solution.url}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Achievement.url}}</div></el-col>
 
                   </el-row>
-
-                  <el-row style="text-align: center;" >
-                    <el-button  v-if="Solution.isAccepted" type="primary" style="width: 30%" >已被采用</el-button>
-                    <el-button  v-if="!Solution.isAccepted" type="info" style="width: 30%" >暂未被采用</el-button>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"  ><div class="grid-content bg-purple-dark">成果简介</div></el-col>
+                    <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Achievement.summary}}</div></el-col>
                   </el-row>
-                  <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
-                    <el-button type="primary"style="width: 30%" >上传者可点击图片修改封面</el-button>
+                  <el-row style="text-align: center;" v-if="isUploader">
+                    <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
                   </el-row>
                 </div>
               </div>
@@ -66,23 +60,23 @@
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <a><el-image :src="Solution.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
+            <a><el-image :src="Achievement.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
 
             <div class="inner-column">
               <!--Purchased Widget-->
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
-                  <div class="price" >需要 {{ Solution.price }} 积分</div>
+                  <div class="price" >需要 {{ Achievement.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
-                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
+                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',uploader)">查看上传者更多资源</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div v-if="up_loader===this.$cookies.get('id')">
+        <div v-if="isUploader">
           <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
             <el-form >
               <el-form-item  style="text-align: center">
@@ -114,7 +108,7 @@
 <script>
 
 export default {
-  name: "SolutionDetail",
+  name: "AchievementDetail",
   data() {
     return {
       account:{},
@@ -126,10 +120,12 @@ export default {
       buy_resourcelist:[],
       upload_resourcelist:[],
       up_number:1,
-      up_loader:"",
+      uploader:"",
+      isUploader:false,
       showdialog:false,
       imageUrl:"",
-      Solution:{},
+      Achievement:{},
+      blockchain_id:this.$cookies.get('type')+"_"+this.$cookies.get('id'),
     }
   },
   created() {
@@ -137,20 +133,10 @@ export default {
   },
 
   methods:{
-    getResourceDetail(Type,Id){
-      this.$router.push({
-        name:'ResourceDetail',
-        params:{
-          Type:Type,
-          Id:Id
-        }
-      })
-      location.reload()
-    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(res)
-      this.Solution.cover=res.data.url
+      this.Achievement.cover=res.data.url
     },
     beforeAvatarUpload(file) {
 
@@ -164,23 +150,25 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/solutionservice/solution/get"+Type+"/"+Id,
+        url:this.GLOBAL.Service_Base_Url+"/achievementservice/achievement/get"+Type+"/"+Id,
       }).then(res=>{
         console.log(res)
-        vm.Solution=res.data.data[Object.keys(res.data.data)[0]]
-        this.isBuyer("Solution_"+vm.Solution.id)
-        this.get_uploader("Solution_"+vm.Solution.id)
-        if(vm.Solution.file===null||vm.Solution.file===""){
+        vm.Achievement=res.data.data[Object.keys(res.data.data)[0]]
+        this.isBuyer("Achievement_"+vm.Achievement.id)
+        this.get_uploader("Achievement_"+vm.Achievement.id)
+        if(vm.Achievement.file===null||vm.Achievement.file===""){
           alert("该资源暂无源文件")
         }
-        else if(vm.Solution.file.indexOf("http")!==-1)
-          vm.download_url=this.Solution.file
+        else if(vm.Achievement.file.indexOf("http")!==-1)
+          vm.download_url=this.Achievement.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Solution.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Achievement.file
         }
       })
     },
-    getUserDetail(Type,Id){
+    getUserDetail(){
+      var Type=this.uploader.split("_")[0]
+      var Id=this.uploader.split("_")[1]
       this.$router.push({
         name:'UserDetail',
         params:{
@@ -191,11 +179,11 @@ export default {
     },
     changecover(){
       var vm =this
-      vm.Solution.cover=this.imageUrl
+      vm.Achievement.cover=this.imageUrl
       this.axios({
         method:'post',
-        url:this.GLOBAL.Service_Base_Url+'/solutionservice/solution/updateSolution',
-        data:vm.Solution
+        url:this.GLOBAL.Service_Base_Url+'/achievementservice/achievement/updateAchievement',
+        data:vm.Achievement
       }).then(resp=>{
         alert("修改头像成功")
         this.showdialog=false}
@@ -208,7 +196,8 @@ export default {
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.up_loader = resp.data.data[0].Uploader
+        vm.uploader = resp.data.data[0].Uploader
+        vm.isUploader = (vm.uploader===vm.blockchain_id)
       })
     },
     isBuyer(resourceid){
@@ -216,7 +205,7 @@ export default {
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data: {"Id": this.blockchain_id}
       }).then(resp => {
         vm.account = resp.data.data[0]
         if(vm.account.Buy!==null){
@@ -239,10 +228,10 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
-          "Buy_id":this.$cookies.get("id"),
-          "Resource_id":"Solution_"+this.Solution.id,
-          "Cost":this.Solution.price.toString(),
+          "Sell_id":this.uploader||"Admin_1",  //1 代表开发者用户用于启动
+          "Buy_id":this.blockchain_id,
+          "Resource_id":"Achievement_"+this.Achievement.id,
+          "Cost":this.Achievement.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)

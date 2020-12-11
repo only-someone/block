@@ -150,7 +150,7 @@ export default {
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data: {"Id": this.$cookies.get("type")+"_"+this.$cookies.get("id")}
       }).then(resp => {
         vm.account = resp.data.data[0]
         this.$cookies.set("score", this.account.Score)

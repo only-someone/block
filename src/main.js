@@ -7,17 +7,17 @@ import VueRouter from 'vue-router'
 
 
 import MyNav from './components/Nav'
-import MyUpfile from './components/Upfile'
+import MyUpfile from './components/Upfile/Upfile'
 import HomeNav from './components/HomeNav'
 import Footer from './components/Footer'
 
 
-import UpPaper from './components/UpPaper'
-import UpPatent from './components/UpPatent'
-import UpAchievement from './components/UpAchievement'
-import UpCase from './components/UpCase'
-import UpRequirement from './components/UpRequirement'
-import UpSolution from './components/UpSolution'
+import UpPaper from './components/Upfile/UpPaper'
+import UpPatent from './components/Upfile/UpPatent'
+import UpAchievement from './components/Upfile/UpAchievement'
+import UpCase from './components/Upfile/UpCase'
+import UpRequirement from './components/Upfile/UpRequirement'
+import UpSolution from './components/Upfile/UpSolution'
 
 
 
@@ -27,18 +27,20 @@ import UserAbstract from './components/UserAbstract'
 import ResourceAbstract from './components/ResourceAbstract'
 import PersonSidebar from './components/PersonSidebar'
 
-import PaperDetail from "./components/PaperDetail";
-import PatentDetail from "./components/PatentDetail";
-import AchievementDetail from "./components/AchievementDetail";
-import SolutionDetail from "./components/SolutionDetail";
-import CaseDetail from "./components/CaseDetail";
-import RequirementDetail from "./components/RequirementDetail";
+import PaperDetail from "./components/ResourceDetail/PaperDetail";
+import PatentDetail from "./components/ResourceDetail/PatentDetail";
+import AchievementDetail from "./components/ResourceDetail/AchievementDetail";
+import SolutionDetail from "./components/ResourceDetail/SolutionDetail";
+import CaseDetail from "./components/ResourceDetail/CaseDetail";
+import RequirementDetail from "./components/ResourceDetail/RequirementDetail";
 
+import ExpertDetail from "./components/UserDetail/ExpertDetail";
+import InstitutionDetail from "./components/UserDetail/InstitutionDetail";
 
-import RegisterBasic from './components/RegisterBasic'
-import RegisterExpert from './components/RegisterExpert'
-import RegisterCity from './components/RegisterCity'
-import RegisterInstitution from './components/RegisterInstitution'
+import RegisterBasic from './components/Register/RegisterBasic'
+import RegisterExpert from './components/Register/RegisterExpert'
+import RegisterCity from './components/Register/RegisterCity'
+import RegisterInstitution from './components/Register/RegisterInstitution'
 
 
 import countTo from 'vue-count-to'
@@ -94,6 +96,9 @@ Vue.component('SolutionDetail',SolutionDetail)
 Vue.component('RequirementDetail',RequirementDetail)
 Vue.component('CaseDetail',CaseDetail)
 
+Vue.component('ExpertDetail',ExpertDetail)
+Vue.component('InstitutionDetail',InstitutionDetail)
+
 axios.interceptors.request.use(config=>{
 
   if (Vue.$cookies.get('token')) {
@@ -103,6 +108,33 @@ axios.interceptors.request.use(config=>{
 },error => {
   return Promise.reject(error)
 })
+router.beforeEach((to, from, next) => {
+  if(Vue.$cookies.get("token")){ //判断本地是否存在token
+    next();
+  }else {
+    if(to.path === '/Login'||to.path === '/Register'||to.path === '/Home'||to.path==='/Commend'){
+      next();
+    }else {
+      next({
+        path:'/Login'
+      })
+    }
+  }
+
+
+  /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
+  if(to.fullPath == "/Login"){
+    if(Vue.$cookies.get("token")){
+      next({
+        path:from.fullPath
+      });
+    }else {
+      next();
+    }
+  }
+});
+
+
 
 new Vue({
   el: '#app',

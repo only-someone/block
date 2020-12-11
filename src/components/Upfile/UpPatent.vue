@@ -171,7 +171,7 @@ export default {
       var data={
         "Id":id,
         "Hash":vm.Patent.file||"null",
-        "Uploader":vm.$cookies.get("id"),
+        "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
         "Cost":vm.Patent.price.toString(),
         "Time":time,
         "State":"false",

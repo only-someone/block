@@ -87,7 +87,7 @@
       <el-form-item label="结束时间" required>
         <div class="block"  >
           <el-date-picker
-            v-model="Requirement.openTime"
+            v-model="Requirement.endtime"
             align="right"
             type="date"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -153,7 +153,8 @@ export default {
         price: 0,
         cover: "",
         file: "",
-        url: ""
+        url: "",
+        endtime:"",
       },
       options:[],
       keyword_pre:[],
@@ -203,7 +204,7 @@ export default {
       var data={
         "Id":id,
         "Hash":vm.Requirement.file||"null",
-        "Uploader":vm.$cookies.get("id"),
+        "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
         "Cost":vm.Requirement.price.toString(),
         "Time":time,
         "State":"false",
@@ -272,7 +273,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.Requirement.cover=res.data.url
+      this.Requirement.cover= res.data.url//有blob问题
       console.log( res.data.url)
     },
     beforeAvatarUpload(file) {

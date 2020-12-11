@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="shop-single-section sidebar-page-container">
+    <section class="shop-single-section sidebar-page-container" >
       <div class="auto-container">
         <div class="row clearfix">
 
@@ -8,53 +8,47 @@
           <div class="content-column col-lg-8 col-md-12 col-sm-12" >
             <div class="inner-column">
               <div class="shop-single">
-                <div class="inner-box"  >
+                <div class="inner-box"   >
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文名称</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Paper.title}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">案例名称</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.title}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">上传时间</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.gmtCreate}}</div></el-col>
-                  </el-row>
-                  <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文作者</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.author}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文机构</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.mechanism}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">相关人员</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.relationStaff}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">实施机构</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.staffInstitution}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文关键词</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.keywords}}</div></el-col>
-                    <el-col :span="4" ><div class="grid-content bg-purple-dark">分类号</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.classification}}</div></el-col>
-
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">联系电话</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.staffPhone}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">公开日</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.pubDate}}</div></el-col>
+                    <el-col :span="4" ><div class="grid-content bg-purple-dark">简介</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.introduction }}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">引用数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.cited}}</div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">下载数</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Paper.download}}</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">技术细节</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.indicator}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">应用场景</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.application}}</div></el-col>
+                  </el-row>
+                  <el-row style="margin-bottom: 3%">
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">涉及领域</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Case.domain}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">网页链接</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Paper.url}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{Case.url}}</div></el-col>
 
                   </el-row>
-                  <el-row style="margin-bottom: 3%">
 
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">论文简介</div></el-col>
-                    <el-col :span="20" style="height: 100px" ><div class="grid-content bg-purple-light">{{Paper.summary}}</div></el-col>
-                  </el-row>
-                  <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
+                  <el-row style="text-align: center;" v-if="isUploader">
                     <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
                   </el-row>
-
                 </div>
               </div>
             </div>
@@ -64,23 +58,23 @@
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <a><el-image :src="Paper.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
+            <a><el-image :src="Case.cover ||'/static/images/resource/featured-4.jpg'"     width="100%" style="width: 370px;height:300px" alt=""  lazy @click="showdialog=true"/></a>
 
             <div class="inner-column">
               <!--Purchased Widget-->
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
-                  <div class="price" >需要 {{ Paper.price }} 积分</div>
+                  <div class="price" >需要 {{ Case.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
-                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
+                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',uploader)">查看上传者更多资源</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div v-if="up_loader===this.$cookies.get('id')">
+        <div v-if="isUploader">
           <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
             <el-form >
               <el-form-item  style="text-align: center">
@@ -112,22 +106,25 @@
 <script>
 
 export default {
-  name: "PaperDetail",
+  name: "CaseDetail",
   data() {
     return {
       account:{},
       resource_type: this.$route.params.Type,
       resource_id:this.$route.params.Id,
-      Paper:{},
       haveBuy:false,
       download_url:"",
       owner:"",
       buy_resourcelist:[],
       upload_resourcelist:[],
       up_number:1,
-      up_loader:"",
+      uploader:"",
       showdialog:false,
       imageUrl:"",
+      Case:{},
+      isUploader:this.uploader===this.$cookies.get('type')+'_'+this.$cookies.get('id'),
+      blockchain_id:this.$cookies.get('type')+"_"+this.$cookies.get('id'),
+
     }
   },
   created() {
@@ -138,7 +135,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(res)
-      this.Paper.cover=res.data.url
+      this.Case.cover=res.data.url
     },
     beforeAvatarUpload(file) {
 
@@ -152,22 +149,25 @@ export default {
       var vm= this
       this.axios({
         method:"get",
-        url:this.GLOBAL.Service_Base_Url+"/paperservice/paper/get"+Type+"/"+Id,
+        url:this.GLOBAL.Service_Base_Url+"/caseservice/case/get"+Type+"/"+Id,
       }).then(res=>{
-        vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
-        this.isBuyer("Paper_"+vm.Paper.id)
-        this.get_uploader("Paper_"+vm.Paper.id)
-        if(vm.Paper.file===null||vm.Paper.file===""){
+        console.log(res)
+        vm.Case=res.data.data[Object.keys(res.data.data)[0]]
+        this.isBuyer("Case_"+vm.Case.id)
+        this.get_uploader("Case_"+vm.Case.id)
+        if(vm.Case.file===null||vm.Case.file===""){
           alert("该资源暂无源文件")
         }
-        else if(vm.Paper.file.indexOf("http")!==-1)
-          vm.download_url=this.Paper.file
+        else if(vm.Case.file.indexOf("http")!==-1)
+          vm.download_url=this.Case.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Paper.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Case.file
         }
       })
     },
-    getUserDetail(Type,Id){
+    getUserDetail(){
+      var Type=this.uploader.split("_")[0]
+      var Id=this.uploader.split("_")[1]
       this.$router.push({
         name:'UserDetail',
         params:{
@@ -178,11 +178,11 @@ export default {
     },
     changecover(){
       var vm =this
-      vm.Paper.cover=this.imageUrl
+      vm.Case.cover=this.imageUrl
       this.axios({
         method:'post',
-        url:this.GLOBAL.Service_Base_Url+'/paperservice/paper/updatePaper',
-        data:vm.Paper
+        url:this.GLOBAL.Service_Base_Url+'/caseservice/case/updateCase',
+        data:vm.Case
       }).then(resp=>{
         alert("修改头像成功")
         this.showdialog=false}
@@ -195,9 +195,8 @@ export default {
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        if(resp.data.data[0].Uploader.split("_")[0]===this.cookie.get("type")){
-          vm.up_loader = resp.data.data[0].Uploader.split("_")[1]
-        }
+        vm.uploader = resp.data.data[0].Uploader
+        vm.isUploader=(vm.uploader===vm.blockchain_id)
       })
     },
     isBuyer(resourceid){
@@ -205,7 +204,7 @@ export default {
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data: {"Id": this.blockchain_id}
       }).then(resp => {
         vm.account = resp.data.data[0]
         if(vm.account.Buy!==null){
@@ -228,10 +227,10 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
-          "Buy_id":this.$cookies.get("id"),
-          "Resource_id":"Paper_"+this.Paper.id,
-          "Cost":this.Paper.price.toString(),
+          "Sell_id":this.uploader||"Admin_1",  //1 代表开发者用户用于启动
+          "Buy_id":this.blockchain_id,
+          "Resource_id":"Case_"+this.Case.id,
+          "Cost":this.Case.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)

@@ -110,15 +110,14 @@ export default {
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data:{ "Id":this.$cookies.get("type")+"_"+this.$cookies.get("id") }
       }).then(resp => {
-        console.log(resp)
         vm.account = resp.data.data[0]
         this.$cookies.set("score",vm.account.Score)
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
             var [type,id] =vm.account.Upload[i].id.split("_")
-            if(type!=="Solution") {
+            if(type!=="Solution"&&type!=="Requirement") {
               vm.axios({
                 method: 'get',
                 url: this.GLOBAL.Service_Base_Url + "/" + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id

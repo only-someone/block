@@ -58,7 +58,7 @@
             <!--Option Box-->
             <div class="option-box">
               <!--Search Box-->
-              <div class="search-box-outer">
+              <div class="search-box-outer" v-if="this.$cookies.get('id')">
                 <div class="dropdown">
                   <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="dripicons-search"></span></button>
                   <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">

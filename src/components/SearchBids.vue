@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import UpSolution from "./UpSolution";
+import UpSolution from "./Upfile/UpSolution";
 
 export default {
   name: "SearchResources",
@@ -229,46 +229,45 @@ export default {
     },
     get_account:async function(){
       var vm = this
-      this.axios({
+      this.axios({//上传的资源
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data: {"Id": this.$cookies.get("type")+"_"+this.$cookies.get("id")}
       }).then(resp => {
         vm.account = resp.data.data[0]
         this.$cookies.set("score",vm.account.Score)
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
             var [type,id] =vm.account.Upload[i].id.split("_")
-            if(type==="Solution") {
-              vm.axios({
+            if(type==="Solution") {//上传的解决方案详细信息
+              vm.axios({//对应详细信息
                 method: 'get',
-                url: this.GLOBAL.Service_Base_Url + "/" + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
+                url: this.GLOBAL.Service_Base_Url + "/solutionservice/solution/getSolution/" + id
               }).then(res => {
-                  type = Object.keys(res.data.data)[0]
-                  var resource = res.data.data[type]
-                  type = type.charAt(0).toUpperCase() + type.slice(1);
-                  var RId = resource.id
+                if(!vm.Upsolutions.includes(res.data.data["solution"].requirementNumber)){
+                  vm.Upsolutions.push(res.data.data["solution"].requirementNumber)
+                  var reqirement_id = res.data.data["solution"].requirementNumber
                   vm.axios({
                     method: 'get',
-                    url: this.GLOBAL.Service_Base_Url + "/solutionservice/solution/getSolution/" + RId
-                  }).then(res => {
-                    if(!vm.Upsolutions.includes(res.data.data["solution"].requirementNumber)){
-                      vm.Upsolutions.push(res.data.data["solution"].requirementNumber)
-                      var reqirement_id = res.data.data["solution"].requirementNumber
-                      vm.axios({
-                        method: 'get',
-                        url: this.GLOBAL.Service_Base_Url + "/requirementservice/requirement/getRequirement/" + reqirement_id
-                      }).then(resp => {
-                        console.log(resp.data)
-                        vm.Join_bids.push(resp.data.data["requirement"])
-                      })
-                    }
+                    url: this.GLOBAL.Service_Base_Url + "/requirementservice/requirement/getRequirement/" + reqirement_id
+                  }).then(resp => {
+                    vm.Join_bids.push(resp.data.data["requirement"])
                   })
+                }
+              })
+            }
+            if(type==="Requirement") {//上传的需求
+              vm.axios({
+                method: 'get',
+                url: this.GLOBAL.Service_Base_Url + "/requirementservice/requirement/getRequirement/" + id
+              }).then(res => {
+                console.log(res.data.data["requirement"])
+                  vm.Join_bids.push(res.data.data["requirement"])
                 }
               )
             }
           }
-          console.log(vm.Join_bids)
+
         }
       }).catch(error=>{
         console.log(error)

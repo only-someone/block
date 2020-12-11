@@ -20,7 +20,7 @@
         <div class="text">Search User</div>
       </div>
     </section>
-    <commend-user></commend-user>
+    <UserAbstract></UserAbstract>
 
 
     <section class="page-title" style="background-image: url(static/images/background/7.jpg);padding: 40px">

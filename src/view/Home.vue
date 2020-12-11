@@ -13,7 +13,7 @@
       <div class="auto-container">
         <h2>基于区块链和知识图谱的 <br> 数据交易平台</h2>
         <!--Search Form-->
-        <div class="search-form">
+        <div class="search-form" v-if="this.$cookies.get('id')">
           <form method="post" action="">
             <div class="form-group ">
               <select class="custom-select-box" style="padding-right: 0px;margin-left: 20px">
@@ -28,7 +28,7 @@
                 <option>解决方案</option>
                 <option>案例</option>
               </select>
-              <input type="text" name="firstname" value="" placeholder="点击右侧或上侧搜索按钮进入搜索页面" required>
+              <input type="text" name="firstname" value="" placeholder="点击右侧或上侧搜索按钮进入搜索页面"  >
               <router-link to="/SearchResult"><button type="submit" class="theme-btn dripicons-search"></button></router-link>
             </div>
 
@@ -608,7 +608,7 @@ export default {
         url:this.GLOBAL.Service_Base_Url+"/rs/recommendation/getRS/8"
       }).then(resp=>{
         var resource=resp.data.data.items
-        for(var i=0;i<2;i++){
+        for(var i=0;i<vm.commendPaper.length<=2;i++){
           var RId=resource[i].id
           var RName=resource[i].title
           var RAbstract=resource[i].summary

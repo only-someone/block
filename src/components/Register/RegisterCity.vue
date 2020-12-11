@@ -8,13 +8,13 @@
               <div class="col-12 col-lg-6 col-xl-5 d-flex align-items-stretch">
                 <div class="card mb-0 shadow-none bg-transparent w-100 rounded-0">
                   <div class="card-body p-md-5">
-                    <img src="static/images/logo-2.png" width="180" alt="" />
+                    <img src="../../../static/images/logo-2.png" width="180" alt="" />
                   </div>
                   <div class="card-body" style="margin-left: 20px;margin-top:-20px">
                     <h5 class="card-title">Where does it come from?</h5>
                     <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.</p>
                   </div>
-                  <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
+                  <img src="../../../static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
                 </div>
 
               </div>

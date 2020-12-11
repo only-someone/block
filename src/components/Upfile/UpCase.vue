@@ -132,7 +132,7 @@ export default {
       var data={
         "Id":id,
         "Hash":vm.Case.file||"null",
-        "Uploader":vm.$cookies.get("id"),
+        "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
         "Cost":vm.Case.price.toString(),
         "Time":time,
         "State":"false",

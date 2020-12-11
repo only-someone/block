@@ -10,14 +10,14 @@
         <div class="text">Users</div>
       </div>
     </section>
-    <ExpertDetail></ExpertDetail>
-
+    <ExpertDetail v-if="this.$route.params.Type==='Expert'"></ExpertDetail>
+    <InstitutionDetail v-if="this.$route.params.Type==='Institution'"></InstitutionDetail>
 
   </div>
 </template>
 
 <script>
-import ExpertDetail from "../components/ExpertDetail";
+import ExpertDetail from "../components/UserDetail/ExpertDetail";
 export default {
   name: "UserDetail",
   components: {ExpertDetail},

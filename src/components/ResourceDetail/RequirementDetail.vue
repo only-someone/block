@@ -81,12 +81,12 @@
                   <div class="price" >需要 {{ Requirement.price }} 积分</div>
                   <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
                   <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
-                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',up_loader)">查看上传者更多资源</button>
+                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail()">查看上传者更多资源</button>
 
                 </div>
               </div>
             </div>
-            <el-row style="text-align: center;" v-if="this.up_loader===this.$cookies.get('id')">
+            <el-row style="text-align: center;" v-if="isUploader">
               <el-button type="primary" >上传者可点击图片修改头像</el-button>
             </el-row>
             <el-row style="text-align: center;" v-else-if="this.$cookies.get('type')!=='Normal'">
@@ -99,7 +99,7 @@
         </div>
 
         <!--   上传项目需求可以查看别人发送的解决方案\修改cover-->
-        <div v-if="up_loader===this.$cookies.get('id')">
+        <div v-if="isUploader">
           <div class="group-title">
             <h2>投标信息</h2>
           </div>
@@ -188,7 +188,7 @@
 
 
         <!--   其他人可以查看自己上传的解决方案-->
-        <div class="comments-area"  v-if="up_loader!==this.$cookies.get('id')">
+        <div class="comments-area"  v-if="!isUploader">
           <div class="group-title">
             <h2>自己针对本需求上传的解决方案</h2>
           </div>
@@ -229,19 +229,21 @@ export default {
       resource_id:this.$route.params.Id,
       haveBuy:false,
       download_url:"",
-      owner:"",
       buy_resourcelist:[],
       upload_resourcelist:[],
-      up_number:1,
-      up_loader:"",
+      uploader:"",
       showdialog:false,
       imageUrl:"",
       Requirement:{},
       dialogTableVisible: false,
       dialogFormVisible: false,
       UploadResources:[],
+      isUploader:false,
+
+      blockchain_id:this.$cookies.get('type')+"_"+this.$cookies.get('id'),
       user_type: this.$cookies.get('type'),
       user_id:this.$cookies.get('id'),
+
       currentPage:1, //初始页
       pagesize:2,    //   每页的数据
       table_solution:[],
@@ -250,8 +252,11 @@ export default {
   },
   created() {
     this.getDetail(this.resource_type,this.resource_id)
-    this.getUpload(this.user_type,this.user_id)
+    this.getUpload(this.blockchain_id)
     this.get_table(this.resource_type,this.resource_id)
+    this.isBuyer("Requirement_"+this.resource_id)
+    this.get_uploader("Requirement_"+this.resource_id)
+
   },
 
   methods:{
@@ -266,7 +271,7 @@ export default {
         alert("操作成功")
         //location.reload()
       })
-    },
+    },//采用或未采用
     get_table(type,id){
       var vm=this
       this.axios({
@@ -276,9 +281,8 @@ export default {
         console.log(resp.data.data)
         vm.table_solution=resp.data.data.items
       })
-    },
+    },//获取上传解决方案表
     getResourceDetail(Type,Id){
-
       this.$router.push({
         name:'ResourceDetail',
         params:{
@@ -287,19 +291,19 @@ export default {
         }
       })
       location.reload()
-    },
+    },//用于跳转资源页面
     handleSizeChange: function (size) {
       this.pagesize = size;
     },
     handleCurrentChange: function(currentPage){
       this.currentPage = currentPage;
     },
-    getUpload(Type,Id){
+    getUpload(blockchain_id){//拿到所有的上传资源，判断是否有权限
       var vm= this
       this.axios({
         method:"post",
         url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryUpload",
-        data:{"Id":vm.user_id}
+        data:{"Id":blockchain_id}
       }).then(res=>{
         var upload_resourcelist=res.data.data  //Hash也传出来了，购买失去了意义
         if(upload_resourcelist!==null){
@@ -319,7 +323,7 @@ export default {
                     var RName = resource.title
                     var RAbstract = resource.summary || resource.orgName
                     var RTime = resource.pubDate || resource.gmtCreate
-                    var RCover = resource.cover
+                      var RCover = resource.cover
                     var RPrice = resource.price
                     var RAuthorName = resource.author || resource.purchaseInstitution || resource.purchasePerson
                     vm.UploadResources.push({
@@ -353,16 +357,17 @@ export default {
       }
       return  isLt2M;
     },
-    getDetail(Type,Id){
+    getDetail(Type,Id){//获取当前页面资源的详细信息
       var vm= this
       this.axios({
         method:"get",
         url:this.GLOBAL.Service_Base_Url+"/requirementservice/requirement/get"+Type+"/"+Id,
       }).then(res=>{
-        console.log(res)
         vm.Requirement=res.data.data[Object.keys(res.data.data)[0]]
-        this.isBuyer("Requirement_"+vm.Requirement.id)
-        this.get_uploader("Requirement_"+vm.Requirement.id)
+        if(vm.Requirement.cover.substring(0,4)==="blob"){
+          vm.Requirement.cover =vm.Requirement.cover.substring(5,vm.Requirement.cover.length-1)
+        }
+        else
         if(vm.Requirement.file===null||vm.Requirement.file===""){
           alert("该资源暂无源文件")
         }
@@ -373,7 +378,9 @@ export default {
         }
       })
     },
-    getUserDetail(Type,Id){
+    getUserDetail(){
+      var Type=this.uploader.split("_")[0]
+      var Id=this.uploader.split("_")[1]
       this.$router.push({
         name:'UserDetail',
         params:{
@@ -381,7 +388,7 @@ export default {
           Id:Id
         }
       })
-    },
+    },//跳转上传者页面
     changecover(){
       var vm =this
       vm.Requirement.cover=this.imageUrl
@@ -394,25 +401,24 @@ export default {
         this.showdialog=false}
       )
     },
-    get_uploader(resourceid){
+    get_uploader (resourceid) {//resourceid已经加上类型
       var vm = this
       this.axios({
         method: 'post',
-        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
+        url: this.GLOBAL.Blockchain_Base_Url + '/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.up_loader = resp.data.data[0].Uploader.split("_")[0]
-        if(resp.data.data[0].Uploader.split("_")[0]===this.$cookies.get("type")){
-          vm.up_loader = resp.data.data[0].Uploader.split("_")[1]
-        }
+        vm.uploader = resp.data.data[0].Uploader//传出来的是一个数组
+        vm.isUploader=(vm.uploader===vm.blockchain_id)
+        console.log(vm.isUploader)
       })
     },
-    isBuyer(resourceid){
+    isBuyer(resourceid){//是否购买，可能有bug
       var vm = this
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
+        data: {"Id":this.blockchain_id}
       }).then(resp => {
         vm.account = resp.data.data[0]
         if(vm.account.Buy!==null){
@@ -425,7 +431,7 @@ export default {
             vm.upload_resourcelist.push(vm.account.Upload[i].id)
           }
         }
-        if(vm.upload_resourcelist.indexOf(resourceid)!==-1 || vm.buy_resourcelist.indexOf(resourceid)!==-1){
+        if(vm.upload_resourcelist.indexOf(resourceid)!==-1 || vm.buy_resourcelist.indexOf(resourceid)!==-1){//
           vm.haveBuy=true
         }
       }).catch(error=>{
@@ -435,8 +441,8 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.up_loader||"1",  //1 代表开发者用户用于启动
-          "Buy_id":this.$cookies.get("id"),
+          "Sell_id":this.uploader||"Admin_1",  //1 代表开发者用户用于启动
+          "Buy_id":this.blockchain_id,
           "Resource_id":"Requirement_"+this.Requirement.id,
           "Cost":this.Requirement.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })

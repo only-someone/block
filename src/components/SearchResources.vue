@@ -1,7 +1,7 @@
 <template>
   <div class="page-wrapper">
     <!--Shop Page Section-->
-    <section class="shop-page-section">
+    <section class="shop-page-section"  v-if="this.$route.path==='/PersonDetail'">
       <div class="auto-container">
         <div class="row clearfix">
           <!--Shop Item-->
@@ -13,7 +13,7 @@
               <div class="lower-content">
                 <h3><a @click="getDetail(resource.Type,resource.RId)">{{ resource.RName }}</a></h3>
                 <div class="price">{{ resource.RPrice }}积分</div>
-                <a @click="getDetail(resource.Type,resource.RId)" class="theme-btn btn-style-two" style="color: #ffffff" v-if="isPersonDetail">查看详情</a>
+                <a @click="getDetail(resource.Type,resource.RId)" class="theme-btn btn-style-two" style="color: #ffffff" v-if="isPersonDetail">查看{{resource.Type}}详情</a>
                 <a href="resource_detail.html" class="theme-btn btn-style-two" v-else>购买下载</a>
               </div>
             </div>
@@ -36,7 +36,7 @@
       </div>
     </section>
     <section class="shop-page-section" v-if="this.$route.path==='/SearchResult'" >
-      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Paper'">
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -2%" v-if="type==='Paper'">
         <el-form-item style="width: 110px">
           <el-select v-model="type" placeholder="请先选择资源类型" >
             <el-option
@@ -435,10 +435,73 @@ export default {
     if(this.$route.path==="/SearchResult"){
       this.get_search_resources()
     }
-
+    if(this.$route.path==="/PersonDetail"){
+      this.get_account()
+    }
   },
   methods: {
+    get_account(){
+      var vm = this
+      this.axios({
+        method: 'post',
+        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
+        data:{ "Id":this.$cookies.get("type")+"_"+this.$cookies.get("id") }
+      }).then(resp => {
+        vm.account = resp.data.data[0]
+        this.$cookies.set("score",vm.account.Score)
+        console.log(resp.data.data[0])
+        if(vm.account.Buy!==null){
+          for (var i = 0; i < vm.account.Buy.length; i++) {
+            var [type,id] =vm.account.Buy[i].id.split("_")
+            if(type!=="Solution") {
+              vm.axios({
+                method: 'get',
+                url: this.GLOBAL.Service_Base_Url + "/" + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
+              }).then(res => {
+                  type = Object.keys(res.data.data)[0]
+                  var resource = res.data.data[type]
+                  type = type.charAt(0).toUpperCase() + type.slice(1);
+                  var RId = resource.id
+                  var RPrice = resource.price
+                  var RName = resource.title
+                  var RAbstract = resource.summary
+                  var RTime = resource.gmtCreate
+                  var RCover = resource.cover
+                  var RAuthorName = resource.author
+                  if (vm.BuyResources.includes({
+                    "Type": type.keys,
+                    "RId": RId,
+                    "RPrice":RPrice,
+                    "RName": RName,
+                    "RAbstract": RAbstract,
+                    "RTime": RTime,
+                    "RAuthorName": RAuthorName,
+                    "RCover": RCover
+                  })) {
+                  } else {
+                    vm.BuyResources.push({
+                      "Type": type,
+                      "RPrice":RPrice,
+                      "RId": RId,
+                      "RName": RName,
+                      "RAbstract": RAbstract,
+                      "RTime": RTime,
+                      "RAuthorName": RAuthorName,
+                      "RCover": RCover
+                    })
+                  }
+                }
+              )
+            }
+          }
 
+        }
+
+      }).catch(error=>{
+        console.log(error)
+      })
+
+    },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function (size) {
       this.pagesize = size;
@@ -463,7 +526,6 @@ export default {
     get_search_resources(){
       var vm =this
       var requesturl=""
-      //console.log(this.type)
       vm.searchresources=[]
       this.listLoading = true
       console.log(this.type)

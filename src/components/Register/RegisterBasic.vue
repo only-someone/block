@@ -9,7 +9,7 @@
 
                 <div class="card mb-0 shadow-none bg-transparent w-100 login-card rounded-0">
                   <div class="card-body p-md-5">
-                    <img src="static/images/logo-2.png" width="180" alt="" />
+                    <img src="../../../static/images/logo-2.png" width="180" alt="" />
                     <h4 class="mt-5"><strong>填写注册信息</strong></h4>
                     <div class="form-group mt-4">
                       <label>用户名</label>
@@ -59,7 +59,7 @@
                     <h5 class="card-title">Where does it come from?</h5>
                     <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.</p>
                   </div>
-                  <img src="static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
+                  <img src="../../../static/assets/images/login-images/auth-img-register2.png" class="card-img-top" alt="" />
                 </div>
               </div>
             </div>

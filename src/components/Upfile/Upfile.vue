@@ -5,7 +5,7 @@
         <el-tab-pane label="论文" name="Paper" >
             <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
-        <el-tab-pane label="软件著作" name="Software" v-if="this.$cookies.get('type')!=='Normal'">
+        <el-tab-pane label="软件著作（暂未实现）" name="Software" v-if="this.$cookies.get('type')!=='Normal'">
           <span> <UpPaper></UpPaper> </span>
         </el-tab-pane>
         <el-tab-pane label="专利" name="Patent" v-if="this.$cookies.get('type')!=='Normal'">
