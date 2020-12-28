@@ -1,18 +1,17 @@
 <template>
   <div>
-    <section class="shop-single-section sidebar-page-container">
-      <el-timeline :reverse="false">
-        <el-timeline-item
-          v-for="(record, index) in DealRecord"
-          :key="index"
-          :timestamp="record.value.Time"
-        >
-          <div>交易ID:{{ record.txId }}</div>
-          <div>购买者：{{ record.ownername }}</div>
-          <div>花费：{{ record.value.Cost }}积分</div>
-        </el-timeline-item>
-      </el-timeline>
-    </section>
+    <h2 style="text-align: center">交易记录</h2>
+    <div class="about2" >
+      <div class="wrapper clearfix-time">
+        <ul class="clearfix-time">
+          <li v-for="(record, index) in DealRecord.reverse()"  >
+            <h4 @click="getUserDetail(record.Type,record.Id)"><span  style="color: #1e7e34">{{ record.ownername }} </span>   花费{{record.value.Cost}}积分</h4>
+            <span class="span"> {{  record.value.Time}}</span>
+            <p class="f14"> <span  style="color: #1e7e34">交易ID:</span >{{record.txId }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,12 +30,9 @@ export default {
     this.getDealRecord(this.resource_type, this.resource_id);
   },
   methods: {
-    getUserDetail() {
-      //用于跳转
-      var Type = this.uploader.split("_")[0];
-      var Id = this.uploader.split("_")[1];
+    getUserDetail(Type,Id) {
       this.$router.push({
-        name: "FD",
+        name: "UserDetail",
         params: {
           Type: Type,
           Id: Id
@@ -59,27 +55,16 @@ export default {
             //只有admin_1
             type = i.value.Owner.split("_")[0];
             id = i.value.Owner.split("_")[1];
-            url =
-              this.GLOBAL.Service_Base_Url +
-              (type === "Expert"
-                ? "/expertservice/expert"
-                : "/institutionservice/institution") +
-              "/get" +
-              type +
-              "/" +
-              id;
+            url = this.GLOBAL.Service_Base_Url +(type === "Expert"? "/expertservice/expert": "/institutionservice/institution") +"/get" +type + "/" + id;
             pArr.push(
               new Promise(resolve => {
                 this.axios({
                   method: "get",
                   url: url //可能是机构,
-                })
-                  .then(res => {
-                    let user =
-                      res.data.data["expert"] || res.data.data["institution"];
+                }).then(res => {
+                    let user = res.data.data["expert"] || res.data.data["institution"];
                     i.ownername = user.name;
-                  })
-                  .finally(() => {
+                  }).finally(() => {
                     resolve();
                   });
               })

@@ -1,0 +1,39 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,img,area,param{margin:0;padding:0}
+body{font-size:12px}.wrapper{box-sizing:border-box;width:90%;margin:auto;max-width:1200px}
+html[xmlns] .clearfix-time{display:block}
+body{font-size:12px}
+th{font-style:normal;font-weight:400}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400}
+ol,ul{padding-left:0;list-style:none}
+
+.clearfix-time{display:block;zoom:1}
+.clearfix-time:after{content:'\20';display:block;clear:both;visibility:hidden;line-height:0;height:0}
+
+.f12{font-size:12px}
+.f30{font-size:30px}
+.f24{font-size:24px}
+.f14{font-size:14px}
+
+.about2{padding-bottom:80px}
+.about2 .tit{text-align:center}
+.about2 ul{background:url(../images/sy51.png) repeat-y center}
+
+.about2 .tit h6{color:#666}
+.about2 .tit h5{color:#333;margin:15px 0 45px}
+
+.about2 li:before{background:url(../images/sy50.png) no-repeat center center;left:-68px;top:12px;content:"";display:block;position:absolute;width:17px;height:17px}
+.about2 li h4:hover{color:#f8f8f8;transition:all 1s;transform:translateY(-15px)}
+.about2 li h4{position:relative;display:block;text-decoration:none;font-family:lato;color:#ecf0f1;text-transform:uppercase;padding:4px 0;transition:.5s}
+.about2 li h4::after{position:absolute;content:"";width:100%;height:1px;top:100%;left:0;background:#3498db;transition:transform .5s;transform:scaleX(0);transform-origin:right}
+.about2 li h4:hover{color:#95a5a6}
+.about2 li h4:hover::after{transform:scaleX(1);transform-origin:left}
+.about2 li:nth-child(2n):before{background:url(sy50.png) no-repeat center center;right:-69px;top:12px;left:auto;content:"";display:block;position:absolute;width:17px;height:17px}
+.about2 li h4{color:#333;transition:all 1s}
+.about2 li p{color:#666;margin-top:10px;height:60px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+
+.future{text-align:center;color:#999;font-size:12px;margin-top:17px}
+.about2 li:nth-child(1){margin-top:0}
+.about2 li{float:right;width:45%;text-align:left;position:relative;margin-top:100px}
+.about2 li:nth-child(2n){float:left;text-align:right;margin-top:90px}
+
+.span{display: inline-block;color: green;font-size: 20px;}

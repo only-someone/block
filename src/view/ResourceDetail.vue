@@ -31,7 +31,7 @@
         >
       </el-row>
     </div>
-    <el-dialog title="交易记录" :visible.sync="dialogTableVisible">
+    <el-dialog  :visible.sync="dialogTableVisible">
       <DealRecord></DealRecord>
     </el-dialog>
     <div><Footer></Footer></div>
