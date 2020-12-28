@@ -1,10 +1,23 @@
 <template>
   <div>
-    <h2 style="text-align: center">交易记录</h2>
+<!--    <h2 style="text-align: center">交易记录</h2>-->
+<!--    <section class="shop-single-section sidebar-page-container">-->
+<!--      <el-timeline :reverse="false">-->
+<!--        <el-timeline-item-->
+<!--          v-for="(record, index) in DealRecord"-->
+<!--          :key="index"-->
+<!--          :timestamp="record.value.Time">-->
+<!--          <h4 @click="getUserDetail(record.Type,record.Id)"><span  style="color: #1e7e34">{{ record.ownername }} </span>   花费{{record.value.Cost}}积分</h4>-->
+<!--          <span class="span"> {{  record.value.Time}}</span>-->
+<!--          <p class="f14"> <span  style="color: #1e7e34">交易ID:</span >{{record.txId }}</p>-->
+<!--        </el-timeline-item>-->
+<!--      </el-timeline>-->
+<!--    </section>-->
+    <h2 style="text-align: center;font-size: 20px;margin-bottom: 20px">交易记录</h2>
     <div class="about2" >
       <div class="wrapper clearfix-time">
         <ul class="clearfix-time">
-          <li v-for="(record, index) in DealRecord.reverse()"  >
+          <li v-for="record in DealRecord">
             <h4 @click="getUserDetail(record.Type,record.Id)"><span  style="color: #1e7e34">{{ record.ownername }} </span>   花费{{record.value.Cost}}积分</h4>
             <span class="span"> {{  record.value.Time}}</span>
             <p class="f14"> <span  style="color: #1e7e34">交易ID:</span >{{record.txId }}</p>
@@ -64,6 +77,8 @@ export default {
                 }).then(res => {
                     let user = res.data.data["expert"] || res.data.data["institution"];
                     i.ownername = user.name;
+                    i.Type=type
+                    i.Id=id
                   }).finally(() => {
                     resolve();
                   });
@@ -76,6 +91,7 @@ export default {
         Promise.all(pArr).then(() => {
           this.$forceUpdate();
         });
+        this.DealRecord=this.DealRecord.reverse()
       });
     }
   }
