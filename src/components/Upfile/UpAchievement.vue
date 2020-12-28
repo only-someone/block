@@ -166,7 +166,6 @@ export default {
           "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
           "Cost":vm.Achievement.price.toString(),
           "Time":time,
-          "State":"false",
           "GetScore":"20"
       }
       console.log(data)

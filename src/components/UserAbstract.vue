@@ -78,7 +78,7 @@
             <div class="team-block col-lg-3 col-md-6 col-sm-12" v-for="user in searchUserResult"  :key="user.UId"  >
               <div class="inner-box class">
                 <div class="lower-content" >
-                  <div class="image" @click="getUserDetail('Institution',user.UId)">
+                  <div class="image" @click="getUserDetail(user.UType,user.UId)">
                     <img :src="user.UCover || 'static/images/resource/team-2.jpg'"   alt="" style="display:block;width:auto;height:280px" />
                   </div>
                   <h3><a href="#">{{user.UName}}</a></h3>
@@ -206,6 +206,7 @@ export default {
             }
             var UInstitution = users[i].institution
             vm.searchUserResult.push({
+              "UType":"Expert",
               "UId": UId,
               "UName": UName,
               "UIntro": UIntro,
@@ -242,6 +243,7 @@ export default {
             }
             var UInstitution = users[i].institution
             vm.searchUserResult.push({
+              "UType":"Institution",
               "UId": UId,
               "UName": UName,
               "UIntro": UIntro,

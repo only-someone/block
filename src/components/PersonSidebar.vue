@@ -59,33 +59,33 @@
       </div>
 
     <!-- Instagram Widget -->
-    <div class="sidebar-widget instagram-widget" v-if="this.$cookies.get('type')!=='Normal'">
-    <div class="sidebar-title">
-        <h3 >推荐的招标信息</h3>
-    </div>
-    <div class="widget-content">
-        <div class="images-outer clearfix">
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/1.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-1.jpg" alt=""></figure>
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/2.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-2.jpg" alt=""></figure>
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/3.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-3.jpg" alt=""></figure>
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/4.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-4.jpg" alt=""></figure>
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/1.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-5.jpg" alt=""></figure>
-        <!--Image Box-->
-        <figure class="image-box"><a href="static/images/gallery/2.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>
-            <img src="static/images/gallery/instagram-6.jpg" alt=""></figure>
-        </div>
-    </div>
-    </div>
+<!--    <div class="sidebar-widget instagram-widget" v-if="this.$cookies.get('type')!=='Normal'">-->
+<!--    <div class="sidebar-title">-->
+<!--        <h3 >推荐的招标信息</h3>-->
+<!--    </div>-->
+<!--    <div class="widget-content">-->
+<!--        <div class="images-outer clearfix">-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/1.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-1.jpg" alt=""></figure>-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/2.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-2.jpg" alt=""></figure>-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/3.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-3.jpg" alt=""></figure>-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/4.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-4.jpg" alt=""></figure>-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/1.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-5.jpg" alt=""></figure>-->
+<!--        &lt;!&ndash;Image Box&ndash;&gt;-->
+<!--        <figure class="image-box"><a href="static/images/gallery/2.jpg" class="instagram-image" data-caption="" data-fancybox="images" title="Image Title Here" data-fancybox-group="footer-gallery"><span class="overlay-box flaticon-plus"></span></a>-->
+<!--            <img src="static/images/gallery/instagram-6.jpg" alt=""></figure>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    </div>-->
 
     </aside>
 </template>
@@ -157,22 +157,22 @@ export default {
 
         if(vm.account.Buy!==null){
           for (var i = 0; i < vm.account.Buy.length; i++) {
-            this.buy_resourcelist.push(vm.account.Buy[i].id)
+            this.buy_resourcelist.push(vm.account.Buy[i])
           }
         }
         this.buy_number=this.buy_resourcelist.length
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            if(vm.account.Upload[i].id.split("_")[0]!=="Solution")
-              this.upload_resourcelist.push(vm.account.Upload[i].id)
+            if(vm.account.Upload[i].split("_")[0]!=="Solution")
+              this.upload_resourcelist.push(vm.account.Upload[i])
           }
         }
         this.up_number=this.upload_resourcelist.length
 
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            if(vm.account.Upload[i].id.split("_")[0]==="Solution")
-              this.bid_list.push(vm.account.Upload[i].id)
+            if(vm.account.Upload[i].split("_")[0]==="Solution")
+              this.bid_list.push(vm.account.Upload[i])
           }
         }
         this.bid_number=this.bid_list.length

@@ -87,7 +87,7 @@
       <el-form-item label="结束时间" required>
         <div class="block"  >
           <el-date-picker
-            v-model="Requirement.endtime"
+            v-model="Requirement.endTime"
             align="right"
             type="date"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -154,7 +154,7 @@ export default {
         cover: "",
         file: "",
         url: "",
-        endtime:"",
+        endTime:"",
       },
       options:[],
       keyword_pre:[],
@@ -207,7 +207,6 @@ export default {
         "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
         "Cost":vm.Requirement.price.toString(),
         "Time":time,
-        "State":"false",
         "GetScore":"20"
       }
       console.log(data)

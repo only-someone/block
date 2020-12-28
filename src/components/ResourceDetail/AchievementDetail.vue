@@ -48,8 +48,8 @@
                     <el-col :span="4"  ><div class="grid-content bg-purple-dark">成果简介</div></el-col>
                     <el-col :span="20"  ><div class="grid-content bg-purple-light">{{Achievement.summary}}</div></el-col>
                   </el-row>
-                  <el-row style="text-align: center;" v-if="isUploader">
-                    <el-button type="primary"style="width: 30%" >上传者可点击图片修改头像</el-button>
+                  <el-row style="text-align: center;" v-if="isOwner">
+                    <el-button type="primary"style="width: 30%" >拥有者可点击图片修改头像</el-button>
                   </el-row>
                 </div>
               </div>
@@ -67,16 +67,16 @@
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
                   <div class="price" >需要 {{ Achievement.price }} 积分</div>
-                  <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
-                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
-                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail('Expert',uploader)">查看上传者更多资源</button>
+                  <button class="purchased-btn theme-btn" v-if="!this.isOwner" @click="buy()">购买</button>
+                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.isOwner">已有权限，点击下载</button></a>
+                  <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail()">查看拥有者更多资源</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div v-if="isUploader">
+        <div v-if="isOwner">
           <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
             <el-form >
               <el-form-item  style="text-align: center">
@@ -114,14 +114,12 @@ export default {
       account:{},
       resource_type: this.$route.params.Type,
       resource_id:this.$route.params.Id,
-      haveBuy:false,
       download_url:"",
-      owner:"",
       buy_resourcelist:[],
       upload_resourcelist:[],
       up_number:1,
-      uploader:"",
-      isUploader:false,
+      isOwner:this.owner===this.$cookies.get('type')+'_'+this.$cookies.get('id'),
+      owner:"",
       showdialog:false,
       imageUrl:"",
       Achievement:{},
@@ -154,8 +152,7 @@ export default {
       }).then(res=>{
         console.log(res)
         vm.Achievement=res.data.data[Object.keys(res.data.data)[0]]
-        this.isBuyer("Achievement_"+vm.Achievement.id)
-        this.get_uploader("Achievement_"+vm.Achievement.id)
+        this.get_owner("Achievement_"+vm.Achievement.id)
         if(vm.Achievement.file===null||vm.Achievement.file===""){
           alert("该资源暂无源文件")
         }
@@ -167,8 +164,8 @@ export default {
       })
     },
     getUserDetail(){
-      var Type=this.uploader.split("_")[0]
-      var Id=this.uploader.split("_")[1]
+      var Type=this.owner.split("_")[0]
+      var Id=this.owner.split("_")[1]
       this.$router.push({
         name:'UserDetail',
         params:{
@@ -189,50 +186,39 @@ export default {
         this.showdialog=false}
       )
     },
-    get_uploader(resourceid){
+    get_owner(resourceid){
       var vm = this
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.uploader = resp.data.data[0].Uploader
-        vm.isUploader = (vm.uploader===vm.blockchain_id)
+        vm.owner = resp.data.data[0].Owner
+        vm.isOwner = (vm.owner===vm.blockchain_id)
       })
-    },
-    isBuyer(resourceid){
-      var vm = this
-      this.axios({
-        method: 'post',
-        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.blockchain_id}
-      }).then(resp => {
-        vm.account = resp.data.data[0]
-        if(vm.account.Buy!==null){
-          for (var i = 0; i < vm.account.Buy.length; i++) {
-            vm.buy_resourcelist.push(vm.account.Buy[i].id)
+    /*    .catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
+        vm.axios({
+          method:"post",
+          url:vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadResource',
+          data:{
+            "Cost": "0",
+            "GetScore": "20",
+            "Hash": "null",
+            "Id": resourceid ,
+            "Time": "2020-1-1 12:56:40",
+            "Uploader": "Admin_1"
           }
-        }
-        if(vm.account.Upload!==null){
-          for (var i = 0; i < vm.account.Upload.length; i++) {
-            vm.upload_resourcelist.push(vm.account.Upload[i].id)
-          }
-        }
-        if(vm.upload_resourcelist.indexOf(resourceid)!==-1 || vm.buy_resourcelist.indexOf(resourceid)!==-1){
-          vm.haveBuy=true
-        }
-      }).catch(error=>{
-        console.log(error)
-      })
+        }).then()
+      })*/
     },
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.uploader||"Admin_1",  //1 代表开发者用户用于启动
-          "Buy_id":this.blockchain_id,
-          "Resource_id":"Achievement_"+this.Achievement.id,
-          "Cost":this.Achievement.price.toString(),
-          "Time":new Date().toLocaleString('chinese', { hour12: false })
+        "Sell_id":this.owner,  //1 代表开发者用户用于启动
+        "Buy_id":this.blockchain_id,
+        "Resource_id":"Achievement_"+this.Achievement.id,
+        "Cost":this.Achievement.price.toString(),
+        "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
       console.log(Dealdata)
       this.axios({

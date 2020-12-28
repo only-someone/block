@@ -55,7 +55,7 @@
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">结束时间</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Requirement.openTime}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{Requirement.endTime}}</div></el-col>
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
@@ -79,14 +79,14 @@
               <div class="purchased-widget" style="margin-top: 40px">
                 <div class="inner-box" style="text-align: center">
                   <div class="price" >需要 {{ Requirement.price }} 积分</div>
-                  <button class="purchased-btn theme-btn" v-if="!this.haveBuy" @click="buy()">购买</button>
-                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.haveBuy">已有权限，点击下载</button></a>
+                  <button class="purchased-btn theme-btn" v-if="!this.isOwner" @click="buy()">购买</button>
+                  <a :href=download_url><button class="purchased-btn theme-btn"  v-if="this.isOwner">已有权限，点击下载</button></a>
                   <button class="purchased-btn theme-btn" style="margin-top: 50px" @click="getUserDetail()">查看上传者更多资源</button>
 
                 </div>
               </div>
             </div>
-            <el-row style="text-align: center;" v-if="isUploader">
+            <el-row style="text-align: center;" v-if="isOwner">
               <el-button type="primary" >上传者可点击图片修改头像</el-button>
             </el-row>
             <el-row style="text-align: center;" v-else-if="this.$cookies.get('type')!=='Normal'">
@@ -99,7 +99,7 @@
         </div>
 
         <!--   上传项目需求可以查看别人发送的解决方案\修改cover-->
-        <div v-if="isUploader">
+        <div v-if="isOwner">
           <div class="group-title">
             <h2>投标信息</h2>
           </div>
@@ -188,7 +188,7 @@
 
 
         <!--   其他人可以查看自己上传的解决方案-->
-        <div class="comments-area"  v-if="!isUploader">
+        <div class="comments-area"  v-if="!isOwner">
           <div class="group-title">
             <h2>自己针对本需求上传的解决方案</h2>
           </div>
@@ -231,19 +231,17 @@ export default {
       download_url:"",
       buy_resourcelist:[],
       upload_resourcelist:[],
-      uploader:"",
+      isOwner:this.owner===this.$cookies.get('type')+'_'+this.$cookies.get('id'),
+      owner:"",
       showdialog:false,
       imageUrl:"",
       Requirement:{},
       dialogTableVisible: false,
       dialogFormVisible: false,
       UploadResources:[],
-      isUploader:false,
-
-      blockchain_id:this.$cookies.get('type')+"_"+this.$cookies.get('id'),
+      blockchain_id:this.$cookies.get('type')+"_"+this.$cookies.get('id'),//用户id
       user_type: this.$cookies.get('type'),
       user_id:this.$cookies.get('id'),
-
       currentPage:1, //初始页
       pagesize:2,    //   每页的数据
       table_solution:[],
@@ -254,14 +252,13 @@ export default {
     this.getDetail(this.resource_type,this.resource_id)
     this.getUpload(this.blockchain_id)
     this.get_table(this.resource_type,this.resource_id)
-    this.isBuyer("Requirement_"+this.resource_id)
-    this.get_uploader("Requirement_"+this.resource_id)
+    this.get_owner("Requirement_"+this.resource_id)
 
   },
 
   methods:{
-    changeAcc(id,status,index){
-      console.log(index)
+    changeAcc(id,status,index){//是否采用
+
       var vm=this
       this.axios({
         method:"get",
@@ -278,7 +275,6 @@ export default {
         method:"get",
         url:this.GLOBAL.Service_Base_Url+"/solutionservice/solution/getSolutionListByRequirementNumber/"+id,
       }).then(resp=>{
-        console.log(resp.data.data)
         vm.table_solution=resp.data.data.items
       })
     },//获取上传解决方案表
@@ -298,32 +294,35 @@ export default {
     handleCurrentChange: function(currentPage){
       this.currentPage = currentPage;
     },
-    getUpload(blockchain_id){//拿到所有的上传资源，判断是否有权限
+   getUpload(blockchain_id){//拿到所有的上传资源，虚招自己上传的对应solution
       var vm= this
       this.axios({
         method:"post",
-        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryUpload",
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryAccount",
         data:{"Id":blockchain_id}
       }).then(res=>{
-        var upload_resourcelist=res.data.data  //Hash也传出来了，购买失去了意义
+        console.log(res.data.data)
+        var upload_resourcelist=res.data.data[0].Upload  //Hash也传出来了，购买失去了意义
         if(upload_resourcelist!==null){
           for (var i = 0; i < upload_resourcelist.length; i++) {
-            var [type,id] = upload_resourcelist[i].id.split("_")
+            var [type,id] = upload_resourcelist[i].split("_")
             //值判断Solution
-            if(type==="Solution") {
+            if(type==="Solution") {//只要solution
               vm.axios({
                 method: 'get',
                 url: this.GLOBAL.Service_Base_Url + '/' + type.toLowerCase() + 'service/' + type.toLowerCase() + '/get' + type + '/' + id
               }).then(res => {
+
                   type = Object.keys(res.data.data)[0]
                   var resource = res.data.data[type]
+
                   type = type.charAt(0).toUpperCase() + type.slice(1);
-                  if(resource.requirementNumber===vm.resource_id) {
+                  if(resource.requirementNumber===vm.resource_id) {//对应require
                     var RId = resource.id
                     var RName = resource.title
                     var RAbstract = resource.summary || resource.orgName
                     var RTime = resource.pubDate || resource.gmtCreate
-                      var RCover = resource.cover
+                    var RCover = resource.cover
                     var RPrice = resource.price
                     var RAuthorName = resource.author || resource.purchaseInstitution || resource.purchasePerson
                     vm.UploadResources.push({
@@ -346,7 +345,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      console.log(res)
+
       this.Requirement.cover=res.data.url
     },
     beforeAvatarUpload(file) {
@@ -379,8 +378,8 @@ export default {
       })
     },
     getUserDetail(){
-      var Type=this.uploader.split("_")[0]
-      var Id=this.uploader.split("_")[1]
+      var Type=this.owner.split("_")[0]
+      var Id=this.owner.split("_")[1]
       this.$router.push({
         name:'UserDetail',
         params:{
@@ -401,16 +400,15 @@ export default {
         this.showdialog=false}
       )
     },
-    get_uploader (resourceid) {//resourceid已经加上类型
+    get_owner (resourceid) {//resourceid已经加上类型
       var vm = this
       this.axios({
         method: 'post',
         url: this.GLOBAL.Blockchain_Base_Url + '/api/v1/queryResource',
         data: {"Id": resourceid}
       }).then(resp => {
-        vm.uploader = resp.data.data[0].Uploader//传出来的是一个数组
-        vm.isUploader=(vm.uploader===vm.blockchain_id)
-        console.log(vm.isUploader)
+        vm.owner = resp.data.data[0].Owner//传出来的是一个数组
+        vm.isOwner=(vm.owner===vm.blockchain_id)
       })
     },
     isBuyer(resourceid){//是否购买，可能有bug
@@ -441,19 +439,18 @@ export default {
     buy(){
       var vm =this
       var Dealdata={
-          "Sell_id":this.uploader||"Admin_1",  //1 代表开发者用户用于启动
+          "Sell_id":this.owner,  //1 代表开发者用户用于启动
           "Buy_id":this.blockchain_id,
           "Resource_id":"Requirement_"+this.Requirement.id,
           "Cost":this.Requirement.price.toString(),
           "Time":new Date().toLocaleString('chinese', { hour12: false })
       }
-      console.log(Dealdata)
+
       this.axios({
         method:'post',
         url:this.GLOBAL.Blockchain_Base_Url+'/api/v1/createDeal',
         data:Dealdata
       }).then(res=> {
-        console.log(res)
           alert("购买成功")
         }
       ).catch(error=>{

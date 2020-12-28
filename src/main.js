@@ -33,6 +33,8 @@ import AchievementDetail from "./components/ResourceDetail/AchievementDetail";
 import SolutionDetail from "./components/ResourceDetail/SolutionDetail";
 import CaseDetail from "./components/ResourceDetail/CaseDetail";
 import RequirementDetail from "./components/ResourceDetail/RequirementDetail";
+import DealRecord from "./components/ResourceDetail/DealRecord";
+
 
 import ExpertDetail from "./components/UserDetail/ExpertDetail";
 import InstitutionDetail from "./components/UserDetail/InstitutionDetail";
@@ -95,6 +97,8 @@ Vue.component('AchievementDetail',AchievementDetail)
 Vue.component('SolutionDetail',SolutionDetail)
 Vue.component('RequirementDetail',RequirementDetail)
 Vue.component('CaseDetail',CaseDetail)
+Vue.component('DealRecord',DealRecord)
+
 
 Vue.component('ExpertDetail',ExpertDetail)
 Vue.component('InstitutionDetail',InstitutionDetail)

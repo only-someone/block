@@ -46,7 +46,7 @@
                     <li v-else><router-link to="/UploadResource" v-if="this.$cookies.get('id')" >上传资源</router-link></li>
                   </ul>
                 </li>
-                <li><router-link to="/Contact">联系我们</router-link></li>
+<!--                <li><router-link to="/Contact">联系我们</router-link></li>-->
               </ul>
             </div>
           </nav>

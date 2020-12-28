@@ -116,7 +116,7 @@ export default {
         this.$cookies.set("score",vm.account.Score)
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            var [type,id] =vm.account.Upload[i].id.split("_")
+            var [type,id] =vm.account.Upload[i].split("_")
             if(type!=="Solution"&&type!=="Requirement") {
               vm.axios({
                 method: 'get',

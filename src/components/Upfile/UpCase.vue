@@ -56,7 +56,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="up_Case" style="margin-left:450px;width:150px;margin-top: 50px" round>上传成果</el-button>
+        <el-button type="primary" @click="up_Case" style="margin-left:450px;width:150px;margin-top: 50px" round>上传案例</el-button>
       </el-form-item>
     </el-form>
 
@@ -135,7 +135,6 @@ export default {
         "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
         "Cost":vm.Case.price.toString(),
         "Time":time,
-        "State":"false",
         "GetScore":"20"
       }
       console.log(data)

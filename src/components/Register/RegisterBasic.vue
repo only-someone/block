@@ -41,11 +41,11 @@
 <!--                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
 <!--                      </el-upload>-->
 <!--                    </div>-->
-                    <label style="color: orangered;text-align: center">温馨提示：普通用户只能浏览基本信息，上传论文</label>
+                    <label style="color: orangered;text-align: center">温馨提示：普通用户只能浏览基本信息</label>
                     <div style="margin-top: 100px">
                       <button type="button" class="btn btn-primary btn-block mt-4" @click="register_normal()" ><i class='bx bxs-lock mr-1'></i>注册</button>
                       <div class="text-center mt-4">
-                        <p class="mb-0">已有账号? <router-link to="Login" style="color:#0f86ff ">登录</router-link>
+                        <p class="mb-0">已有账号? <router-link to="/Login" style="color:#0f86ff ">登录</router-link>
                         </p>
                       </div>
                     </div>

@@ -87,7 +87,7 @@
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
 
-      <el-form :inline="true"  style="text-align: center;margin-top: -6%" v-if="type==='Patent'">
+      <el-form :inline="true"  style="text-align: center;margin-top: -60px" v-if="type==='Patent'">
         <el-row>
           <el-form-item style="width: 110px">
             <el-select v-model="type" placeholder="请先选择资源类型" >
@@ -155,7 +155,7 @@
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
 
-      <el-form :inline="true"  style="text-align: center;margin-top: -6%" v-if="type==='Solution'">
+      <el-form :inline="true"  style="text-align: center;margin-top: -60px" v-if="type==='Solution'">
 
         <el-row>
           <el-form-item style="width: 110px">
@@ -224,7 +224,7 @@
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
 
-      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Achievement'">
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -60px" v-if="type==='Achievement'">
         <el-form-item style="width: 110px">
           <el-select v-model="type" placeholder="请先选择资源类型" >
             <el-option
@@ -275,7 +275,7 @@
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
 
-      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Software'">
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top:-60px" v-if="type==='Software'">
         <el-form-item style="width: 110px">
           <el-select v-model="type" placeholder="请先选择资源类型" >
             <el-option
@@ -326,7 +326,7 @@
         <el-button type="primary" icon="el-icon-search" @click="get_search_resources_frombutton()">查询</el-button>
       </el-form>
 
-      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -6%" v-if="type==='Case'">
+      <el-form :inline="true" class="demo-form-inline" style="text-align: center;margin-top: -60px" v-if="type==='Case'">
         <el-form-item style="width: 110px">
           <el-select v-model="type" placeholder="请先选择资源类型" >
             <el-option
@@ -452,7 +452,7 @@ export default {
         console.log(resp.data.data[0])
         if(vm.account.Buy!==null){
           for (var i = 0; i < vm.account.Buy.length; i++) {
-            var [type,id] =vm.account.Buy[i].id.split("_")
+            var [type,id] =vm.account.Buy[i].split("_")
             if(type!=="Solution") {
               vm.axios({
                 method: 'get',

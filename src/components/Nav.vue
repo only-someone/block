@@ -41,7 +41,7 @@
 
                 </ul>
               </li>
-              <li><router-link to="/Contact">联系我们</router-link></li>
+<!--              <li><router-link to="/Contact">联系我们</router-link></li>-->
             </ul>
           </div>
         </nav>

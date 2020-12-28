@@ -55,15 +55,16 @@
         </div>
         <div class="comments-area">
           <div class="group-title">
-            <h2>该用户上传的其他资源</h2>
+            <h2>与该用户有关的其他资源</h2>
           </div>
-          <div  v-for="resource in UploadResources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
+          <div  v-for="resource in releated_resources.slice((currentPage-1)*pagesize,currentPage*pagesize)"  :key="resource.RId">
             <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
               <div class="comment" style="min-height:120px;margin-top: 30px">
                 <div class="author-thumb">
-                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px">
+                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px;margin-left: 20px">
                 <div style="text-align: center">
                   <span class="badge badge-success" >{{ resource.Type }}</span>
+                  <span class="badge badge-success" style="background-color: #80bdff" >{{ resource.method }}</span>
                 </div>
                 </div>
                 <div class="comment-inner" >
@@ -103,7 +104,9 @@ export default {
       user:{},//从区块链获得
       user_type: this.$route.params.Type,
       user_id:this.$route.params.Id,
+      releated_resources:[],
       upload_resourcelist:[],
+      buy_resourcelist:[],
       currentPage:1, //初始页
       pagesize:2,    //   每页的数据
       UploadResources:[],
@@ -112,6 +115,7 @@ export default {
   created() {
     this.getDetail(this.user_type,this.user_id)
     this.getUpload(this.user_type,this.user_id)
+    this.getBuy(this.user_type,this.user_id)
 
   },
 
@@ -144,13 +148,25 @@ export default {
       var vm= this
       this.axios({
         method:"post",
-        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryUpload",
-        data:{"Id":vm.user_id}
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryAccount",
+        data:{"Id":Type+"_"+Id}
       }).then(res=>{
-        var upload_resourcelist=res.data.data  //Hash也传出来了，购买失去了意义
+        var upload_resourcelist=res.data.data[0].Upload
         if(upload_resourcelist!==null){
           for (var i = 0; i < upload_resourcelist.length; i++) {
-            var [type,id] = upload_resourcelist[i].id.split("_")
+            console.log(upload_resourcelist[i])
+            let method
+            vm.axios({//查看是否拥有改资源
+              method:"post",
+              url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryResource",
+              data:{"Id":upload_resourcelist[i]}
+            }).then(resp=>{
+                if(resp.data.data[0].Owner===Type+"_"+Id){
+                   method="当前拥有"//拥有  购买  上传
+                }
+                else method="曾经上传"
+              })
+            var [type,id] = upload_resourcelist[i].split("_")
             vm.axios({
               method:'get',
               url:this.GLOBAL.Service_Base_Url+'/'+type.toLowerCase()+'service/'+type.toLowerCase()+'/get'+type+'/'+id
@@ -165,7 +181,54 @@ export default {
                 var RCover=resource.cover
                 var RPrice=resource.price
                 var RAuthorName=resource.author||resource.purchaseInstitution||resource.purchasePerson
-                vm.UploadResources.push({"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice})
+                let newresource={"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice,"method":method}
+                if (!vm.releated_resources.includes(newresource))
+                  vm.releated_resources.push(newresource)}
+            )
+          }
+
+        }
+      })
+    },
+    getBuy(Type,Id){
+      var vm= this
+      this.axios({
+        method:"post",
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryAccount",
+        data:{"Id":Type+"_"+Id}
+      }).then(res=>{
+        var buy_resourcelist=res.data.data[0].Buy
+        if(buy_resourcelist!==null){
+          for (var i = 0; i < buy_resourcelist.length; i++) {
+            let method
+            vm.axios({//查看是否拥有改资源
+              method:"post",
+              url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryResource",
+              data:{"Id":buy_resourcelist[i]}
+            }).then(resp=>{
+              if(resp.data.data[0].Owner===Type+"_"+Id){
+                method="当前拥有"//拥有  购买  上传
+              }
+              else method="曾经购买"
+            })
+            var [type,id] = buy_resourcelist[i].split("_")
+            vm.axios({
+              method:'get',
+              url:this.GLOBAL.Service_Base_Url+'/'+type.toLowerCase()+'service/'+type.toLowerCase()+'/get'+type+'/'+id
+            }).then(res=> {
+                type=Object.keys(res.data.data)[0]
+                var resource=res.data.data[type]
+                type = type.charAt(0).toUpperCase() + type.slice(1);
+                var RId=resource.id
+                var RName=resource.title
+                var RAbstract=resource.summary||resource.orgName
+                var RTime=resource.pubDate||resource.gmtCreate
+                var RCover=resource.cover
+                var RPrice=resource.price
+                var RAuthorName=resource.author||resource.purchaseInstitution||resource.purchasePerson
+                let newresource={"Type":type,"RId":RId,"RName":RName,"RAbstract":RAbstract,"RTime":RTime,"RAuthorName":RAuthorName,"RCover":RCover,"RPrice":RPrice,"method":method}
+                if (vm.releated_resources.includes(newresource))
+                  vm.releated_resources.push(newresource)
               }
             )
           }
@@ -173,7 +236,6 @@ export default {
         }
       })
     },
-
 
   }
 }

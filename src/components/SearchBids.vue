@@ -227,7 +227,7 @@ export default {
           console.log(error)
         })
     },
-    get_account:async function(){
+    get_account: function(){
       var vm = this
       this.axios({//上传的资源
         method: 'post',
@@ -238,7 +238,7 @@ export default {
         this.$cookies.set("score",vm.account.Score)
         if(vm.account.Upload!==null){
           for (var i = 0; i < vm.account.Upload.length; i++) {
-            var [type,id] =vm.account.Upload[i].id.split("_")
+            var [type,id] =vm.account.Upload[i].split("_")
             if(type==="Solution") {//上传的解决方案详细信息
               vm.axios({//对应详细信息
                 method: 'get',

@@ -91,7 +91,11 @@
 <!--                  <h4 style="text-align: center;float: right; margin-top: -30px"><strong>已有相应单位用户？</strong></h4>-->
                   <el-col  style="margin-left: 15%;width: 70%;margin-top: 20px">
                     <button type="button" class="btn btn-primary btn-block " style="margin-bottom: 50px" @click="register" ><i class='bx bxs-lock mr-1'></i>注册（区块链需要共识，时间较长）</button>
+
                   </el-col>
+                  <div class="text-center mt-4" style="margin-bottom: 60px">
+                    <p class="mb-0">已有账号? <router-link to="Login" style="color:#0f86ff ">登录</router-link></p>
+                  </div>
                 </div>
               </div>
               <div class="col-12 col-lg-7 col-xl-7 d-flex align-items-stretch">

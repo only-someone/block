@@ -212,15 +212,15 @@
 		</div>
 	</section>
 
-  <section class="category-section" >
+  <!--<section class="category-section" >
   <div class="auto-container">
-    <!--Sec Title-->
+    &lt;!&ndash;Sec Title&ndash;&gt;
     <div class="sec-title centered">
       <h2>城市</h2>
     </div>
     <div class="row clearfix">
 
-      <!--Category Block-->
+      &lt;!&ndash;Category Block&ndash;&gt;
       <div class="category-block">
         <div class="inner-box">
           <div class="image">
@@ -363,7 +363,7 @@
       </div>
     </div>
   </div>
-</section>
+</section>-->
 
 
     <section class="news-section">
@@ -412,11 +412,12 @@
             <div class="row clearfix">
 
               <!--Column-->
+              <div class="column counter-column col-lg-4 col-md-6 col-sm-12"></div>
               <div class="column counter-column col-lg-4 col-md-6 col-sm-12">
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                      <countTo ref='example1' class='example1' :startVal=0 :endVal=3 :duration='5000' :autoplay=false></countTo>
+                      <countTo ref='example1' class='example1' :startVal=0 :endVal=3 :duration='3000' :autoplay=false></countTo>
                     </div>
                     <h4 class="counter-title">节点数</h4>
                   </div>
@@ -424,28 +425,28 @@
               </div>
 
               <!--Column-->
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">
-                <div class="inner">
-                  <div >
-                    <div class="count-outer count-box">
-                      <countTo ref='example2' class='example2' :startVal=0 :endVal=300 :duration='3000' pause=true :autoplay=false> </countTo>
-                    </div>
-                    <h4 class="counter-title">区块高度</h4>
-                  </div>
-                </div>
-              </div>
+<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
+<!--                <div class="inner">-->
+<!--                  <div >-->
+<!--                    <div class="count-outer count-box">-->
+<!--                      <countTo ref='example2' class='example2' :startVal=0 :endVal=300 :duration='3000' pause=true :autoplay=false> </countTo>-->
+<!--                    </div>-->
+<!--                    <h4 class="counter-title">区块高度</h4>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
 
-              <!--Column-->
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">
-                <div class="inner">
-                  <div >
-                    <div class="count-outer count-box">
-                      <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>
-                    </div>
-                    <h4 class="counter-title">区块大小</h4>
-                  </div>
-                </div>
-              </div>
+<!--              &lt;!&ndash;Column&ndash;&gt;-->
+<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
+<!--                <div class="inner">-->
+<!--                  <div >-->
+<!--                    <div class="count-outer count-box">-->
+<!--                      <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>-->
+<!--                    </div>-->
+<!--                    <h4 class="counter-title">区块大小</h4>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
 
             </div>
 
@@ -507,38 +508,47 @@ export default {
     this.get_commend_softwares()
     this.get_commend_users()
     this.get_commend_bids()
-    this.get_account()
+    //this.get_account()
   },
   methods: {
     handleScroll() {
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 获取窗口滚动条高度
       if ((scrollTop >= document.body.clientHeight - 1600) && (this.isstart === false)) {
         this.isstart = true
-        this.$refs.example3.start()
-        this.$refs.example2.start()
         this.$refs.example1.start()
+        // this.$refs.example2.start()
+        // this.$refs.example1.start()
       }
     },
-    get_account(){
-      var vm = this
-      this.axios({
-        method: 'post',
-        url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
-        data: {"Id": this.$cookies.get("id")}
-      }).then(resp => {
-        var account = resp.data.data[0]
-        this.$cookies.set("score",account.Score)
-      }).catch(error=>{
-        console.log(error)
-      })
-      //之后加ins
-      this.axios({
-        method:'get',
-        url:this.GLOBAL.Service_Base_Url+'/expertservice/expert/getExpert/'+ this.$cookies.get("id").split("_").slice(-1),
-      }).then(res=>{
-        this.$cookies.set("avatar",res.data.data.expert.avatar);
-      })
-    },
+    // get_account(){//好像不需要
+    //   var vm = this
+    //   this.axios({
+    //     method: 'post',
+    //     url: this.GLOBAL.Blockchain_Base_Url+'/api/v1/queryAccount',
+    //     data: {"Id":this.$cookies.get("type")+"_"+ this.$cookies.get("id")}
+    //   }).then(resp => {
+    //     var account = resp.data.data[0]
+    //     this.$cookies.set("score",account.Score)
+    //   }).catch(error=>{
+    //     console.log(error)
+    //   })
+    //   if(this.$cookies.get("type")==="Expert") {
+    //     this.axios({
+    //       method: 'get',
+    //       url: this.GLOBAL.Service_Base_Url + '/expertservice/expert/getExpert/' + this.$cookies.get("id").split("_").slice(-1),
+    //     }).then(res => {
+    //       this.$cookies.set("avatar", res.data.data.expert.avatar);
+    //     })
+    //   }
+    //   else{
+    //     this.axios({
+    //       method: 'get',
+    //       url: this.GLOBAL.Service_Base_Url + '/institutionservice/institution/getInstitution/' + this.$cookies.get("id").split("_").slice(-1),
+    //     }).then(res => {
+    //       this.$cookies.set("avatar", res.data.data.expert.avatar);
+    //     })
+    //   }
+    // },
     get_commend_papers(){
       var vm=this
       this.axios({
@@ -700,7 +710,7 @@ export default {
           Id:Id
         }
       })
-    },
+    },//资源详细
     getUserDetail(Type,Id){
       this.$router.push({
         name:'UserDetail',

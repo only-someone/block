@@ -75,7 +75,7 @@ export default {
     }
   },
   methods:{
-    Login(){
+    Login(){//判断用户名密码，判断区块链是否有对应用户
       this.axios({
         method:"post",
         url:this.GLOBAL.Service_Base_Url+"/ucenter/member/login",
@@ -91,14 +91,7 @@ export default {
           this.get_userinfo(res.data.data.token)
         }
         else alert("登陆失败")
-      }).catch(error=>{
-        alert("登陆失败"+error)
       })
-      // console.log(this.password)
-      // console.log(this.username)
-      // this.$cookies.set("id","1328219403044622337")   //return this
-      // this.$cookies.set("type","Expert")
-      // this.$router.push({path:'/HOME'})
     },
     get_userinfo(token){
       this.axios({
@@ -107,14 +100,33 @@ export default {
         headers:{token:token}
       }).then(res=>{
         var user=res.data.data.loginInfo
+
         if(user.type===1)
           this.$cookies.set("type","Normal")
         else if(user.type===2)
           this.$cookies.set("type","Expert")
         else if(user.type===3)
           this.$cookies.set("type","Institution")
-        this.$cookies.set("id",user.userId)   //return this
+        this.get_user_blockchain(this.$cookies.get("type"),user.userId)
+
+      })
+
+    },
+    get_user_blockchain(type,id){
+      var block_id=type+"_"+id
+      console.log(block_id)
+      this.axios({
+        method:"post",
+        url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryAccount",
+        data:{"Id":block_id}
+      }).then(res=>{
         this.$router.push({path:'/HOME'})
+        this.$cookies.set("id",id)   //return this
+      }).catch(err=>{
+        alert("区块链没有对应账户")
+        this.$cookies.remove("type")
+        this.$cookies.remove("id")
+        this.$cookies.remove("token")
       })
     }
   }
