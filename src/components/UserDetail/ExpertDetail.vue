@@ -61,7 +61,7 @@
             <div class="comment-box " @click="getResourceDetail(resource.Type,resource.RId)">
               <div class="comment" style="min-height:120px;margin-top: 30px">
                 <div class="author-thumb">
-                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px;margin-left: 20px">
+                  <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px">
                 <div style="text-align: center">
                   <span class="badge badge-success" >{{ resource.Type }}</span>
                   <span class="badge badge-success" style="background-color: #80bdff" >{{ resource.method }}</span>
