@@ -94,6 +94,8 @@
                 </div>
               </div>
             </div>
+
+            <KnowledgeGraph width="100%" style="width: 370px;height:400px" :kg_id="Patent.kgId"></KnowledgeGraph>
           </div>
         </div>
 
@@ -127,7 +129,7 @@
 </template>
 
 <script>
-
+import KnowledgeGraph from "../KnowledgeGraph";
 export default {
   name: "PatentDetail",
   data() {
@@ -150,7 +152,9 @@ export default {
   created() {
     this.getDetail(this.resource_type,this.resource_id)
   },
-
+  component: {
+    KnowledgeGraph
+  },
   methods:{
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);

@@ -44,6 +44,7 @@ import RegisterExpert from './components/Register/RegisterExpert'
 import RegisterCity from './components/Register/RegisterCity'
 import RegisterInstitution from './components/Register/RegisterInstitution'
 
+import KnowledgeGraph from "./components/KnowledgeGraph";
 
 import countTo from 'vue-count-to'
 import  axios from 'axios'
@@ -103,6 +104,10 @@ Vue.component('DealRecord',DealRecord)
 Vue.component('ExpertDetail',ExpertDetail)
 Vue.component('InstitutionDetail',InstitutionDetail)
 
+Vue.component('KnowledgeGraph',KnowledgeGraph)
+
+
+
 axios.interceptors.request.use(config=>{
 
   if (Vue.$cookies.get('token')) {
@@ -112,31 +117,31 @@ axios.interceptors.request.use(config=>{
 },error => {
   return Promise.reject(error)
 })
-router.beforeEach((to, from, next) => {
-  if(Vue.$cookies.get("token")){ //判断本地是否存在token
-    next();
-  }else {
-    if(to.path === '/Login'||to.path === '/Register'||to.path === '/Home'||to.path==='/Commend'){
-      next();
-    }else {
-      next({
-        path:'/Login'
-      })
-    }
-  }
-
-
-  /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
-  if(to.fullPath == "/Login"){
-    if(Vue.$cookies.get("token")){
-      next({
-        path:from.fullPath
-      });
-    }else {
-      next();
-    }
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if(Vue.$cookies.get("token")){ //判断本地是否存在token
+//     next();
+//   }else {
+//     if(to.path === '/Login'||to.path === '/Register'||to.path === '/Home'||to.path==='/Commend'){
+//       next();
+//     }else {
+//       next({
+//         path:'/Login'
+//       })
+//     }
+//   }
+//
+//
+//   /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
+//   if(to.fullPath == "/Login"){
+//     if(Vue.$cookies.get("token")){
+//       next({
+//         path:from.fullPath
+//       });
+//     }else {
+//       next();
+//     }
+//   }
+// });
 
 
 

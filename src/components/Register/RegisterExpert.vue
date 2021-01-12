@@ -182,7 +182,7 @@ export default {
             }
           }).then(res=> {
             alert("注册成功,区块链初始积分为50分")
-            vm.$router.push("/Login")
+            vm.$router.push("/login")
             }
           ).catch(error => {
             console.log(error)
@@ -221,7 +221,7 @@ export default {
           console.log(error)
           alert("区块链注册失败")
         })
-        this.$router.push({path:'/Login'})
+        this.$router.push({path:'/login'})
       }).catch(function (error){
         console.log(error)
       })

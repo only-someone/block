@@ -11,10 +11,9 @@ import ResourceDetail from '../view/ResourceDetail'
 import Register from "../view/Register"
 import UserDetail from "../view/UserDetail";
 import Contact from "../view/Contact";
+import KnowledgeGraph from "../components/KnowledgeGraph";
 
 Vue.use(Router)
-
-
 
 export default new Router({
   routes: [
@@ -72,7 +71,12 @@ export default new Router({
       path:'/Contact',
       name:'Contact',
       component: Contact
-    }
+    },
+    {
+      path:'/KnowledgeGraph',
+      name:'KnowledgeGraph',
+      component: KnowledgeGraph
+    },
   ]
 })
 

@@ -378,7 +378,7 @@
             <div class="inner-box">
               <img :src="resource.RCover||'static/images/resource/news-1.jpg'" alt="" />
               <div class="post-date">{{ resource.announceTime||"暂无" }} 至  {{resource.openTime||"暂无"}}</div>
-              <h3><a href="bid_detail.html">{{ resource.RName }}</a></h3>
+              <h3><a  @click="getDetail(resource.Type,resource.RId)" >{{ resource.RName }}</a></h3>
               <div class="text">{{ resource.RAbstract}}</div>
               <div class="author">
                 <div class="author-image"><img src="static/images/resource/author-2.jpg" alt="" /></div>

@@ -45,7 +45,7 @@
                     <div style="margin-top: 100px">
                       <button type="button" class="btn btn-primary btn-block mt-4" @click="register_normal()" ><i class='bx bxs-lock mr-1'></i>注册</button>
                       <div class="text-center mt-4">
-                        <p class="mb-0">已有账号? <router-link to="/Login" style="color:#0f86ff ">登录</router-link>
+                        <p class="mb-0">已有账号? <router-link to="/login" style="color:#0f86ff ">登录</router-link>
                         </p>
                       </div>
                     </div>
@@ -108,7 +108,7 @@ export default {
             console.log(error)
             alert("区块链注册失败")
           })
-          vm.$router.push("/Login")
+          vm.$router.push("/login")
         }
         else{
           alert(res.data.message)

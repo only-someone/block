@@ -107,8 +107,9 @@ export default {
           this.$cookies.set("type","Expert")
         else if(user.type===3)
           this.$cookies.set("type","Institution")
-        this.get_user_blockchain(this.$cookies.get("type"),user.userId)
-
+        //this.get_user_blockchain(this.$cookies.get("type"),user.userId)
+        this.$router.push({path:'/Home'})
+        this.$cookies.set("id",user.userId)   //return this
       })
 
     },
@@ -120,7 +121,7 @@ export default {
         url:this.GLOBAL.Blockchain_Base_Url+"/api/v1/queryAccount",
         data:{"Id":block_id}
       }).then(res=>{
-        this.$router.push({path:'/HOME'})
+        this.$router.push({path:'/Home'})
         this.$cookies.set("id",id)   //return this
       }).catch(err=>{
         alert("区块链没有对应账户")

@@ -60,26 +60,28 @@
               <!--Search Box-->
               <div class="search-box-outer" v-if="this.$cookies.get('id')">
                 <div class="dropdown">
-                  <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="dripicons-search"></span></button>
-                  <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
-                    <li class="panel-outer">
-                      <div class="form-container">
-                        <form method="post" action="#">
-                          <div class="form-group">
-                            <input type="search" name="field-name" value="" placeholder="点击右侧按钮进入搜索页面" >
-                            <router-link to="SearchResult"><button type="submit" class="search-btn"><span class="fa fa-search"></span></button></router-link>
-                          </div>
-                        </form>
-                      </div>
-                    </li>
-                  </ul>
+                  <router-link to="/SearchResult" style="color: #FFFFFF">
+                  <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  >
+                    <span class="dripicons-search"> </span></button></router-link>
+<!--                  <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">-->
+<!--                    <li class="panel-outer">-->
+<!--                      <div class="form-container">-->
+<!--                        <form method="post" action="#">-->
+<!--                          <div class="form-group">-->
+<!--                            <input type="search" name="field-name" value="" placeholder="点击右侧按钮进入搜索页面" >-->
+<!--                            <router-link to="SearchResult"><button type="submit" class="search-btn"><span class="fa fa-search"></span></button></router-link>-->
+<!--                          </div>-->
+<!--                        </form>-->
+<!--                      </div>-->
+<!--                    </li>-->
+<!--                  </ul>-->
                 </div>
               </div>
               <router-link to="/Commend"> <a  class="cart-btn dripicons-shopping-bag"><span class="total-number"></span></a></router-link>
             </div>
 
             <div class="button-box" v-if="!this.$cookies.get('id')">
-              <a  class="theme-btn btn-style-one"><router-link to="/Login" style="color: #FFFFFF">Log in/Sign UP</router-link></a>
+              <a  class="theme-btn btn-style-one"><router-link to="login" style="color: #FFFFFF">Log in/Sign UP</router-link></a>
             </div>
 
 
@@ -89,7 +91,6 @@
                  <el-avatar :size="40" :src="circleUrl"></el-avatar><i class="el-icon-arrow-down el-icon--right"></i>
               </span>
                 <el-dropdown-menu slot="dropdown">
-
                   <el-dropdown-item ><a @click="logout()">退出登录</a></el-dropdown-item>
                   <el-dropdown-item><router-link to="/PersonDetail">个人详情</router-link></el-dropdown-item>
                 </el-dropdown-menu>
