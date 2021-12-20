@@ -400,7 +400,7 @@
       <!--Title Box-->
       <div class="title-box" style="background-image: url(static/images/background/8.jpg)">
         <div class="auto-container">
-          <h2><a  href="http://192.168.8.197:8080/#/" style="color: #FFFFFF" >区块链</a><br></h2>
+          <h2><a  :href=this.GLOBAL.Blockchain_Info_url style="color: #FFFFFF" >区块链</a><br></h2>
         </div>
       </div>
       <!--Lower Section-->
@@ -412,41 +412,52 @@
             <div class="row clearfix">
 
               <!--Column-->
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12"></div>
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">
+
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                      <countTo ref='example1' class='example1' :startVal=0 :endVal=3 :duration='3000' :autoplay=false></countTo>
+                      <countTo ref='example1' class='example1' :startVal=0 :endVal=this.block_node :duration='3000'  suffix="":autoplay=false></countTo>
                     </div>
                     <h4 class="counter-title">节点数</h4>
                   </div>
                 </div>
               </div>
 
-              <!--Column-->
-<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
-<!--                <div class="inner">-->
-<!--                  <div >-->
-<!--                    <div class="count-outer count-box">-->
-<!--                      <countTo ref='example2' class='example2' :startVal=0 :endVal=300 :duration='3000' pause=true :autoplay=false> </countTo>-->
-<!--                    </div>-->
-<!--                    <h4 class="counter-title">区块高度</h4>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
 
-<!--              &lt;!&ndash;Column&ndash;&gt;-->
-<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
-<!--                <div class="inner">-->
-<!--                  <div >-->
-<!--                    <div class="count-outer count-box">-->
-<!--                      <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>-->
-<!--                    </div>-->
-<!--                    <h4 class="counter-title">区块大小</h4>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example2' class='example2' :startVal=0 :endVal=this.block_height :duration='3000' pause=true :autoplay=false> </countTo>
+                    </div>
+                    <h4 class="counter-title">区块高度</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!--Column-->
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example3' class='example3' :startVal=0 :endVal=this.deal_count :duration='5000'   :autoplay=false></countTo>
+                    </div>
+                    <h4 class="counter-title">交易数</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example4' class='example4' :startVal=0 :endVal=this.chaincode_count :duration='3000' pause=true :autoplay=false> </countTo>
+                    </div>
+                    <h4 class="counter-title">链码个数</h4>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -483,9 +494,10 @@ export default {
     return {
       list_users: new Array(8),
       avatar:"",
-      block_mermory:20,
-      block_height:20,
-      block_node:20,
+      block_height:5,
+      block_node:1,
+      chaincode_count:1,
+      deal_count:5,
       isstart:false,
       fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"],
       commendPaper:[],
@@ -516,8 +528,9 @@ export default {
       if ((scrollTop >= document.body.clientHeight - 1600) && (this.isstart === false)) {
         this.isstart = true
         this.$refs.example1.start()
-        // this.$refs.example2.start()
-        // this.$refs.example1.start()
+        this.$refs.example2.start()
+        this.$refs.example3.start()
+        this.$refs.example4.start()
       }
     },
     // get_account(){//好像不需要
@@ -720,6 +733,24 @@ export default {
         }
       })
     },
+
+    get_blockchain_info(){
+      var vm=this
+      this.$cookies.set("account_id_token","5feceb66ffc8")
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Blockchain_Info_url+"/api/status/482a650efc8b59b5be2e8518bb6774965ac8d299a523063addd86dcf43985b26"
+        //可能后面需要变换
+      }).then(resp=>{
+        //{"chaincodeCount":"1","txCount":"5","latestBlock":"5","peerCount":"1"}
+        this.block_node=resp.peerCount
+        this.chaincode_count=resp.chaincodeCount
+        this.block_height=resp.latestBlock
+        this.deal_count=resp.txCount
+      })
+    },
+
 
   },
   mounted () {

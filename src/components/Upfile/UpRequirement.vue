@@ -216,20 +216,39 @@ export default {
         data:data,
       }).then(function (resp){
         console.log(resp)
+        alert("上传成功")
+        location.reload(true)
       }).catch()
+    },
+    getCurrentTime() {
+      //获取当前时间并打印
+      var _this = this;
+      let yy = new Date().getFullYear();
+      let mm = new Date().getMonth()+1;
+      let dd = new Date().getDate();
+      let hh = new Date().getHours();
+      let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+      let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+      _this.gettime = yy+'_'+mm+'_'+dd+'_'+hh+':'+mf+':'+ss;
+      console.log(_this.gettime)
     },
     up_Requirement(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
       formData.set("files", this.Requirement.file);
+      vm.getCurrentTime()
       this.axios
-        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
+        .put('/DownloadUrl/objects/'+vm.gettime+'_'+vm.Requirement.file.name, formData, {
           headers: {
             "Content-type": "multipart/form-data"
           }
-        }).then(function(resp){
-        if(resp.data.data!==null)
-          vm.Requirement.file=resp.data.data.toString()
+        }).then( function(resp){
+        console.log(resp.status)
+        if(resp.status.toString()!=="200"){
+          alert("文件上传错误")
+          return
+        }
+        vm.Requirement.file='/objects/'+ vm.gettime+'_'+vm.Requirement.file.name
         var keywords_tostring=""
         for (var i=0;i<vm.keyword_pre.length;i++)
         { keywords_tostring+=vm.keyword_pre[i].toString()+";"}

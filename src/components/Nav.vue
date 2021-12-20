@@ -23,7 +23,7 @@
               <li class="dropdown"><a>系统信息</a>
                 <ul>
                   <li><a href="#">知识图谱</a></li>
-                  <li><a href="http://192.168.8.197:8080">区块链</a></li>
+                  <li><a :href=this.GLOBAL.Blockchain_Info_url>区块链</a></li>
 
                 </ul>
               </li>

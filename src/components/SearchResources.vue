@@ -423,12 +423,14 @@ export default {
         label: '技术成果',
         value: 'Achievement'
       }, {
-        label: '软件著作',
-        value: 'Software'
-      }, {
         label: '案例',
         value:'Case'
-      }],
+      },
+        // {
+        //   label: '软件著作',
+        //   value: 'Software'
+        // }
+      ],
     }
   },
   created() {

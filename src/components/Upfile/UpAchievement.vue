@@ -43,25 +43,12 @@
       <el-form-item label="论文摘要" required>
         <el-input type="textarea" v-model="Achievement.summary" rows=10 ></el-input>
       </el-form-item>
-      <el-form-item label="number"  >
+      <el-form-item label="项目年度编号"  >
         <el-input  v-model="Achievement.number" style="width: 400PX"></el-input>
       </el-form-item>
       <el-form-item label="年份"  >
         <el-input-number v-model="Achievement.year"  :step="1" step-strictly controls-position="right" ></el-input-number>
       </el-form-item>
-
-      <!--<el-form-item label="发表日期" required>
-        <div class="block"  >
-          <el-date-picker
-            v-model="Paper.pubDate"
-            align="right"
-            type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-          </el-date-picker>
-        </div>
-      </el-form-item>-->
 
       <el-form-item label="成果文件" required>
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
@@ -152,6 +139,18 @@ export default {
         }
       }
     },
+    getCurrentTime() {
+      //获取当前时间并打印
+      var _this = this;
+      let yy = new Date().getFullYear();
+      let mm = new Date().getMonth()+1;
+      let dd = new Date().getDate();
+      let hh = new Date().getHours();
+      let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+      let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+      _this.gettime = yy+'_'+mm+'_'+dd+'_'+hh+':'+mf+':'+ss;
+      console.log(_this.gettime)
+    },
     handleRemove(file, fileList) {
       if (file.uid === this.uploadFile.uid) {
         this.uploadFile = {}
@@ -175,20 +174,27 @@ export default {
         data:data,
       }).then(function (resp){
         console.log(resp)
+        alert("上传成功")
+        location.reload(true)
       }).catch()
      },
-    up_achievement(){ // 上传区块链失败，但是数据库上传成功   hash不能为空
-      var vm=this;
-      let formData = new FormData();
-      formData.set("files", this.Achievement.file);
-      this.axios
-        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
-          headers: {
-            "Content-type": "multipart/form-data"
+    up_achievement(){
+        var vm=this;
+        let formData = new FormData();
+        formData.set("files", this.Achievement.file);
+        vm.getCurrentTime()
+        this.axios
+          .put('/DownloadUrl/objects/'+vm.gettime+'_'+vm.Achievement.file.name, formData, {
+            headers: {
+              "Content-type": "multipart/form-data"
+            }
+          }).then( function(resp){
+          console.log(resp.status)
+          if(resp.status.toString()!=="200"){
+            alert("文件上传错误")
+            return
           }
-        }).then(function(resp){
-          if(resp.data.data!==null)
-            vm.Achievement.file=resp.data.data.toString()
+          vm.Achievement.file='/objects/'+ vm.gettime+'_'+vm.Achievement.file.name
           var keywords_tostring=""
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
@@ -200,11 +206,7 @@ export default {
                 "Content-type": "application/json"
               }
             }).then(function(resp){
-              console.log(resp.data.data.achievement)
               vm.up_achievement_blockchain("Achievement_"+resp.data.data.achievement.id,resp.data.data.achievement.gmtCreate)
-              alert("上传成功")
-              //刷新当前页面
-            //location.reload(true)
           }).catch();
         }).catch();
 

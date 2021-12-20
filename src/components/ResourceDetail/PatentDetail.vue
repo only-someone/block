@@ -184,7 +184,7 @@ export default {
         else if(vm.Patent.file.indexOf("http")!==-1)
           vm.download_url=this.Patent.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Patent.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+vm.Patent.file
         }
       })
     },
