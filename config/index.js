@@ -15,11 +15,7 @@ module.exports = {
         target:"http://192.168.8.33:12345",
         changeOrigin:true,
         pathRewrite:{
-<<<<<<< HEAD
           '^/DownloadUrl':''
-=======
-        '^/DownloadUrl':''
->>>>>>> 86c37d9b4a77178dba3c40c0523991457d9fc281
         }
       }
 
