@@ -58,7 +58,7 @@
         <el-upload ref="upload" :auto-upload="false" :limit="1"  action="" :on-change="handleChange"
                                 :on-remove="handleRemove" >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传一个文件，且不超过50M</div>
+          <div slot="tip" class="el-upload__tip">只能上传一个文件,建议打包，且不超过50M</div>
         </el-upload>
       </el-form-item>
       <el-form-item label="网络链接"  >
@@ -71,10 +71,10 @@
       <el-form-item label="展示图片"  required>
         <el-upload
           class="avatar-uploader"
-          action="http://192.168.8.103:8222/oss/avataross"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
+          :before-upload="beforeAvatarUpload"
+          :action=this.actionUrl>
           <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width: 200px;height: 200px">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -109,6 +109,8 @@ export default {
         cover:"",//封面
         // Domain:'',
       },
+      actionUrl:this.GLOBAL.Service_Base_Url+"/oss/avataross",
+      gettime:'',
       keyword_pre:[],
       inputVisible: false,
       inputValue: '',
@@ -126,8 +128,8 @@ export default {
   },
   methods: {
     handleChange(file, fileList) {
-      const isLt5M = file.size / 1024 / 1024 < 50
-      if (!isLt5M) {
+      const isLt50M = file.size / 1024 / 1024 < 50
+      if (!isLt50M) {
         this.$message.error('上传文件大小不能超过 50MB')
         this.Paper.file = null
         this.$refs.upload.clearFiles() // 清除前端显示的文件列表
@@ -143,6 +145,18 @@ export default {
         this.Paper.file=""
       }
     },
+    getCurrentTime() {
+      //获取当前时间并打印
+      var _this = this;
+      let yy = new Date().getFullYear();
+      let mm = new Date().getMonth()+1;
+      let dd = new Date().getDate();
+      let hh = new Date().getHours();
+      let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+      let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+      _this.gettime = yy+'_'+mm+'_'+dd+'_'+hh+':'+mf+':'+ss;
+      console.log(_this.gettime)
+    },
     up_paper_blockchain(id,time){
       var vm=this
       var data={
@@ -151,7 +165,7 @@ export default {
           "Uploader":vm.$cookies.get("type")+"_"+vm.$cookies.get("id"),
           "Cost":vm.Paper.price.toString(),
           "Time":time,
-          "GetScore":"20"
+          "GetScore":"20"//上传资源获得20积分
       }
       console.log(data)
       this.axios({
@@ -160,40 +174,46 @@ export default {
         data:data,
       }).then(function (resp){
         console.log(resp)
+        alert("上传成功")
+        location.reload(true)
       }).catch()
      },
-    up_paper(){//上传区块链失败，但是数据库上传成功   hash不能为空
+
+    up_paper(){
+      //先上传文件成功，再写进微服务、再写进区块链
       var vm=this;
       let formData = new FormData();
       formData.set("files", this.Paper.file);
+      vm.getCurrentTime()
       this.axios
-        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
+        .put('/DownloadUrl/objects/'+vm.gettime+'_'+vm.Paper.file.name, formData, {  //跨域 async: false,
           headers: {
             "Content-type": "multipart/form-data"
           }
-        }).then(function(resp){
-          if(resp.data.data!==null)
-            vm.Paper.file=resp.data.data.toString()
+        }).then( function(resp){
+          console.log(resp.status)
+          if(resp.status.toString()!=="200"){
+            alert("文件上传错误")
+            return
+          }
+          vm.Paper.file='/objects/'+ vm.gettime+'_'+vm.Paper.file.name
           var keywords_tostring=""
           for (var i=0;i<vm.keyword_pre.length;i++)
             { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
           vm.Paper.keywords=keywords_tostring
-
           console.log(vm.Paper)
+          //可能会出现顺序问题
           vm.axios
             .post(vm.GLOBAL.Service_Base_Url+'/paperservice/paper/addPaper', vm.Paper, {
               headers: {
                 "Content-type": "application/json"
               }
-            }).then(function(resp){
-              console.log(resp.data.data.paper)
+            }).then( function(resp){
+              console.log(resp)
               vm.up_paper_blockchain("Paper_"+resp.data.data.paper.id,resp.data.data.paper.gmtCreate)
-              alert("上传成功")
-              //刷新当前页面
-            location.reload(true)
+
           }).catch();
         }).catch();
-
     },
 
     handleClose(tag) {

@@ -29,18 +29,6 @@
                         </div>
                       </div>
                     </div>
-<!--                    <div class="form-group" >-->
-<!--                      <label >头像</label>-->
-<!--                      <el-upload size="large"-->
-<!--                                 class="avatar-uploader"-->
-<!--                                 :show-file-list="false"-->
-<!--                                 action="http://192.168.8.103:8222/oss/avataross"-->
-<!--                                 :on-success="handleAvatarSuccess"-->
-<!--                                 :before-upload="beforeAvatarUpload">-->
-<!--                        <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--                      </el-upload>-->
-<!--                    </div>-->
                     <label style="color: orangered;text-align: center">温馨提示：普通用户只能浏览基本信息</label>
                     <div style="margin-top: 100px">
                       <button type="button" class="btn btn-primary btn-block mt-4" @click="register_normal()" ><i class='bx bxs-lock mr-1'></i>注册</button>
@@ -99,7 +87,7 @@ export default {
             method: 'post',
             url: this.GLOBAL.Blockchain_Base_Url + '/api/v1/createUser',
             data: {
-              "Id": res.data.data.member.id,
+              "Id": "Normal_"+res.data.data.member.id,
               "Score": "50"
             }
           }).then(

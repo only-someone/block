@@ -7,9 +7,9 @@ export default {
   name: "Global.Vue",
   // Service_Base_Url:"http://192.168.8.103:8222",
   Service_Base_Url:"http://192.168.8.127:8222",
-  Blockchain_Base_Url:"http://192.168.100.17:8000",
-  Download_Base_Url:"http://192.168.100.17:8081",
-
+  Blockchain_Base_Url:"http://192.168.100.18:8000",
+  Download_Base_Url:"http://192.168.8.33:12345",
+  Blockchain_Info_url:"http://192.168.100.18:8080",
   options : {
      nodes: {
         font: {

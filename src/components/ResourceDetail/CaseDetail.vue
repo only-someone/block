@@ -156,7 +156,7 @@ export default {
         else if(vm.Case.file.indexOf("http")!==-1)
           vm.download_url=this.Case.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Case.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+vm.Case.file
         }
       })
     },//获取当前资源得详细信息

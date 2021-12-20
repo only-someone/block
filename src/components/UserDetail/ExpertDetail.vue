@@ -45,8 +45,8 @@
             <el-image :src="user.avatar ||'static/images/resource/team-2.jpg'"     width="100%" style="width: 350px;height:400px" alt=""  lazy/>
             <div class="purchased-widget" style="margin-top: 40px">
               <div  style="text-align: center">
-                <el-button type="success" v-if="user.state" >已通过审核</el-button>
-                <el-button type="danger" v-if="!user.state" >暂未通过审核</el-button>
+<!--                <el-button type="success" v-if="user.state" >已通过审核</el-button>-->
+<!--                <el-button type="danger" v-if="!user.state" >暂未通过审核</el-button>-->
               </div>
             </div>
 
@@ -64,7 +64,10 @@
                   <img :src=" resource.RCover ||'/static/images/resource/featured-3.jpg'" alt=""  style="height: 100px;width: 100px;margin-left: 20px">
                 <div style="text-align: center">
                   <span class="badge badge-success" >{{ resource.Type }}</span>
-                  <span class="badge badge-success" style="background-color: #80bdff" >{{ resource.method }}</span>
+                  <div>
+                    <span class="badge badge-success" style="background-color: #80bdff" >{{ resource.method }}</span>
+                  </div>
+
                 </div>
                 </div>
                 <div class="comment-inner" >
