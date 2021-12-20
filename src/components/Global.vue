@@ -5,18 +5,24 @@
 <script>
 export default {
   name: "Global.Vue",
-  Service_Base_Url:"http://192.168.8.103:8222",
-  Blockchain_Base_Url:"http://192.168.8.197:8000",
-  Download_Base_Url:"http://192.168.8.197:8081",
+  // Service_Base_Url:"http://192.168.8.103:8222",
+  Service_Base_Url:"http://192.168.8.127:8222",
+  Blockchain_Base_Url:"http://192.168.100.18:8000",
+  Download_Base_Url:"http://192.168.8.33:12345",
+  Blockchain_Info_url:"http://192.168.100.18:8080",
   options : {
-     nodes: {
-        font: {
-          size:20
-        },
-     },
-     edges: {
-       width: 2,
-     },
+    nodes: {
+      font: {
+        size:10
+      },
+    },
+    edges: {
+      width: 1,
+      font: {
+        size: 10
+      },
+      arrows:"to"
+    },
     groups: {
       expe: {
         shape: "circularImage",
@@ -84,9 +90,7 @@ export default {
     },
   }
 }
-
 </script>
 
 <style scoped>
-
 </style>

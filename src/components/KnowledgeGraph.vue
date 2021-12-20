@@ -54,9 +54,11 @@ export default {
     getGraph(){
       this.axios({
         method:'get',
-        url:this.GLOBAL.Service_Base_Url+"/kg/findSubKGByInstitutionId/"+this.kg_id,
+        //url:this.GLOBAL.Service_Base_Url+"/kg/findSubKGByInstitutionId/"+this.kg_id,
+        url:"http://localhost:8018/kg/expert/extract/expe_100"
+        //url:"KGUrl/kg/expert/extract/expe_100"
       }).then(resp=>{
-
+        console.log(resp)
         this.nodes=resp.data.data.nodes
 
         this.edges=resp.data.data.edges

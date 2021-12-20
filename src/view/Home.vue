@@ -174,196 +174,195 @@
     </section>
 
     <!--推荐用户-->
-  <section class="testimonial-section">
-		<div class="auto-container">
-			<!--Sec Title-->
-			<div class="sec-title centered">
-				<h2>可能感兴趣的用户</h2>
-			</div>
-      <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
-        <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
-          <div class="testimonial-block" style="margin-top: 50px;text-align:center;" >
-            <div class="inner-box" style="width: 60%;margin-left: 20%;">
-              <div class="image" style="user-select: auto;">
-                <a   @click="getUserDetail(user.UType,user.UId)"  style="user-select: auto;"><img :src="user.UCover||'static/images/resource/author-5.jpg'" alt="" style="user-select: auto;width:100px;height:100px;"></a>
+    <section class="testimonial-section">
+      <div class="auto-container">
+        <!--Sec Title-->
+        <div class="sec-title centered">
+          <h2>可能感兴趣的用户</h2>
+        </div>
+        <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
+          <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
+            <div class="testimonial-block" style="margin-top: 50px;text-align:center;" >
+              <div class="inner-box" style="width: 60%;margin-left: 20%;">
+                <div class="image" style="user-select: auto;">
+                  <a   @click="getUserDetail(user.UType,user.UId)"  style="user-select: auto;"><img :src="user.UCover||'static/images/resource/author-5.jpg'" alt="" style="user-select: auto;width:100px;height:100px;"></a>
+                </div>
+                <h3 style="user-select: auto;">{{ user.UName}}</h3>
+                <div class="text" style="user-select: auto;">单位:{{user.UInstitution}}</div>
+                <div class="text" style="user-select: auto;">简介:{{user.UIntro}}</div>
+                <div class="designation" style="user-select: auto;">电话：{{ user.UPhone }}</div>
+                <div class="designation" style="user-select: auto;">邮箱：{{user.UEmail}}</div>
               </div>
-              <h3 style="user-select: auto;">{{ user.UName}}</h3>
-              <div class="text" style="user-select: auto;">单位:{{user.UInstitution}}</div>
-              <div class="text" style="user-select: auto;">简介:{{user.UIntro}}</div>
-              <div class="designation" style="user-select: auto;">电话：{{ user.UPhone }}</div>
-              <div class="designation" style="user-select: auto;">邮箱：{{user.UEmail}}</div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+
+        <!-- <div class="  owl-theme ">
+          <div class="testimonial-block" v-for=" index in Array(9)" :key=index>
+            <div class="inner-box">
+              <div class="image">
+                <img src="images/resource/author-3.jpg" alt="" />
+              </div>
+              <div class="text">“Needless to say we are extremely satisfied with Digital. I will recommend to my colleagues. I strongly recommend Digotal to anyone.”</div>
+              <h3>Jessica Reyes</h3>
+              <div class="designation">Designer@Google</div>
             </div>
           </div>
-        </el-carousel-item>
-      </el-carousel>
+        </div> -->
+      </div>
+    </section>
 
-			<!-- <div class="  owl-theme ">
-				<div class="testimonial-block" v-for=" index in Array(9)" :key=index>
-			    <div class="inner-box">
-						<div class="image">
-							<img src="images/resource/author-3.jpg" alt="" />
-						</div>
-						<div class="text">“Needless to say we are extremely satisfied with Digital. I will recommend to my colleagues. I strongly recommend Digotal to anyone.”</div>
-						<h3>Jessica Reyes</h3>
-						<div class="designation">Designer@Google</div>
-					</div>
-				</div>
-			</div> -->
-		</div>
-	</section>
-
-  <!--<section class="category-section" >
-  <div class="auto-container">
-    &lt;!&ndash;Sec Title&ndash;&gt;
-    <div class="sec-title centered">
-      <h2>城市</h2>
+    <!--<section class="category-section" >
+    <div class="auto-container">
+      &lt;!&ndash;Sec Title&ndash;&gt;
+      <div class="sec-title centered">
+        <h2>城市</h2>
+      </div>
+      <div class="row clearfix">
+        &lt;!&ndash;Category Block&ndash;&gt;
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-1.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">北京</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-2.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">上海</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-3.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">广州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-4.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">深圳</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-5.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">杭州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-10.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">苏州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-6.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">武汉</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-7.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">成都</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-8.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">重庆</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-9.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">天津</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row clearfix">
-
-      &lt;!&ndash;Category Block&ndash;&gt;
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-1.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">北京</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-2.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">上海</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-3.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">广州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-4.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">深圳</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-5.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">杭州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-10.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">苏州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-6.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">武汉</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-7.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">成都</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-8.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">重庆</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-9.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">天津</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>-->
+  </section>-->
 
 
     <section class="news-section">
@@ -400,7 +399,7 @@
       <!--Title Box-->
       <div class="title-box" style="background-image: url(static/images/background/8.jpg)">
         <div class="auto-container">
-          <h2><a  href="http://192.168.8.197:8080/#/" style="color: #FFFFFF" >区块链</a><br></h2>
+          <h2><a  :href=this.GLOBAL.Blockchain_Info_url style="color: #FFFFFF" >区块链</a><br></h2>
         </div>
       </div>
       <!--Lower Section-->
@@ -412,41 +411,52 @@
             <div class="row clearfix">
 
               <!--Column-->
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12"></div>
-              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">
+
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
                 <div class="inner">
                   <div >
                     <div class="count-outer count-box">
-                      <countTo ref='example1' class='example1' :startVal=0 :endVal=3 :duration='3000' :autoplay=false></countTo>
+                      <countTo ref='example1' class='example1' :startVal=0 :endVal=this.block_node :duration='3000'  suffix="":autoplay=false></countTo>
                     </div>
                     <h4 class="counter-title">节点数</h4>
                   </div>
                 </div>
               </div>
 
-              <!--Column-->
-<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
-<!--                <div class="inner">-->
-<!--                  <div >-->
-<!--                    <div class="count-outer count-box">-->
-<!--                      <countTo ref='example2' class='example2' :startVal=0 :endVal=300 :duration='3000' pause=true :autoplay=false> </countTo>-->
-<!--                    </div>-->
-<!--                    <h4 class="counter-title">区块高度</h4>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
 
-<!--              &lt;!&ndash;Column&ndash;&gt;-->
-<!--              <div class="column counter-column col-lg-4 col-md-6 col-sm-12">-->
-<!--                <div class="inner">-->
-<!--                  <div >-->
-<!--                    <div class="count-outer count-box">-->
-<!--                      <countTo ref='example3' class='example3' :startVal=0 :endVal=12 :duration='5000'  suffix="G" :autoplay=false></countTo>-->
-<!--                    </div>-->
-<!--                    <h4 class="counter-title">区块大小</h4>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example2' class='example2' :startVal=0 :endVal=this.block_height :duration='3000' pause=true :autoplay=false> </countTo>
+                    </div>
+                    <h4 class="counter-title">区块高度</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!--Column-->
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example3' class='example3' :startVal=0 :endVal=this.deal_count :duration='5000'   :autoplay=false></countTo>
+                    </div>
+                    <h4 class="counter-title">交易数</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column counter-column col-lg-3 col-md-6 col-sm-12">
+                <div class="inner">
+                  <div >
+                    <div class="count-outer count-box">
+                      <countTo ref='example4' class='example4' :startVal=0 :endVal=this.chaincode_count :duration='3000' pause=true :autoplay=false> </countTo>
+                    </div>
+                    <h4 class="counter-title">链码个数</h4>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -483,9 +493,10 @@ export default {
     return {
       list_users: new Array(8),
       avatar:"",
-      block_mermory:20,
-      block_height:20,
-      block_node:20,
+      block_height:5,
+      block_node:1,
+      chaincode_count:1,
+      deal_count:5,
       isstart:false,
       fadetime:["0ms","300ms","600ms","900ms","0ms","300ms","600ms","900ms"],
       commendPaper:[],
@@ -516,8 +527,9 @@ export default {
       if ((scrollTop >= document.body.clientHeight - 1600) && (this.isstart === false)) {
         this.isstart = true
         this.$refs.example1.start()
-        // this.$refs.example2.start()
-        // this.$refs.example1.start()
+        this.$refs.example2.start()
+        this.$refs.example3.start()
+        this.$refs.example4.start()
       }
     },
     // get_account(){//好像不需要
@@ -721,9 +733,27 @@ export default {
       })
     },
 
+    get_blockchain_info(){
+      var vm=this
+      this.$cookies.set("account_id_token","5feceb66ffc8")
+      this.axios({
+        method:"get",
+        //推荐专家
+        url:this.GLOBAL.Blockchain_Info_url+"/api/status/482a650efc8b59b5be2e8518bb6774965ac8d299a523063addd86dcf43985b26"
+        //可能后面需要变换
+      }).then(resp=>{
+        //{"chaincodeCount":"1","txCount":"5","latestBlock":"5","peerCount":"1"}
+        this.block_node=resp.peerCount
+        this.chaincode_count=resp.chaincodeCount
+        this.block_height=resp.latestBlock
+        this.deal_count=resp.txCount
+      })
+    },
+
+
   },
   mounted () {
-       window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll)
   },
 }
 </script>
