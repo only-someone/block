@@ -35,7 +35,7 @@
                           <el-upload style="width: 500px"
                                      class="avatar-uploader"
                                      :show-file-list="false"
-                                     action="http://192.168.8.103:8222/oss/avataross"
+                                     :action=this.GLOBAL.Service_Base_Url+"/oss/avataross"
                                      :on-success="handleAvatarSuccess"
                                      :before-upload="beforeAvatarUpload">
                             <img v-if="form.expert.avatar" :src="form.expert.avatar" class="avatar">

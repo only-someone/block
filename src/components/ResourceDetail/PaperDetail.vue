@@ -163,7 +163,7 @@ export default {
         else if(vm.Paper.file.indexOf("http")!==-1)
           vm.download_url=this.Paper.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Paper.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+vm.Paper.file
         }
       })
     },

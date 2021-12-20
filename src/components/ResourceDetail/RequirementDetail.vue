@@ -373,7 +373,7 @@ export default {
         else if(vm.Requirement.file.indexOf("http")!==-1)
           vm.download_url=this.Requirement.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Requirement.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+vm.Requirement.file
         }
       })
     },

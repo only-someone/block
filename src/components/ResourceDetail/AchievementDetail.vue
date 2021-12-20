@@ -32,7 +32,7 @@
 
                   </el-row>
                   <el-row style="margin-bottom: 3%">
-                    <el-col :span="4"><div class="grid-content bg-purple-dark">number</div></el-col>
+                    <el-col :span="4"><div class="grid-content bg-purple-dark">项目年度编号</div></el-col>
                     <el-col :span="8"><div class="grid-content bg-purple-light">{{Achievement.number}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
@@ -159,7 +159,7 @@ export default {
         else if(vm.Achievement.file.indexOf("http")!==-1)
           vm.download_url=this.Achievement.file
         else{
-          vm.download_url=this.GLOBAL.Download_Base_Url+"/ipfs/"+vm.Achievement.file
+          vm.download_url=this.GLOBAL.Download_Base_Url+vm.Achievement.file
         }
       })
     },

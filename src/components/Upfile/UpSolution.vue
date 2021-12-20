@@ -139,6 +139,18 @@ export default {
         console.log(vm.options)
       })
     },
+    getCurrentTime() {
+      //获取当前时间并打印
+      var _this = this;
+      let yy = new Date().getFullYear();
+      let mm = new Date().getMonth()+1;
+      let dd = new Date().getDate();
+      let hh = new Date().getHours();
+      let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+      let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+      _this.gettime = yy+'_'+mm+'_'+dd+'_'+hh+':'+mf+':'+ss;
+      console.log(_this.gettime)
+    },
     handleChange(file, fileList) {
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isLt5M) {
@@ -174,20 +186,27 @@ export default {
         data:data,
       }).then(function (resp){
         console.log(resp)
+        alert("上传成功")
+        location.reload(true)
       })
     },
     up_Solution(){//上传区块链失败，但是数据库上传成功   hash不能为空
       var vm=this;
       let formData = new FormData();
       formData.set("files", this.Solution.file);
+      vm.getCurrentTime()
       this.axios
-        .post(vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadfile', formData, {
+        .put('/DownloadUrl/objects/'+vm.gettime+'_'+vm.Solution.file.name, formData, {
           headers: {
             "Content-type": "multipart/form-data"
           }
-        }).then(function(resp){
-        if(resp.data.data!==null)
-          vm.Solution.file=resp.data.data.toString()
+        }).then( function(resp){
+        console.log(resp.status)
+        if(resp.status.toString()!=="200"){
+          alert("文件上传错误")
+          return
+        }
+        vm.Solution.file='/objects/'+ vm.gettime+'_'+vm.Solution.file.name
         var keywords_tostring=""
         for (var i=0;i<vm.keyword_pre.length;i++)
         { keywords_tostring+=vm.keyword_pre[i].toString()+";"}
@@ -202,9 +221,6 @@ export default {
           }).then(function(resp){
           console.log(resp.data)
           vm.up_Solution_blockchain("Solution_"+resp.data.data.solution.id,resp.data.data.solution.gmtCreate)
-          alert("上传成功")
-          //刷新当前页面
-         // location.reload(true)
         }).catch();
       }).catch();
 
