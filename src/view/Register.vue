@@ -3,10 +3,10 @@
     <div  style="margin-left: 12%;padding-top: 6%;width: 75%;height:100%;padding-top: 4%;padding-bottom: 15%">
 
       <el-tabs :tab-position="tabPosition" >
-        <el-tab-pane>
-          <span slot="label" style="color: #fff3cd;font-size: 18px"><i class="el-icon-user" ></i>注册普通用户</span>
-          <register-basic></register-basic>
-        </el-tab-pane>
+<!--        <el-tab-pane>-->
+<!--          <span slot="label" style="color: #fff3cd;font-size: 18px"><i class="el-icon-user" ></i>注册普通用户</span>-->
+<!--          <register-basic></register-basic>-->
+<!--        </el-tab-pane>-->
         <el-tab-pane >
           <span slot="label" style="color: #fff3cd;font-size: 18px"><i class="el-icon-user" ></i>注册专家用户</span>
           <RegisterExpert></RegisterExpert>

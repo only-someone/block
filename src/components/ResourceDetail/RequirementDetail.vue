@@ -171,7 +171,7 @@
                 <el-upload
                   class="avatar-uploader"
                   :show-file-list="false"
-                  action="http://192.168.8.103:8222/oss/avataross"
+                  :action=this.GLOBAL.Avator_upload_url
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
                   <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -367,7 +367,7 @@ export default {
           vm.Requirement.cover =vm.Requirement.cover.substring(5,vm.Requirement.cover.length-1)
         }
         else
-        if(vm.Requirement.file===null||vm.Requirement.file===""){
+        if(vm.Requirement.file===null||vm.Requirement.file===""||vm.Requirement.file.indexOf("undefined")!==-1){
           alert("该资源暂无源文件")
         }
         else if(vm.Requirement.file.indexOf("http")!==-1)
@@ -409,6 +409,19 @@ export default {
       }).then(resp => {
         vm.owner = resp.data.data[0].Owner//传出来的是一个数组
         vm.isOwner=(vm.owner===vm.blockchain_id)
+      }).catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
+        vm.axios({
+          method:"post",
+          url:vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadResource',
+          data:{
+            "Cost": "0",
+            "GetScore": "20",
+            "Hash": "null",
+            "Id": resourceid ,
+            "Time": "2020-1-1 12:56:40",
+            "Uploader": "Admin_1"
+          }
+        }).then()
       })
     },
     isBuyer(resourceid){//是否购买，可能有bug

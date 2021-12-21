@@ -38,7 +38,7 @@
                               <el-upload
                                 class="avatar-uploader"
                                 :show-file-list="false"
-                                action="http://192.168.8.103:8222/oss/avataross"
+                                :action= this.GLOBAL.Avator_upload_url
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
                                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -84,9 +84,9 @@
                       </tr>
                       <tr>
                         <th></th>
-                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===true"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">已是专家</a></td>
-                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===false"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">等待审核</a></td>
-                        <td v-if="this.$cookies.get('type')==='NormalUser'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">申请成为专家</a></td>
+<!--                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===true"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">已是专家</a></td>-->
+<!--                        <td v-if="this.$cookies.get('type')==='Expert'&& this.Expert.status===false"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">等待审核</a></td>-->
+<!--                        <td v-if="this.$cookies.get('type')==='NormalUser'"><a href="javaScript:;" class="btn btn-outline-secondary ml-auto radius-10">申请成为专家</a></td>-->
 
                       </tr>
                       </tbody>
@@ -109,7 +109,7 @@
                               <el-upload
                                 class="avatar-uploader"
                                 :show-file-list="false"
-                                action="http://192.168.8.103:8222/oss/avataross"
+                                :action=this.GLOBAL.Avator_upload_url
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
                                 <img v-if="imageUrl" :src="imageUrl" class="avatar">

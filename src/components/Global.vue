@@ -10,6 +10,7 @@ export default {
   Blockchain_Base_Url:"http://192.168.100.18:8000",
   Download_Base_Url:"http://192.168.8.33:12345",
   Blockchain_Info_url:"http://192.168.100.18:8080",
+  Avator_upload_url:"http://192.168.8.127:8222/oss/avataross",//Service_Base_Url
   options : {
      nodes: {
         font: {
@@ -88,7 +89,8 @@ export default {
         },
       },//软件著作
     },
-  }
+  },
+
 }
 
 </script>
