@@ -97,6 +97,7 @@
 
             <KnowledgeGraph width="100%" style="width: 370px;height:400px" :kg_id="Patent.kgId"></KnowledgeGraph>
           </div>
+
         </div>
 
         <div v-if="isOwner">
