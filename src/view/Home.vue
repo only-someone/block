@@ -174,196 +174,195 @@
     </section>
 
     <!--推荐用户-->
-  <section class="testimonial-section">
-		<div class="auto-container">
-			<!--Sec Title-->
-			<div class="sec-title centered">
-				<h2>可能感兴趣的用户</h2>
-			</div>
-      <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
-        <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
-          <div class="testimonial-block" style="margin-top: 50px;text-align:center;" >
-            <div class="inner-box" style="width: 60%;margin-left: 20%;">
-              <div class="image" style="user-select: auto;">
-                <a   @click="getUserDetail(user.UType,user.UId)"  style="user-select: auto;"><img :src="user.UCover||'static/images/resource/author-5.jpg'" alt="" style="user-select: auto;width:100px;height:100px;"></a>
+    <section class="testimonial-section">
+      <div class="auto-container">
+        <!--Sec Title-->
+        <div class="sec-title centered">
+          <h2>可能感兴趣的用户</h2>
+        </div>
+        <el-carousel  type="card" style="width: 120%;height: 120%;margin-left: -10%" >
+          <el-carousel-item v-for="user in commendUsers" :key="user.UId" style="margin:0;text-align:center;"   >
+            <div class="testimonial-block" style="margin-top: 50px;text-align:center;" >
+              <div class="inner-box" style="width: 60%;margin-left: 20%;">
+                <div class="image" style="user-select: auto;">
+                  <a   @click="getUserDetail(user.UType,user.UId)"  style="user-select: auto;"><img :src="user.UCover||'static/images/resource/author-5.jpg'" alt="" style="user-select: auto;width:100px;height:100px;"></a>
+                </div>
+                <h3 style="user-select: auto;">{{ user.UName}}</h3>
+                <div class="text" style="user-select: auto;">单位:{{user.UInstitution}}</div>
+                <div class="text" style="user-select: auto;">简介:{{user.UIntro}}</div>
+                <div class="designation" style="user-select: auto;">电话：{{ user.UPhone }}</div>
+                <div class="designation" style="user-select: auto;">邮箱：{{user.UEmail}}</div>
               </div>
-              <h3 style="user-select: auto;">{{ user.UName}}</h3>
-              <div class="text" style="user-select: auto;">单位:{{user.UInstitution}}</div>
-              <div class="text" style="user-select: auto;">简介:{{user.UIntro}}</div>
-              <div class="designation" style="user-select: auto;">电话：{{ user.UPhone }}</div>
-              <div class="designation" style="user-select: auto;">邮箱：{{user.UEmail}}</div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+
+        <!-- <div class="  owl-theme ">
+          <div class="testimonial-block" v-for=" index in Array(9)" :key=index>
+            <div class="inner-box">
+              <div class="image">
+                <img src="images/resource/author-3.jpg" alt="" />
+              </div>
+              <div class="text">“Needless to say we are extremely satisfied with Digital. I will recommend to my colleagues. I strongly recommend Digotal to anyone.”</div>
+              <h3>Jessica Reyes</h3>
+              <div class="designation">Designer@Google</div>
             </div>
           </div>
-        </el-carousel-item>
-      </el-carousel>
+        </div> -->
+      </div>
+    </section>
 
-			<!-- <div class="  owl-theme ">
-				<div class="testimonial-block" v-for=" index in Array(9)" :key=index>
-			    <div class="inner-box">
-						<div class="image">
-							<img src="images/resource/author-3.jpg" alt="" />
-						</div>
-						<div class="text">“Needless to say we are extremely satisfied with Digital. I will recommend to my colleagues. I strongly recommend Digotal to anyone.”</div>
-						<h3>Jessica Reyes</h3>
-						<div class="designation">Designer@Google</div>
-					</div>
-				</div>
-			</div> -->
-		</div>
-	</section>
-
-  <!--<section class="category-section" >
-  <div class="auto-container">
-    &lt;!&ndash;Sec Title&ndash;&gt;
-    <div class="sec-title centered">
-      <h2>城市</h2>
+    <!--<section class="category-section" >
+    <div class="auto-container">
+      &lt;!&ndash;Sec Title&ndash;&gt;
+      <div class="sec-title centered">
+        <h2>城市</h2>
+      </div>
+      <div class="row clearfix">
+        &lt;!&ndash;Category Block&ndash;&gt;
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-1.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">北京</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-2.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">上海</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-3.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">广州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-4.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">深圳</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-5.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">杭州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-10.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">苏州</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-6.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">武汉</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-7.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">成都</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-8.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">重庆</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="inner-box">
+            <div class="image">
+              <img src="static/images/resource/category-9.jpg" alt="" />
+              <div class="overlay-box">
+                <div class="overlay-inner">
+                  <div >
+                    <h3><a href="city_info.html">天津</a></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row clearfix">
-
-      &lt;!&ndash;Category Block&ndash;&gt;
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-1.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">北京</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-2.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">上海</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-3.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">广州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-4.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">深圳</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-5.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">杭州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-10.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">苏州</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-6.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">武汉</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-7.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">成都</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-8.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">重庆</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category-block">
-        <div class="inner-box">
-          <div class="image">
-            <img src="static/images/resource/category-9.jpg" alt="" />
-            <div class="overlay-box">
-              <div class="overlay-inner">
-                <div >
-                  <h3><a href="city_info.html">天津</a></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>-->
+  </section>-->
 
 
     <section class="news-section">
@@ -754,7 +753,7 @@ export default {
 
   },
   mounted () {
-       window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll)
   },
 }
 </script>
