@@ -117,31 +117,31 @@ axios.interceptors.request.use(config=>{
 },error => {
   return Promise.reject(error)
 })
-// router.beforeEach((to, from, next) => {
-//   if(Vue.$cookies.get("token")){ //判断本地是否存在token
-//     next();
-//   }else {
-//     if(to.path === '/Login'||to.path === '/Register'||to.path === '/Home'||to.path==='/Commend'){
-//       next();
-//     }else {
-//       next({
-//         path:'/Login'
-//       })
-//     }
-//   }
-//
-//
-//   /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
-//   if(to.fullPath == "/Login"){
-//     if(Vue.$cookies.get("token")){
-//       next({
-//         path:from.fullPath
-//       });
-//     }else {
-//       next();
-//     }
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if(Vue.$cookies.get("token")){ //判断本地是否存在token
+    next();
+  }else {
+    if(to.path === '/Login'||to.path === '/Register'||to.path === '/Home'||to.path==='/Commend'){
+      next();
+    }else {
+      next({
+        path:'/Login'
+      })
+    }
+  }
+
+
+  /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
+  if(to.fullPath == "/Login"){
+    if(Vue.$cookies.get("token")){
+      next({
+        path:from.fullPath
+      });
+    }else {
+      next();
+    }
+  }
+});
 
 
 

@@ -97,6 +97,7 @@
 
             <KnowledgeGraph width="100%" style="width: 370px;height:400px" :kg_id="Patent.kgId"></KnowledgeGraph>
           </div>
+
         </div>
 
         <div v-if="isOwner">
@@ -106,7 +107,7 @@
                 <el-upload
                   class="avatar-uploader"
                   :show-file-list="false"
-                  action="http://192.168.8.103:8222/oss/avataross"
+                  :action=this.GLOBAL.Avator_upload_url
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
                   <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -178,7 +179,7 @@ export default {
         console.log(res)
         vm.Patent=res.data.data[Object.keys(res.data.data)[0]]
         this.get_owner("Patent_"+vm.Patent.id)
-        if(vm.Patent.file===null||vm.Patent.file===""){
+        if(vm.Patent.file===null||vm.Patent.file===""||vm.Patent.file.indexOf("undefined")!==-1){
           alert("该资源暂无源文件")
         }
         else if(vm.Patent.file.indexOf("http")!==-1)
@@ -220,8 +221,7 @@ export default {
       }).then(resp => {
         vm.owner = resp.data.data[0].Owner
         vm.isOwner(vm.owner===vm.blockchain_id)
-      })
-      /*.catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
+      }).catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
         vm.axios({
           method:"post",
           url:vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadResource',
@@ -234,7 +234,7 @@ export default {
             "Uploader": "Admin_1"
           }
         }).then()
-      })*/
+      })
     },
 
     buy(){

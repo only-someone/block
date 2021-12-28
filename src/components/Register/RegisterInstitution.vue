@@ -61,7 +61,7 @@
                       <el-form-item label="头像">
                         <el-upload
                           class="avatar-uploader "
-                          action="https://jsonplaceholder.typicode.com/posts/"
+                          :action=this.GLOBAL.Avator_upload_url
                           :show-file-list="false"
                           :on-success="handleAvatarSuccess"
                           :before-upload="beforeAvatarUpload">

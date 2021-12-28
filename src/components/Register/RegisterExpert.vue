@@ -35,7 +35,7 @@
                           <el-upload style="width: 500px"
                                      class="avatar-uploader"
                                      :show-file-list="false"
-                                     :action=this.GLOBAL.Service_Base_Url+"/oss/avataross"
+                                     :action=this.GLOBAL.Avator_upload_url
                                      :on-success="handleAvatarSuccess"
                                      :before-upload="beforeAvatarUpload">
                             <img v-if="form.expert.avatar" :src="form.expert.avatar" class="avatar">
@@ -138,11 +138,13 @@ export default {
         registerVo: {
           password: "",
           username: ""
-        }
+        },
 
       },
+
       options:[],
       imageUrl:"",
+
     }
   },
   created() {
@@ -163,6 +165,7 @@ export default {
       console.log(value);
     },
     register(){
+
       var vm =this;
       vm.form.expert.domain=vm.form.expert.domain.toString()||""
       console.log(vm.form)
