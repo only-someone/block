@@ -94,8 +94,6 @@
                 </div>
               </div>
             </div>
-
-            <KnowledgeGraph width="100%" style="width: 370px;height:400px" :kg_id="Patent.kgId"></KnowledgeGraph>
           </div>
 
         </div>
@@ -126,6 +124,39 @@
 
       </div>
     </section>
+    <section class="shop-single-section sidebar-page-container" >
+      <div class="auto-container" >
+
+        <KnowledgeGraph width="100%"  :kg_id="Patent.kgId"  ></KnowledgeGraph>
+      </div>
+
+      <div v-if="isOwner">
+        <el-dialog title="更换头像" :visible.sync="showdialog"   width="20%" center >
+          <el-form >
+            <el-form-item  style="text-align: center">
+              <el-upload
+                class="avatar-uploader"
+                :show-file-list="false"
+                action="http://192.168.8.103:8222/oss/avataross"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-form>
+          <div  slot="footer"  class="dialog-footer" center>
+            <el-button @click="showdialog = false">取 消</el-button>
+            <el-button type="primary" @click="changecover()">确 定</el-button>
+          </div>
+        </el-dialog>
+
+
+      </div>
+
+
+    </section>
+
   </div>
 </template>
 
