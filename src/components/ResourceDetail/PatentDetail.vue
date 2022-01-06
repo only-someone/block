@@ -126,8 +126,7 @@
     </section>
     <section class="shop-single-section sidebar-page-container" >
       <div class="auto-container" >
-
-        <KnowledgeGraph width="100%"  :kg_id="Patent.kgId"  ></KnowledgeGraph>
+        <KnowledgeGraph width="100%" :kg_id="Patent.kgId"  ></KnowledgeGraph>
       </div>
 
       <div v-if="isOwner">

@@ -94,6 +94,11 @@
         </el-pagination>
       </div>
     </section>
+    <section class="shop-single-section sidebar-page-container" >
+      <div class="auto-container" >
+        <KnowledgeGraph width="100%" :kg_id="user.kgId" ></KnowledgeGraph>
+      </div>
+    </section>
   </div>
 </template>
 
