@@ -70,7 +70,20 @@ export default {
         this.nodes=resp.data.nodes
         this.edges=resp.data.edges
         var container = document.getElementById("mynetwork");
-
+        // console.log(this.nodes)
+        // 突出显示当前节点
+        for (let i = 0; i < this.nodes.length; i++) {
+          if (this.nodes[i].id === this.kg_id) {
+            this.nodes[i].shadow = {
+              x: 0,
+              y: 0,
+              size: 30,
+              color: "darkorange"
+            }
+            this.nodes[i].font = {bold: true, size: 20, color: "orange"}
+            break
+          }
+        }
         //图例
         var data = {
           nodes: this.nodes,

@@ -48,7 +48,6 @@ export default {
       expe: {
         shape: "circularImage",
         image: "../static/KnowledgeIcon/expe.png",
-        borderWidth: 2,
         color: {
           background: "lightgreen",
           border: "green",
