@@ -61,6 +61,7 @@ export default {
   methods: {
     getGraph(){
       let type = this.$route.params.Type.toLowerCase()
+      if (this.kg_id.split('_')[0] === 'institution') this.kg_id = 'unit_' + this.kg_id.split('_')[1]
       console.log(this.kg_id+ "/" + type)
       this.axios({
         method:'get',
@@ -74,12 +75,7 @@ export default {
         // 突出显示当前节点
         for (let i = 0; i < this.nodes.length; i++) {
           if (this.nodes[i].id === this.kg_id) {
-            this.nodes[i].shadow = {
-              x: 0,
-              y: 0,
-              size: 30,
-              color: "darkorange"
-            }
+            this.nodes[i].shadow = {x: 0, y: 0, size: 30, color: "darkorange"}
             this.nodes[i].font = {bold: true, size: 20, color: "orange"}
             break
           }

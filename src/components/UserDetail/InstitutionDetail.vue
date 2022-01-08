@@ -45,7 +45,6 @@
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
             <el-image :src="institution.avatar ||'static/images/resource/news-5.jpg'"     width="100%" style="width: 350px;height:400px" alt=""  lazy/>
-            <KnowledgeGraph width="100%" style="width: 350px;height:450px;" :kg_id="institution.kgId||'1'"></KnowledgeGraph>
             <div class="purchased-widget" style="margin-top: 40px">
               <div  style="text-align: center">
 <!--                <el-button type="success" v-if="user.state" >已通过审核</el-button>-->
