@@ -11,30 +11,30 @@
                 <div class="inner-box"  >
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">机构名称</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{user.name}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{institution.name}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">创建时间</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{user.createtime}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{institution.createtime}}</div></el-col>
                     <el-col :span="4"><div class="grid-content bg-purple-dark">地址</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{user.orgaddress}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{institution.orgaddress}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
 
                     <el-col :span="4"><div class="grid-content bg-purple-dark">研究领域</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{user.domain}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{institution.domain}}</div></el-col>
 
                   </el-row>
 
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">省</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{user.province}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{institution.province}}</div></el-col>
                     <el-col :span="4" ><div class="grid-content bg-purple-dark">城市</div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple-light">{{user.city}}</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple-light">{{institution.city}}</div></el-col>
                   </el-row>
                   <el-row style="margin-bottom: 3%">
                     <el-col :span="4"><div class="grid-content bg-purple-dark">机构简介</div></el-col>
-                    <el-col :span="20"><div class="grid-content bg-purple-light">{{user.businessscope}}</div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple-light">{{institution.businessscope}}</div></el-col>
                   </el-row>
 
                 </div>
@@ -44,8 +44,7 @@
 
           <!--Sidebar Column-->
           <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
-            <el-image :src="user.avatar ||'static/images/resource/news-5.jpg'"     width="100%" style="width: 350px;height:400px" alt=""  lazy/>
-            <KnowledgeGraph width="100%" style="width: 350px;height:450px;" :kg_id="user.kgId||'1'"></KnowledgeGraph>
+            <el-image :src="institution.avatar ||'static/images/resource/news-5.jpg'"     width="100%" style="width: 350px;height:400px" alt=""  lazy/>
             <div class="purchased-widget" style="margin-top: 40px">
               <div  style="text-align: center">
 <!--                <el-button type="success" v-if="user.state" >已通过审核</el-button>-->
@@ -96,19 +95,24 @@
         </el-pagination>
       </div>
     </section>
+    <section class="shop-single-section sidebar-page-container" >
+      <div class="auto-container" >
+        <KnowledgeGraph width="100%" :kg_id="institution.kgId" ></KnowledgeGraph>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 
 export default {
-  name: "ExpertDetail",
+  name: "InstitutionDetail",
   data() {
     return {
       account:{},
-      user:{},//从区块链获得
-      user_type: this.$route.params.Type,
-      user_id:this.$route.params.Id,
+      institution:{},//从区块链获得
+      institution_type: this.$route.params.Type,
+      institution_id:this.$route.params.Id,
       upload_resourcelist:[],
       currentPage:1, //初始页
       pagesize:2,    //   每页的数据
@@ -117,9 +121,9 @@ export default {
     }
   },
   created() {
-    this.getDetail(this.user_type,this.user_id)
-    this.getUpload(this.user_type,this.user_id)
-    this.getBuy(this.user_type,this.user_id)
+    this.getDetail(this.institution_type,this.institution_id)
+    this.getUpload(this.institution_type,this.institution_id)
+    this.getBuy(this.institution_type,this.institution_id)
   },
 
   methods:{
@@ -135,7 +139,7 @@ export default {
         method:"get",
         url:this.GLOBAL.Service_Base_Url+"/institutionservice/institution/get"+Type+"/"+Id,
       }).then(res=>{
-        vm.user=res.data.data[Object.keys(res.data.data)[0]]
+        vm.institution=res.data.data[Object.keys(res.data.data)[0]]
       })
     },
     getResourceDetail(Type,Id){

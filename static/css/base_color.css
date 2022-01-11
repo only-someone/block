@@ -1,0 +1,21 @@
+:root {
+ /*图谱图例背景颜色*/
+  --expe-color: lightgreen;
+  --expe-border_color: green;
+  --unit-color: lightblue;
+  --unit-border-color: blue;
+  --pape-color: lightgrey;
+  --pape-border-color: grey;
+  --pate-color: yellow;
+  --pate-border-color: #bda21a;
+  --achi-color: #c74ee8;
+  --achi-border-color: #950bc9;
+  --case-color: #f17d2f;
+  --case-border-color: darkorange;
+  --soft-color: #db9ca2;
+  --soft-border-color: #ce7f87;
+  --requ-color: #cd4a4a;
+  --requ-border-color: darkred;
+  --solu-color: #86bd08;
+  --solu-border-color: #78a50c;
+}
