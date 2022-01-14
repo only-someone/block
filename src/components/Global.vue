@@ -33,7 +33,6 @@ export default {
         size: 15
       },
       arrows:"to",
-      lineWidth: 2,
       color: "#329ae3",
       // shadow: true,
     },

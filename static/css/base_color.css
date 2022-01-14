@@ -19,3 +19,40 @@
   --solu-color: #86bd08;
   --solu-border-color: #78a50c;
 }
+
+.img_expe {
+  border-radius: 50%;
+  background-color: var(--expe-color);
+}
+.img_unit {
+  border-radius: 50%;
+  background-color: var(--unit-color);
+}
+.img_pape {
+  border-radius: 50%;
+  background-color: var(--pape-color);
+}
+.img_pate {
+  border-radius: 50%;
+  background-color: var(--pate-color);
+}
+.img_achi {
+  border-radius: 50%;
+  background-color: var(--achi-color);
+}
+.img_case {
+  border-radius: 50%;
+  background-color: var(--case-color);
+}
+.img_soft {
+  border-radius: 50%;
+  background-color: var(--soft-color);
+}
+.img_requ {
+  border-radius: 50%;
+  background-color: var(--requ-color);
+}
+.img_solu {
+  border-radius: 50%;
+  background-color: var(--solu-color);
+}
