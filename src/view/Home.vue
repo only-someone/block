@@ -467,13 +467,13 @@
     </section>
     <!--End Counter Section-->
 
-    <section class="counter-section">
-      <!--Title Box-->
-      <div class="sec-title centered">
-        <h2>知识图谱</h2>
+    <!--知识图谱-->
+    <section>
+      <div class="page-title" style="background-image: url(/static/images/background/4.jpg);padding: 35px">
+        <div style="font-size:50px; font-weight:300; color: white">知识图谱</div>
+        <div style="font-size: 20px;color: white">KnowledgeGraph</div>
       </div>
-
-
+      <HomeKnowledgeGraph></HomeKnowledgeGraph>
     </section>
 
     <Footer></Footer>
@@ -484,9 +484,11 @@
 <script>
 
 import countTo from 'vue-count-to'
+import HomeKnowledgeGraph from "../components/HomeKnowledgeGraph";
 export default {
   name: "Home",
   components: {
+    HomeKnowledgeGraph,
     countTo
   },
   data(){

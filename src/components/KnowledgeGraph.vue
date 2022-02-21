@@ -9,25 +9,25 @@
     <div style="width: 100%;font-size: 20px;font-family: 华光中楷_CNKI,serif; margin-top: 30px">
       <el-row  type="flex" justify="center" align="middle" gutter="30">
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/expe.png" class="img_expe"></el-image></el-col>
-        <el-col :span="2"><el-row>Expert</el-row><el-row>专家</el-row></el-col>
+        <el-col :span="2">Expert<br>专家</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/unit.png" class="img_unit"></el-image></el-col>
-        <el-col :span="2"><el-row>Institution</el-row><el-row>机构</el-row></el-col>
+        <el-col :span="2">Institution<br>机构</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/pape.png" class="img_pape"></el-image></el-col>
-        <el-col :span="2"><el-row>Paper</el-row><el-row>论文</el-row></el-col>
+        <el-col :span="2">Paper<br>论文</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/pate.png" class="img_pate"></el-image></el-col>
-        <el-col :span="2"><el-row>Patent</el-row><el-row>专利</el-row></el-col>
+        <el-col :span="2">Patent<br>专利</el-col>
       </el-row>
       <el-row  type="flex" justify="center" align="middle" gutter="30">
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/achi.png" class="img_achi"></el-image></el-col>
-        <el-col :span="3"><el-row>Achievement</el-row><el-row>成果</el-row></el-col>
+        <el-col :span="3">Achievement<br>成果</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/case.png" class="img_case"></el-image></el-col>
-        <el-col :span="2"><el-row>Case</el-row><el-row>案例</el-row></el-col>
+        <el-col :span="2">Case<br>案例</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/soft.png" class="img_soft"></el-image></el-col>
-        <el-col :span="2"><el-row>Software</el-row><el-row>软著</el-row></el-col>
+        <el-col :span="2">Software<br>软著</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/requ.png" class="img_requ"></el-image></el-col>
-        <el-col :span="3"><el-row>Requirement</el-row><el-row>需求</el-row></el-col>
+        <el-col :span="3">Requirement<br>需求</el-col>
         <el-col :span="2"><el-image src="../static/KnowledgeIcon/solu.png" class="img_solu"></el-image></el-col>
-        <el-col :span="2"><el-row>Solution</el-row><el-row>方案</el-row></el-col>
+        <el-col :span="2">Solution<br>方案</el-col>
       </el-row>
       <div style="width: 100%;height:800px;margin-top: 50px" id="mynetwork"></div>
     </div>
@@ -94,40 +94,5 @@ export default {
 }
 </script>
 <style scoped>
-  .img_expe {
-    border-radius: 50%;
-    background-color: var(--expe-color);
-  }
-  .img_unit {
-    border-radius: 50%;
-    background-color: var(--unit-color);
-  }
-  .img_pape {
-    border-radius: 50%;
-    background-color: var(--pape-color);
-  }
-  .img_pate {
-    border-radius: 50%;
-    background-color: var(--pate-color);
-  }
-  .img_achi {
-    border-radius: 50%;
-    background-color: var(--achi-color);
-  }
-  .img_case {
-    border-radius: 50%;
-    background-color: var(--case-color);
-  }
-  .img_soft {
-    border-radius: 50%;
-    background-color: var(--soft-color);
-  }
-  .img_requ {
-    border-radius: 50%;
-    background-color: var(--requ-color);
-  }
-  .img_solu {
-    border-radius: 50%;
-    background-color: var(--solu-color);
-  }
+
 </style>
