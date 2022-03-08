@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card>
     <el-form ref="form" :inline="true" :model="form" :rules="rules" @keyup.enter.native="onSubmit('form')">
       <el-form-item prop="type">
         <el-select v-model="form.type" placeholder="请选择要查询的资源类型" @change="handleTypeChange">
@@ -52,16 +52,15 @@ export default {
         min: [{required: true, message: '请输入最小值'}, {validator: this.validateMin}]
       },
       selectOptions: [],
-      options: [
-        {value: 'expert', label: '专家'},
-        {value: 'unit', label: '单位'},
-        {value: 'requirement', label: '项目需求'},
-        {value: 'solution', label: '解决方案'},
-        {value: 'case', label: '案例'},
-        {value: 'achievement', label: '技术成果'},
-        {value: 'paper', label: '论文'},
-        {value: 'patent', label: '专利'}],
+      options: []
     }
+  },
+  created() {
+    for (let i in this.GLOBAL.nodesType) {
+      let node = this.GLOBAL.nodesType[i]
+      this.options.push({label: node.label, value: node.value})
+    }
+    // console.log(this.options)
   },
   methods: {
     // 根据资源类别对应不同的查询方式

@@ -1,16 +1,12 @@
 <template>
-  <el-card class="box-card">
+  <el-card>
     <el-form ref="form" :inline="true" :model="form" :rules="rules" @keyup.enter.native="onSubmit('form')">
       <el-form-item prop="type">
         <el-select v-model="form.type" placeholder="请选择要查询的资源类型" @change="handleTypeChange">
-          <el-option label="专家" value="expert"></el-option>
-          <el-option label="单位" value="institution"></el-option>
-          <el-option label="项目需求" value="requirement"></el-option>
-          <el-option label="解决方案" value="solution"></el-option>
-          <el-option label="案例" value="case"></el-option>
-          <el-option label="技术成果" value="achievement"></el-option>
-          <el-option label="论文" value="paper"></el-option>
-          <el-option label="专利" value="patent"></el-option>
+          <el-option v-for="(item, i) in this.GLOBAL.nodesType"
+                     :label="item.label"
+                     :value="item.value"
+                     :key="i"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item prop="searchType">
@@ -74,7 +70,7 @@ export default {
           break
         }
         case "case": {
-          this.selectOptions = this.options
+          this.selectOptions = this.options.slice(0, 7)
           break
         }
         case "solution": {

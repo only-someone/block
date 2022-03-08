@@ -2,7 +2,7 @@
   <div>
     <el-card style="height:700px; margin: 20px">
       <knowledge-graph-legend-col></knowledge-graph-legend-col>
-      <el-col :span="19" id="mynetwork" style="height: 660px"></el-col>
+      <el-col :span="18" id="mynetwork" style="height: 660px" v-loading="loading"></el-col>
     </el-card>
     <el-row :gutter="20">
       <el-col :span="12">
@@ -35,11 +35,13 @@ export default {
       network: null,
       nodes: "",
       edges: "",
-      list: ['专家', '机构', '论文', '专利', '成果', '案例', '软著', '需求', '方案']
+      list: ['专家', '机构', '论文', '专利', '成果', '案例', '软著', '需求', '方案'],
+      loading: true
     }
   },
   mounted() {
     this.getGraph()//用于刷新，写完可删
+    this.loading = true
   },
   methods: {
     getGraph() {

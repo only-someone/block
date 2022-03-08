@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="4" style="font-size: 20px;font-family: 华光中楷_CNKI,serif; margin-left: 10px">
+  <el-col :span="5" style="font-size: 20px;font-family: 华光中楷_CNKI,serif; margin-left: 10px">
     <el-row gutter="10" align="middle" justify="center" type="flex">
       <el-col :span="7">
         <el-image src="../static/KnowledgeIcon/expe.png" class="img_expe"></el-image>
