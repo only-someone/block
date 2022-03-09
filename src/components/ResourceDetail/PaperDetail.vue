@@ -87,7 +87,7 @@
                 <el-upload
                   class="avatar-uploader"
                   :show-file-list="false"
-                  action="http://192.168.8.103:8222/oss/avataross"
+                  :action=this.GLOBAL.Avator_upload_url
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
                   <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -104,6 +104,11 @@
 
         </div>
 
+      </div>
+    </section>
+    <section class="shop-single-section sidebar-page-container" >
+      <div class="auto-container" >
+        <KnowledgeGraph width="100%" :kg_id="Paper.kgId" ></KnowledgeGraph>
       </div>
     </section>
   </div>
@@ -157,7 +162,7 @@ export default {
       }).then(res=>{
         vm.Paper=res.data.data[Object.keys(res.data.data)[0]]
         this.get_owner("Paper_"+vm.Paper.id)
-        if(vm.Paper.file===null||vm.Paper.file===""){
+        if(vm.Paper.file===null||vm.Paper.file===""||vm.Paper.file.indexOf("undefined")!==-1){
           alert("该资源暂无源文件")
         }
         else if(vm.Paper.file.indexOf("http")!==-1)
@@ -199,7 +204,7 @@ export default {
       }).then(resp => {
           vm.owner = resp.data.data[0].Owner
           vm.isOwner = (vm.blockchain_id===vm.owner)
-      })/*.catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
+      }).catch(err=>{//区块链无法查到数据说明没有上传，需要上传,可能会出现bug  出现突然admin上传已有资源的bug
         vm.axios({
           method:"post",
           url:vm.GLOBAL.Blockchain_Base_Url+'/api/v1/uploadResource',
@@ -212,7 +217,7 @@ export default {
             "Uploader": "Admin_1"
           }
         }).then()
-      })*/
+      })
     },
     buy(){
       var Dealdata={

@@ -68,7 +68,7 @@
       <el-form-item label="展示图片"  >
         <el-upload
           class="avatar-uploader"
-          action="http://192.168.8.103:8222/oss/avataross"
+          :action=this.GLOBAL.Avator_upload_url
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
