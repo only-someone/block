@@ -135,7 +135,6 @@ export default {
         color: {
           background: "#f17d2f",
           border: "#f17d2f",
-          border: "#f17d2f",
           // border: "darkorange",
         },
         font: {

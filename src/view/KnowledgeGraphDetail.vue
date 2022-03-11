@@ -46,7 +46,7 @@
                              :class="'img_'+this.nodeType"
                              style="height: 100px; width: 100px"/>
                     </el-row>
-                    <el-row justify="center" type="flex" class="mt-3 font-weight-bold">
+                    <el-row justify="center" type="flex" class="mt-3 font-weight-bold" style="font-size:22px">
                       {{this.GLOBAL.nodesType[this.nodeType].label}}
                     </el-row>
                   </el-col>
@@ -85,25 +85,37 @@ export default {
       activeName: 'first',
       showGraph: false, // 是否显示图谱
       showInfo: false, // 是否显示节点信息
-      // nodes: [],
-      // edges: []
+      nodesDic: {}, // 以kgId为key的节点
+      nodes: [],
+      edges: [],
       nodeInfo: [],
       nodeType: 'expe',
-      nodeGroup: ''
+      nodeGroup: '',
+      timer: '', // 在双击事件时取消单击事件
     }
   },
   mounted() {
     this.showGraph = false
     this.showInfo = false
   },
+  watch: {
+    nodes() {
+      this.getGraph()
+    },
+    edges() {
+      this.getGraph()
+    }
+  },
   methods: {
     goSearch(url) {
       // console.log(url)
       this.showInfo = false
+      this.nodes = []
+      this.edges = []
       this.axios({
-        method:'get',
-        url:this.GLOBAL.KG_url + '/kg/' + url
-      }).then(resp=> {
+        method: 'get',
+        url: this.GLOBAL.KG_url + '/kg/' + url
+      }).then(resp => {
         // console.log(resp)
         if (resp.status !== 200) {
           this.showGraph = false
@@ -136,42 +148,119 @@ export default {
           data = [data]
         }
         // console.log(data)
-        let nodes = []
+        let nodes = {}
         for (let i in data) {
           if (i >= 10) break // 最多显示10个搜索结果
-          let node = data[i]
-          nodes.push({group: node.kgId.split('_')[0], id: i, label: node.name, info: node})
+          let kgId = data[i].kgId
+          let node = {group: kgId.split('_')[0], id: kgId, label: data[i].name, info: data[i]}
+          this.nodesDic[kgId] = node
+          this.nodes.push(node)
         }
         return nodes
       }
     },
-    getGraph(nodes, edges) {
+    getGraph() {
       var container = document.getElementById("myNetwork");
       // console.log(nodes)
       //图例
       var data = {
-        nodes: nodes,
-        edges: edges,
+        nodes: this.nodes,
+        edges: this.edges,
       };
       var options = this.GLOBAL.options
       const network = new Network(container, data, options)
       var that = this
-      // 选中节点显示详细信息
-      network.on('click', function(params) {
-        that.nodeInfo = nodes[params.nodes[0]].info
-        // console.log(that.nodeInfo)
-        that.nodeType = that.nodeInfo['kgId'].split('_')[0]
-        that.nodeGroup = options.groups[that.nodeType]
-        // console.log(that.nodeGroup)
-        that.showInfo = true
-        setTimeout(() => document.getElementById('info').scrollIntoView(true), 100)
+      // 单击节点显示详细信息
+      network.on('click', function (params) {
+        clearTimeout(that.timer)
+        that.timer = window.setTimeout(function () {
+          that.nodeInfo = that.nodesDic[params.nodes[0]].info
+          // console.log(that.nodeInfo)
+          that.showNodeInfo()
+        }, 200)
       })
       // 取消选中，信息消失
       network.on('deselectNode', function () {
         that.showInfo = false
         that.nodeInfo = []
       })
+      // 双击时折叠和展开
+      network.on("doubleClick", function (params) {
+        clearTimeout(that.timer) // 使单击事件不执行
+        // console.log("doubleClickEvent:" + params)
+        if (params.nodes.length !== 0) { //确定为节点双击事件
+          that.showNextNodes(params.nodes[0])
+        }
+      });
     },
+    showNodeInfo() {
+      this.nodeType = this.nodeInfo['kgId'].split('_')[0]
+      this.nodeGroup = this.GLOBAL.options.groups[this.nodeType]
+      // console.log(that.nodeGroup)
+      this.showInfo = true
+      setTimeout(() => document.getElementById('info').scrollIntoView(true), 100)
+    },
+    // 显示/删除下级所有节点
+    showNextNodes(nodeId) {
+      this.getDirectlySubNodes(nodeId).then(data => {
+        let subNodes = data.nodes
+        // 判断是否有下级节点
+        if (subNodes.length === 1) {
+          this.$message({message: '已不存在下级节点', type: 'warning'})
+        } else {
+          let beforeLen = this.edges.length
+          // 插入不存在的节点和边
+          for (let i in subNodes) {
+            if (this.nodesDic[subNodes[i].id] === undefined) {
+              this.addNodeById(subNodes[i].id)
+              this.addEdge(data.edges, nodeId, subNodes[i].id)
+            }
+          }
+          if (beforeLen === this.edges.length) {
+            this.$message({message: '已不存在下级节点', type: 'warning'})
+          }
+        }
+        // console.log(this.nodes)
+        // console.log(this.edges)
+      })
+    },
+    // 获取某节点直属下级节点
+    async getDirectlySubNodes(nodeId) {
+      let kgId = this.nodesDic[nodeId].info.kgId
+      let data = []
+      await this.axios({
+        method: 'get',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(kgId) + '/extractNext/' + kgId
+      }).then(resp => {
+        // console.log(resp.data)
+        data = resp.data
+      })
+      return data
+    },
+    // 通过id获取节点并插入图谱
+    addNodeById(kgId) {
+      this.axios({
+        method: 'get',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(kgId) + '/id/' + kgId
+      }).then(resp => {
+        this.dataProcess(resp.data)
+      })
+    },
+    getTypeByKgId(kgId) {
+      return this.GLOBAL.nodesType[kgId.split('_')[0]].value
+    },
+    // 从edges中找到id1和id2对应的edge并加入图谱
+    addEdge(edges, id1, id2) {
+      for (let i in edges) {
+        let edge = edges[i]
+        if ((edge.from === id1 && edge.to === id2) || (edge.from === id2 && edge.to === id1)) {
+          if (!this.edges.includes(edge)) { // 边是否存在
+            this.edges.push(edge)
+          }
+          break
+        }
+      }
+    }
   }
 }
 </script>

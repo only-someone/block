@@ -48,7 +48,7 @@ export default {
         method:'get',
         url:this.GLOBAL.KG_url+"/kg/" + type +"/extract/" + this.kg_id
       }).then(resp=>{
-        console.log(resp)
+        // console.log(resp)
         this.nodes=resp.data.nodes
         this.edges=resp.data.edges
         var container = document.getElementById("mynetwork");
