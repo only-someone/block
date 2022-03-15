@@ -55,7 +55,7 @@ export default {
         this.getStatisticsNode()
         this.getStatisticsEdge()
         var container = document.getElementById("mynetwork");
-        console.log(this.nodes)
+        // console.log(this.nodes)
         //图例
         var data = {
           nodes: this.nodes,

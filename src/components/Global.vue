@@ -165,14 +165,36 @@ export default {
   },
 
   nodesType: {
-    expe: { label: '专家', value: 'expert'},
-    unit: { label: '单位', value: 'institution'},
-    requ: { label: '项目需求', value: 'requirement'},
-    solu: { label: '解决方案', value: 'solution'},
-    case: { label: '案例', value: 'case'},
-    achi: { label: '技术成果', value: 'achievement'},
-    pape: { label: '论文', value: 'paper'},
-    pate: { label: '专利', value: 'patent'}
+    expe: { label: '专家', value: 'expert', properties: {
+      name: {label: '专家名称', value: 'expert_name'}, institutionName: {label: '单位名称', value: 'unit_name'}
+    }},
+    unit: { label: '单位', value: 'institution', properties: {
+      name: {label: '单位名称', value: 'unit_name'}
+    }},
+    requ: { label: '项目需求', value: 'requirement', properties: {
+      name: {label: '需求名称', value: 'requirement_name'}, institutionName: {label: '单位名称', value: 'unit_name'}
+    }},
+    solu: { label: '解决方案', value: 'solution', properties: {
+      name: {label: '方案名称', value: 'solution_name'}, institutionName: {label: '单位名称', value: 'unit_name'}
+    }},
+    case: { label: '案例', value: 'case', properties: {
+      name: {label: '案例名称', value: 'title'}, institutionName: {label: '单位名称', value: 'unit_name'}
+    }},
+    achi: { label: '技术成果', value: 'achievement', properties: {
+      name: {label: '成果名称', value: 'title'}, keywords: {label: '关键词', value: 'Keywords'},
+      authors: {label :'发行人', value: 'authors'}, mechanicals: {label :'发行单位', value: 'mechanicals'},
+      year: {label :'发行年份', value: 'year'}
+    }},
+    pape: { label: '论文', value: 'paper', properties: {
+      name: {label: '论文名称', value: 'title'}, authors: {label :'作者', value: 'authors'},
+      keywords: {label: '关键词', value: 'keywords'}, mechanicals: {label :'发表单位', value: 'mechanicals'},
+      time: {label :'发表时间', value: 'time'}, citedCount: {label: '引用次数', value: 'cited_count'},
+      downloadCount: {label :'下载次数', value: 'download_count'}
+    }},
+    pate: { label: '专利', value: 'patent', properties: {
+      name: {label: '专利名称', value: 'title'}, inventor: {label :'发明人', value: 'inventor'},
+      publicDate: {label :'公开日期', value: 'public_date'}, publicNumber: {label :'公开号', value: 'public_number'}
+    }}
   }
 
 }

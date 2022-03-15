@@ -62,6 +62,52 @@
                     </table>
                   </el-col>
                 </el-row>
+                <el-dialog title='添加节点' :visible.sync='addDialogFormVisible'>
+                  <el-form ref="addForm" :model = 'addForm'>
+                    <el-form-item label="资源类型" label-position="left" required>
+                      <el-select v-model="addForm.group" placeholder="请选择资源类型">
+                        <el-option v-for="(item, key, i) in this.GLOBAL.nodesType"
+                                   :label="item.label"
+                                   :value="key"
+                                   :key="i"></el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item v-for="(item, i) in this.GLOBAL.nodesType[addForm.group].properties"
+                                  :label="item.label"
+                                  label-width="80px"
+                                  :key="i"
+                                  label-position="left" required>
+                      <el-input v-model="addForm[item.value]" ></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button @click="addDialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" id="addDialogEnterButton">确 定</el-button>
+                  </div>
+                </el-dialog>
+                <el-dialog title='编辑节点' :visible.sync='editDialogFormVisible'>
+                  <el-form ref="editForm" :model = 'editForm'>
+                    <el-form-item label="资源类型" label-position="left" required>
+                      <el-select v-model="editForm.group" placeholder="请选择资源类型" :disabled="true">
+<!--                        <el-option v-for="(item, key, i) in this.GLOBAL.nodesType"-->
+<!--                                   :label="item.label"-->
+<!--                                   :value="key"-->
+<!--                                   :key="i"></el-option>-->
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item v-for="(item, i) in this.GLOBAL.nodesType[editForm.group].properties"
+                                  :label="item.label"
+                                  label-width="80px"
+                                  :key="i"
+                                  label-position="left" required>
+                      <el-input v-model="editForm.info[item.value]" ></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button @click="editDialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" id="editDialogEnterButton">确 定</el-button>
+                  </div>
+                </el-dialog>
               </div>
             </div>
           </div>
@@ -85,6 +131,7 @@ export default {
       activeName: 'first',
       showGraph: false, // 是否显示图谱
       showInfo: false, // 是否显示节点信息
+      options: {}, // 图谱的选项
       nodesDic: {}, // 以kgId为key的节点
       nodes: [],
       edges: [],
@@ -92,11 +139,18 @@ export default {
       nodeType: 'expe',
       nodeGroup: '',
       timer: '', // 在双击事件时取消单击事件
+      // 节点添加对话框
+      addDialogFormVisible: false,
+      addForm: {group: 'expe'},
+      // 节点编辑对话框
+      editDialogFormVisible: false,
+      editForm: {group: 'expe', info: {}},
     }
   },
   mounted() {
     this.showGraph = false
     this.showInfo = false
+    this.getOptions()
   },
   watch: {
     nodes() {
@@ -107,11 +161,141 @@ export default {
     }
   },
   methods: {
+    // 为图谱设置编辑选项
+    getOptions() {
+      for (let key in this.GLOBAL.options) {
+        this.options[key] = this.GLOBAL.options[key]
+      }
+      let that = this
+      this.options.locale = 'cn'
+      this.options.physics.barnesHut.gravitationalConstant = -2000
+      this.options['manipulation'] = {
+        enabled: true,
+        addNode: function (data, callback) {
+          // console.log(data)
+          that.addNode(data, callback)
+        },
+        editNode: function (data, callback) {
+          // console.log(data)
+          that.editNode(data, callback)
+        },
+        deleteNode: function (data, callback) {
+          // console.log(data)
+          that.deleteNode(data, callback)
+        }
+      }
+      // console.log(this.options)
+    },
+    addNode(data, callback) {
+      this.addDialogFormVisible = true
+      this.addForm = {group: 'expe'}
+      document.getElementById('addDialogEnterButton').onclick = this.clickAddNodeButton
+        .bind(this, 'addForm', data, callback)
+    },
+    editNode(data, callback) {
+      this.editForm = {group: data.group, info: {}}
+      let properties = this.GLOBAL.nodesType[data.group].properties
+      for (let key in data.info) {
+        if (key === 'kgId') continue
+        // 响应式属性，双向绑定
+        this.$set(this.editForm.info, properties[key].value, data.info[key])
+      }
+      // console.log(this.editForm)
+      this.editDialogFormVisible = true
+      document.getElementById('editDialogEnterButton').onclick = this.clickEditNodeButton
+        .bind(this, 'editForm', data, callback)
+    },
+    deleteNode(data, callback) {
+      let kgId = data.nodes[0]
+      delete this.nodesDic.kgId
+      let idx = this.findNodeIdxById(kgId)
+      this.nodes = this.nodes.splice(0, idx).concat(this.nodes.splice(idx+1))
+      this.deleteNodeFromDB(kgId)
+      this.showInfo = false
+      callback(data)
+    },
+    clickAddNodeButton(form, data, callback) {
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          this.addDialogFormVisible = false
+          data.group = this.addForm.group
+          let keys = Object.keys(this.addForm)
+          // console.log(keys)
+          data.label = this.addForm[keys[1]]
+          let info = {}
+          for (let i = 1; i < keys.length; i++) {
+            let key = keys[i]
+            info[key] = this.addForm[key]
+          }
+          this.insertNodeToDB(data, info, callback)
+        } else {
+          return false
+        }
+      })
+    },
+    clickEditNodeButton(form, data, callback) {
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          this.editDialogFormVisible = false
+          this.editForm.info['kg_id'] = data.id
+          this.updateNodeToDB(data, this.editForm.info, callback)
+        } else {
+          return false
+        }
+      })
+    },
+    // 在数据库中插入节点
+    insertNodeToDB(data, info, callback) {
+      this.axios({
+        method: 'post',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(data.group) + '/insert',
+        data: info
+      }).then(resp => {
+        if (resp.status !== 200) {
+          this.$message.error('插入节点失败')
+        } else {
+          data.id = resp.data.kgId
+          // 添加节点info信息
+          data.info = resp.data
+          // console.log(data)
+          this.addNodeToNodes(data)
+          callback(data)
+        }
+      })
+    },
+    // 在数据库中更新节点
+    updateNodeToDB(data, info, callback) {
+      this.axios({
+        method: 'post',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(data.group) + '/update',
+        data: info
+      }).then(resp => {
+        // console.log(resp)
+        if (resp.status !== 200) {
+          this.$message.error('更新节点失败')
+        } else {
+          data.info = resp.data
+          data.label = resp.data.name
+          // console.log(data)
+          this.updateNodeToNodes(data)
+          callback(data)
+        }
+      })
+    },
+    // 在数据库中删除节点
+    deleteNodeFromDB(kgId) {
+      this.axios({
+        method: 'get',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(kgId) + '/delete/' + kgId,
+      }).then(resp => {
+        if (resp.status !== 200) {
+          this.$message.error('删除节点失败')
+        }
+      })
+    },
     goSearch(url) {
       // console.log(url)
-      this.showInfo = false
-      this.nodes = []
-      this.edges = []
+      this.clearNetwork()
       this.axios({
         method: 'get',
         url: this.GLOBAL.KG_url + '/kg/' + url
@@ -137,6 +321,12 @@ export default {
         }
       })
     },
+    clearNetwork() {
+      this.showInfo = false
+      this.nodes = []
+      this.nodesDic = []
+      this.edges = []
+    },
     dataProcess(data) {
       // 搜索结果为空
       // console.log(data)
@@ -153,11 +343,31 @@ export default {
           if (i >= 10) break // 最多显示10个搜索结果
           let kgId = data[i].kgId
           let node = {group: kgId.split('_')[0], id: kgId, label: data[i].name, info: data[i]}
-          this.nodesDic[kgId] = node
-          this.nodes.push(node)
+          this.addNodeToNodes(node)
         }
         return nodes
       }
+    },
+    addNodeToNodes(node) {
+      if (this.nodesDic[node.id] === undefined) {
+        this.nodesDic[node.id] = node
+        this.nodes.push(node)
+      }
+    },
+    updateNodeToNodes(data) {
+      this.nodesDic[data.id] = data
+      // 找到对应节点并更新
+      this.nodes[this.findNodeIdxById(data.id)] = data
+      // 更新节点详细信息
+      this.nodeInfo = data.info
+    },
+    findNodeIdxById(id) {
+      for (let i in this.nodes) {
+        if (this.nodes[i].id === id) {
+          return i
+        }
+      }
+      return -1
     },
     getGraph() {
       var container = document.getElementById("myNetwork");
@@ -167,17 +377,18 @@ export default {
         nodes: this.nodes,
         edges: this.edges,
       };
-      var options = this.GLOBAL.options
-      const network = new Network(container, data, options)
+      const network = new Network(container, data, this.options)
       var that = this
       // 单击节点显示详细信息
       network.on('click', function (params) {
         clearTimeout(that.timer)
-        that.timer = window.setTimeout(function () {
-          that.nodeInfo = that.nodesDic[params.nodes[0]].info
-          // console.log(that.nodeInfo)
-          that.showNodeInfo()
-        }, 200)
+        if (params.nodes.length !== 0) { // 确认为节点单击事件
+          that.timer = window.setTimeout(function () {
+            that.nodeInfo = that.nodesDic[params.nodes[0]].info
+            // console.log(that.nodeInfo)
+            that.showNodeInfo()
+          }, 200)
+        }
       })
       // 取消选中，信息消失
       network.on('deselectNode', function () {
@@ -205,7 +416,7 @@ export default {
       this.getDirectlySubNodes(nodeId).then(data => {
         let subNodes = data.nodes
         // 判断是否有下级节点
-        if (subNodes.length === 1) {
+        if (subNodes === undefined || subNodes.length === 1) {
           this.$message({message: '已不存在下级节点', type: 'warning'})
         } else {
           let beforeLen = this.edges.length
@@ -213,7 +424,7 @@ export default {
           for (let i in subNodes) {
             if (this.nodesDic[subNodes[i].id] === undefined) {
               this.addNodeById(subNodes[i].id)
-              this.addEdge(data.edges, nodeId, subNodes[i].id)
+              this.findAndAddEdge(data.edges, nodeId, subNodes[i].id)
             }
           }
           if (beforeLen === this.edges.length) {
@@ -250,7 +461,7 @@ export default {
       return this.GLOBAL.nodesType[kgId.split('_')[0]].value
     },
     // 从edges中找到id1和id2对应的edge并加入图谱
-    addEdge(edges, id1, id2) {
+    findAndAddEdge(edges, id1, id2) {
       for (let i in edges) {
         let edge = edges[i]
         if ((edge.from === id1 && edge.to === id2) || (edge.from === id2 && edge.to === id1)) {
