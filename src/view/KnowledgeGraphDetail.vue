@@ -168,7 +168,6 @@ export default {
       }
       let that = this
       this.options.locale = 'cn'
-      this.options.physics.barnesHut.gravitationalConstant = -2000
       this.options['manipulation'] = {
         enabled: true,
         addNode: function (data, callback) {
@@ -182,6 +181,15 @@ export default {
         deleteNode: function (data, callback) {
           // console.log(data)
           that.deleteNode(data, callback)
+        },
+        addEdge: function (data, callback) {
+          // console.log(data)
+          that.addEdge(data, callback)
+        },
+        editEdge: false,
+        deleteEdge: function (data, callback) {
+          // console.log(data)
+          that.deleteEdge(data, callback)
         }
       }
       // console.log(this.options)
@@ -207,12 +215,62 @@ export default {
     },
     deleteNode(data, callback) {
       let kgId = data.nodes[0]
-      delete this.nodesDic.kgId
-      let idx = this.findNodeIdxById(kgId)
-      this.nodes = this.nodes.splice(0, idx).concat(this.nodes.splice(idx+1))
-      this.deleteNodeFromDB(kgId)
-      this.showInfo = false
-      callback(data)
+      // 在数据库中删除节点
+      this.axios({
+        method: 'get',
+        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(kgId) + '/delete/' + kgId,
+      }).then(resp => {
+        // console.log(resp)
+        if (resp.status !== 200 || resp.data.code === 444) {
+          this.$message.error('删除节点失败,请先删除当前节点所连关系')
+          callback()
+        } else {
+          delete this.nodesDic.kgId
+          let idx = this.findNodeIdxById(kgId)
+          this.nodes = this.nodes.splice(0, idx).concat(this.nodes.splice(idx+1))
+          this.showInfo = false
+          callback(data)
+        }
+      })
+    },
+    addEdge(data, callback) {
+      data.label = this.getRelationLabel(data.from, data.to)
+      if (data.label === null) {
+        this.$message.error('当前两类节点间不存在可添加的关系')
+      } else {
+        this.axios({
+          method: 'post',
+          url: this.GLOBAL.KG_url + '/kg/relation/insert',
+          data: data
+        }).then(resp => {
+          if (resp.status !== 200 || resp.data.code === 444) {
+            this.$message.error('添加关系失败')
+            callback()
+          } else {
+            data.id = resp.data
+            this.edges.push(data)
+            callback(data)
+          }
+        })
+      }
+    },
+    deleteEdge(data, callback) {
+      let idx = this.findEdgeFromEdges(data.edges[0])
+      let edge = this.edges[idx]
+      // 在数据库中删除关系
+      this.axios({
+        method: 'post',
+        url: this.GLOBAL.KG_url + '/kg/relation/deleteByHRT',
+        data: edge
+      }).then(resp => {
+        if (resp.status !== 200 || resp.data.code === 444) {
+          this.$message.error('删除关系失败')
+          callback()
+        } else {
+          this.edges = this.edges.splice(0, idx).concat(this.edges.splice(idx + 1))
+          callback(data)
+        }
+      })
     },
     clickAddNodeButton(form, data, callback) {
       this.$refs[form].validate((valid) => {
@@ -251,8 +309,9 @@ export default {
         url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(data.group) + '/insert',
         data: info
       }).then(resp => {
-        if (resp.status !== 200) {
+        if (resp.status !== 200 || resp.data.code === 444) {
           this.$message.error('插入节点失败')
+          callback()
         } else {
           data.id = resp.data.kgId
           // 添加节点info信息
@@ -271,25 +330,15 @@ export default {
         data: info
       }).then(resp => {
         // console.log(resp)
-        if (resp.status !== 200) {
+        if (resp.status !== 200 || resp.data.code === 444) {
           this.$message.error('更新节点失败')
+          callback()
         } else {
           data.info = resp.data
           data.label = resp.data.name
           // console.log(data)
           this.updateNodeToNodes(data)
           callback(data)
-        }
-      })
-    },
-    // 在数据库中删除节点
-    deleteNodeFromDB(kgId) {
-      this.axios({
-        method: 'get',
-        url: this.GLOBAL.KG_url + '/kg/' + this.getTypeByKgId(kgId) + '/delete/' + kgId,
-      }).then(resp => {
-        if (resp.status !== 200) {
-          this.$message.error('删除节点失败')
         }
       })
     },
@@ -368,6 +417,17 @@ export default {
         }
       }
       return -1
+    },
+    getRelationLabel(from, to) {
+      from = this.GLOBAL.nodesType[from.split('_')[0]].id
+      to = this.GLOBAL.nodesType[to.split('_')[0]].id
+      for (let i in this.GLOBAL.relationType) {
+        let relation = this.GLOBAL.relationType[i]
+        if (from === relation.from && to === relation.to) {
+          return relation.type
+        }
+      }
+      return null
     },
     getGraph() {
       var container = document.getElementById("myNetwork");
@@ -465,12 +525,20 @@ export default {
       for (let i in edges) {
         let edge = edges[i]
         if ((edge.from === id1 && edge.to === id2) || (edge.from === id2 && edge.to === id1)) {
-          if (!this.edges.includes(edge)) { // 边是否存在
+          if (this.findEdgeFromEdges(edge.id) === -1) { // 边是否存在
             this.edges.push(edge)
           }
           break
         }
       }
+    },
+    findEdgeFromEdges(id) {
+      for (let i in this.edges) {
+        if (this.edges[i].id === id) {
+          return i
+        }
+      }
+      return -1
     }
   }
 }
