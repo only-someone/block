@@ -38,7 +38,12 @@
               <div class="card ml-3 mr-3" v-show="showGraph" id="graph">
 <!--                <knowledge-graph-legend-row></knowledge-graph-legend-row>-->
 <!--                <knowledge-graph-legend-col></knowledge-graph-legend-col>-->
-                <div class="card-body" id="myNetwork" style="height: 400px"></div>
+                <div style="position: absolute; right: 25px; top: 25px; z-index: 99" v-show="showBackButton">
+                  <el-button icon="el-icon-arrow-left" type="primary" size="mini" plain round
+                             @click="back()">返回</el-button>
+                </div>
+                <div class="card-body" id="myNetwork" style="height: 400px" v-loading="loading">
+                </div>
                 <el-row class="card-footer" v-show="showInfo" id="info">
                   <el-col :span="6">
                     <el-row justify="center" type="flex">
@@ -145,11 +150,17 @@ export default {
       // 节点编辑对话框
       editDialogFormVisible: false,
       editForm: {group: 'expe', info: {}},
+      showBackButton: false,
+      beforeNodes: [], // 扩展前的节点
+      beforeEdges: [], // 扩展前的边
+      expandTimes: 0,
+      loading: true
     }
   },
   mounted() {
     this.showGraph = false
     this.showInfo = false
+    this.loading = true
     this.getOptions()
   },
   watch: {
@@ -375,6 +386,7 @@ export default {
       this.nodes = []
       this.nodesDic = []
       this.edges = []
+      this.expandTimes = 0
     },
     dataProcess(data) {
       // 搜索结果为空
@@ -479,6 +491,14 @@ export default {
         if (subNodes === undefined || subNodes.length === 1) {
           this.$message({message: '已不存在下级节点', type: 'warning'})
         } else {
+          if (this.expandTimes === 0) {
+            this.beforeNodes = this.nodes
+            this.nodes = []
+            this.nodesDic = []
+            this.beforeEdges = this.edges
+            this.edges = []
+            this.expandTimes++
+          }
           let beforeLen = this.edges.length
           // 插入不存在的节点和边
           for (let i in subNodes) {
@@ -489,6 +509,8 @@ export default {
           }
           if (beforeLen === this.edges.length) {
             this.$message({message: '已不存在下级节点', type: 'warning'})
+          } else {
+            this.showBackButton = true
           }
         }
         // console.log(this.nodes)
@@ -539,6 +561,14 @@ export default {
         }
       }
       return -1
+    },
+    back() {
+      console.log("back")
+      this.nodes = this.beforeNodes
+      this.edges = this.beforeEdges
+      this.expandTimes = 0
+      this.showBackButton = false
+      this.showInfo = false
     }
   }
 }
