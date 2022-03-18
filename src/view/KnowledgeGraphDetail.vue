@@ -152,8 +152,8 @@ export default {
       editForm: {group: 'expe', info: {}},
       showBackButton: false,
       beforeNodes: [], // 扩展前的节点
+      beforeNodesDic: {},
       beforeEdges: [], // 扩展前的边
-      expandTimes: 0,
       loading: true
     }
   },
@@ -383,10 +383,10 @@ export default {
     },
     clearNetwork() {
       this.showInfo = false
+      this.showBackButton = false
       this.nodes = []
       this.nodesDic = []
       this.edges = []
-      this.expandTimes = 0
     },
     dataProcess(data) {
       // 搜索结果为空
@@ -491,13 +491,14 @@ export default {
         if (subNodes === undefined || subNodes.length === 1) {
           this.$message({message: '已不存在下级节点', type: 'warning'})
         } else {
-          if (this.expandTimes === 0) {
+          if (!this.showBackButton) {
             this.beforeNodes = this.nodes
             this.nodes = []
+            this.beforeNodesDic = this.nodesDic
             this.nodesDic = []
             this.beforeEdges = this.edges
             this.edges = []
-            this.expandTimes++
+            this.showBackButton = true
           }
           let beforeLen = this.edges.length
           // 插入不存在的节点和边
@@ -509,8 +510,6 @@ export default {
           }
           if (beforeLen === this.edges.length) {
             this.$message({message: '已不存在下级节点', type: 'warning'})
-          } else {
-            this.showBackButton = true
           }
         }
         // console.log(this.nodes)
@@ -563,10 +562,9 @@ export default {
       return -1
     },
     back() {
-      console.log("back")
       this.nodes = this.beforeNodes
+      this.nodesDic = this.beforeNodesDic
       this.edges = this.beforeEdges
-      this.expandTimes = 0
       this.showBackButton = false
       this.showInfo = false
     }

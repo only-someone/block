@@ -51,6 +51,7 @@ export default {
         max: [{required: true, message: '请输入最大值'}, {validator: this.validateMax}],
         min: [{required: true, message: '请输入最小值'}, {validator: this.validateMin}]
       },
+      posSelectOptions: [],
       selectOptions: [],
       options: []
     }
@@ -58,6 +59,8 @@ export default {
   created() {
     for (let i in this.GLOBAL.nodesType) {
       let node = this.GLOBAL.nodesType[i]
+      this.posSelectOptions.push({label: node.label + '数量', value: node.value})
+      if (i === 'solu' || i === 'case') continue
       this.options.push({label: node.label, value: node.value})
     }
     // console.log(this.options)
@@ -68,28 +71,21 @@ export default {
       // console.log(this.form.type)
       switch (this.form.type) {
         case "expert": {
-          this.selectOptions = this.options.slice(5, 8)
+          this.selectOptions = this.posSelectOptions.slice(5, 8)
           break
         }
-        // case "case": {
-        //   this.selectOptions = this.options
-        //   break
-        // }
-        // case "solution": {
-        //   this.selectOptions = this.options.slice(0, 9)
-        //   break
-        // }
-        // case "requirement": {
-        //   this.selectOptions = this.options.slice(0, 3).concat(this.options.slice(5, 7))
-        //     .concat(this.options.slice(9, 11))
-        //   break
-        // }
-        default: {
-          this.selectOptions = []
+        case "institution": {
+          this.selectOptions = this.posSelectOptions.slice(2, 5)
+          this.selectOptions.push(this.posSelectOptions[0])
+          break
         }
-      }
-      for (let i in this.selectOptions) {
-        this.selectOptions[i].label = this.selectOptions[i].label + '数量'
+        case "requirement": {
+          this.selectOptions = this.posSelectOptions.slice(3, 4)
+          break
+        }
+        default: { // 论文、专利、技术成果
+          this.selectOptions = this.posSelectOptions.slice(0, 1)
+        }
       }
       // console.log(this.selectOptions)
       this.form.filterType = ''
