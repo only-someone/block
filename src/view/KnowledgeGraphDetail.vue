@@ -24,23 +24,21 @@
       <div class="page-content-wrapper">
         <div class="auto-container">
           <div style="margin-top: 50px">
-            <div class="card">
+            <div class="card search">
               <div class="card-body">
-                <el-tabs v-model="activeName" type="card">
+                <el-tabs v-model="activeName" type="card" style="background-color: rgba(255,255,255,0.5)">
                   <el-tab-pane label="基础查询" name="first">
-                    <basic-search @search="goSearch"></basic-search>
+                    <basic-search @search="goSearch" :style="searchStyle"></basic-search>
                   </el-tab-pane>
                   <el-tab-pane label="高级查询" name="second">
-                    <advanced-search @search="goSearch"></advanced-search>
+                    <advanced-search @search="goSearch" :style="searchStyle"></advanced-search>
                   </el-tab-pane>
                 </el-tabs>
               </div>
-              <div class="card ml-3 mr-3" v-show="showGraph" id="graph">
-<!--                <knowledge-graph-legend-row></knowledge-graph-legend-row>-->
-<!--                <knowledge-graph-legend-col></knowledge-graph-legend-col>-->
-                <div style="position: absolute; right: 25px; top: 25px; z-index: 99" v-show="showBackButton">
-                  <el-button icon="el-icon-arrow-left" type="primary" size="mini" plain round
-                             @click="back()">返回</el-button>
+              <div class="card ml-3 mr-3" v-show="showGraph" id="graph" ref="graph">
+                <div class="tip">提示：单击节点显示详细信息，双击节点展开下层节点</div>
+                <div class="menu-bar">
+                  <menu-bar :show-back-button="showBackButton"></menu-bar>
                 </div>
                 <div class="card-body" id="myNetwork" style="height: 400px" v-loading="loading">
                 </div>
@@ -93,12 +91,7 @@
                 <el-dialog title='编辑节点' :visible.sync='editDialogFormVisible'>
                   <el-form ref="editForm" :model = 'editForm'>
                     <el-form-item label="资源类型" label-position="left" required>
-                      <el-select v-model="editForm.group" placeholder="请选择资源类型" :disabled="true">
-<!--                        <el-option v-for="(item, key, i) in this.GLOBAL.nodesType"-->
-<!--                                   :label="item.label"-->
-<!--                                   :value="key"-->
-<!--                                   :key="i"></el-option>-->
-                      </el-select>
+                      <el-select v-model="editForm.group" placeholder="请选择资源类型" :disabled="true"></el-select>
                     </el-form-item>
                     <el-form-item v-for="(item, i) in this.GLOBAL.nodesType[editForm.group].properties"
                                   :label="item.label"
@@ -109,7 +102,7 @@
                     </el-form-item>
                   </el-form>
                   <div slot="footer" class="dialog-footer">
-                    <el-button @click="editDialogFormVisible = false">取 消</el-button>
+                    <el-button id="editDialogQuitButton">取 消</el-button>
                     <el-button type="primary" id="editDialogEnterButton">确 定</el-button>
                   </div>
                 </el-dialog>
@@ -124,22 +117,23 @@
 
 <script>
 import BasicSearch from "../components/KnowledgeGraphDetail/BasicSearch";
-import KnowledgeGraphLegendRow from "../components/KnowledgeGraphDetail/KnowledgeGraphLegendRow";
-import KnowledgeGraphLegendCol from "../components/KnowledgeGraphDetail/KnowledgeGraphLegendCol";
-import {Network} from "vis-network/standalone";
+import {DataSet, Network} from "vis-network/standalone";
 import AdvancedSearch from "../components/KnowledgeGraphDetail/AdvancedSearch";
+import MenuBar from "../components/KnowledgeGraphDetail/MenuBar"
+
+var network
+
 export default {
   name: "KnowledgeGraphDetail",
-  components: {AdvancedSearch, KnowledgeGraphLegendCol, KnowledgeGraphLegendRow, BasicSearch},
+  components: {MenuBar, AdvancedSearch, BasicSearch},
   data() {
     return {
       activeName: 'first',
       showGraph: false, // 是否显示图谱
       showInfo: false, // 是否显示节点信息
       options: {}, // 图谱的选项
-      nodesDic: {}, // 以kgId为key的节点
-      nodes: [],
-      edges: [],
+      nodes: '',
+      edges: '',
       nodeInfo: [],
       nodeType: 'expe',
       nodeGroup: '',
@@ -151,10 +145,13 @@ export default {
       editDialogFormVisible: false,
       editForm: {group: 'expe', info: {}},
       showBackButton: false,
-      beforeNodes: [], // 扩展前的节点
-      beforeNodesDic: {},
-      beforeEdges: [], // 扩展前的边
-      loading: true
+      beforeNodes: '', // 扩展前的节点
+      beforeEdges: '', // 扩展前的边
+      loading: true,
+      searchStyle: {
+        margin: '150px',
+        textAlign: 'center'
+      },
     }
   },
   mounted() {
@@ -164,11 +161,15 @@ export default {
     this.getOptions()
   },
   watch: {
-    nodes() {
-      this.getGraph()
+    activeName() {
+      this.showGraph = false
     },
-    edges() {
-      this.getGraph()
+    showGraph() {
+      if (this.showGraph) {
+        delete this.searchStyle.margin
+      } else {
+        this.searchStyle.margin = '150px'
+      }
     }
   },
   methods: {
@@ -179,7 +180,7 @@ export default {
       }
       let that = this
       this.options.locale = 'cn'
-      this.options['manipulation'] = {
+      this.options.manipulation = {
         enabled: true,
         addNode: function (data, callback) {
           // console.log(data)
@@ -223,6 +224,8 @@ export default {
       this.editDialogFormVisible = true
       document.getElementById('editDialogEnterButton').onclick = this.clickEditNodeButton
         .bind(this, 'editForm', data, callback)
+      document.getElementById('editDialogQuitButton').onclick = this.clickEditNodeQuitButton
+        .bind(this, callback)
     },
     deleteNode(data, callback) {
       let kgId = data.nodes[0]
@@ -233,12 +236,10 @@ export default {
       }).then(resp => {
         // console.log(resp)
         if (resp.status !== 200 || resp.data.code === 444) {
-          this.$message.error('删除节点失败,请先删除当前节点所连关系')
+          this.error('删除节点失败,请先删除当前节点所连关系')
           callback()
         } else {
-          delete this.nodesDic.kgId
-          let idx = this.findNodeIdxById(kgId)
-          this.nodes = this.nodes.splice(0, idx).concat(this.nodes.splice(idx+1))
+          this.nodes.remove(kgId)
           this.showInfo = false
           callback(data)
         }
@@ -247,7 +248,7 @@ export default {
     addEdge(data, callback) {
       data.label = this.getRelationLabel(data.from, data.to)
       if (data.label === null) {
-        this.$message.error('当前两类节点间不存在可添加的关系')
+        this.error('当前两类节点间不存在可添加的关系')
       } else {
         this.axios({
           method: 'post',
@@ -255,7 +256,7 @@ export default {
           data: data
         }).then(resp => {
           if (resp.status !== 200 || resp.data.code === 444) {
-            this.$message.error('添加关系失败')
+            this.error('添加关系失败')
             callback()
           } else {
             data.id = resp.data
@@ -275,7 +276,7 @@ export default {
         data: edge
       }).then(resp => {
         if (resp.status !== 200 || resp.data.code === 444) {
-          this.$message.error('删除关系失败')
+          this.error('删除关系失败')
           callback()
         } else {
           this.edges = this.edges.splice(0, idx).concat(this.edges.splice(idx + 1))
@@ -313,6 +314,10 @@ export default {
         }
       })
     },
+    clickEditNodeQuitButton(callback) {
+      this.editDialogFormVisible = false
+      callback()
+    },
     // 在数据库中插入节点
     insertNodeToDB(data, info, callback) {
       this.axios({
@@ -321,7 +326,7 @@ export default {
         data: info
       }).then(resp => {
         if (resp.status !== 200 || resp.data.code === 444) {
-          this.$message.error('插入节点失败')
+          this.error('插入节点失败')
           callback()
         } else {
           data.id = resp.data.kgId
@@ -342,7 +347,7 @@ export default {
       }).then(resp => {
         // console.log(resp)
         if (resp.status !== 200 || resp.data.code === 444) {
-          this.$message.error('更新节点失败')
+          this.error('更新节点失败')
           callback()
         } else {
           data.info = resp.data
@@ -363,17 +368,14 @@ export default {
         // console.log(resp)
         if (resp.status !== 200) {
           this.showGraph = false
-          this.$message.error('请输入正确的关键词')
+          this.error('请输入正确的关键词')
         } else {
-          let nodes = this.dataProcess(resp.data)
-          if (nodes === null) {
-            this.$message({
-              message: '查询结果为空',
-              type: 'warning'
-            });
+          this.dataProcess(resp.data)
+          if (this.nodes.length === 0) {
+            this.warn('查询结果为空')
             this.showGraph = false
           } else {
-            this.getGraph(nodes, [])
+            this.getGraph()
             this.showGraph = true
             // 使搜索结果显示在页面中间
             setTimeout(() => document.getElementById('graph').scrollIntoView(true), 100)
@@ -384,51 +386,38 @@ export default {
     clearNetwork() {
       this.showInfo = false
       this.showBackButton = false
-      this.nodes = []
-      this.nodesDic = []
-      this.edges = []
+      this.nodes = new DataSet()
+      this.edges = new DataSet()
+      this.beforeNodes = new DataSet()
+      this.beforeEdges = new DataSet()
     },
     dataProcess(data) {
       // 搜索结果为空
       // console.log(data)
-      if (data.length === 0) {
-        return null
-      } else {
+      if (data.length !== 0) {
         // data可能为实体list或实体对象
         if (!(data instanceof Array)) {
           data = [data]
         }
         // console.log(data)
-        let nodes = {}
         for (let i in data) {
           if (i >= 10) break // 最多显示10个搜索结果
           let kgId = data[i].kgId
           let node = {group: kgId.split('_')[0], id: kgId, label: data[i].name, info: data[i]}
           this.addNodeToNodes(node)
         }
-        return nodes
       }
     },
     addNodeToNodes(node) {
-      if (this.nodesDic[node.id] === undefined) {
-        this.nodesDic[node.id] = node
-        this.nodes.push(node)
+      if (this.nodes.get(node.id) === null) {
+        this.nodes.add(node)
       }
     },
     updateNodeToNodes(data) {
-      this.nodesDic[data.id] = data
       // 找到对应节点并更新
-      this.nodes[this.findNodeIdxById(data.id)] = data
+      this.nodes.update(data)
       // 更新节点详细信息
       this.nodeInfo = data.info
-    },
-    findNodeIdxById(id) {
-      for (let i in this.nodes) {
-        if (this.nodes[i].id === id) {
-          return i
-        }
-      }
-      return -1
     },
     getRelationLabel(from, to) {
       from = this.GLOBAL.nodesType[from.split('_')[0]].id
@@ -449,14 +438,14 @@ export default {
         nodes: this.nodes,
         edges: this.edges,
       };
-      const network = new Network(container, data, this.options)
+      network = new Network(container, data, this.options)
       var that = this
       // 单击节点显示详细信息
       network.on('click', function (params) {
         clearTimeout(that.timer)
         if (params.nodes.length !== 0) { // 确认为节点单击事件
           that.timer = window.setTimeout(function () {
-            that.nodeInfo = that.nodesDic[params.nodes[0]].info
+            that.nodeInfo = that.nodes.get(params.nodes[0]).info
             // console.log(that.nodeInfo)
             that.showNodeInfo()
           }, 200)
@@ -474,7 +463,13 @@ export default {
         if (params.nodes.length !== 0) { //确定为节点双击事件
           that.showNextNodes(params.nodes[0])
         }
-      });
+      })
+      network.on("dragEnd", function(params){
+        if (params.nodes && params.nodes.length > 0) {
+          // 拖拽时禁止物理布局，优化可视化体验
+          that.updateAllNodesProperty({physics: false});
+        }
+      })
     },
     showNodeInfo() {
       this.nodeType = this.nodeInfo['kgId'].split('_')[0]
@@ -489,27 +484,25 @@ export default {
         let subNodes = data.nodes
         // 判断是否有下级节点
         if (subNodes === undefined || subNodes.length === 1) {
-          this.$message({message: '已不存在下级节点', type: 'warning'})
+          this.warn('已不存在下级节点')
         } else {
           if (!this.showBackButton) {
-            this.beforeNodes = this.nodes
-            this.nodes = []
-            this.beforeNodesDic = this.nodesDic
-            this.nodesDic = []
-            this.beforeEdges = this.edges
-            this.edges = []
+            this.beforeNodes.add(this.nodes)
+            this.nodes.clear()
+            this.beforeEdges.add(this.edges)
+            this.edges.clear()
             this.showBackButton = true
           }
           let beforeLen = this.edges.length
           // 插入不存在的节点和边
           for (let i in subNodes) {
-            if (this.nodesDic[subNodes[i].id] === undefined) {
+            if (this.nodes.get(subNodes[i].id) === null) {
               this.addNodeById(subNodes[i].id)
               this.findAndAddEdge(data.edges, nodeId, subNodes[i].id)
             }
           }
           if (beforeLen === this.edges.length) {
-            this.$message({message: '已不存在下级节点', type: 'warning'})
+            this.warn('已不存在下级节点')
           }
         }
         // console.log(this.nodes)
@@ -517,8 +510,7 @@ export default {
       })
     },
     // 获取某节点直属下级节点
-    async getDirectlySubNodes(nodeId) {
-      let kgId = this.nodesDic[nodeId].info.kgId
+    async getDirectlySubNodes(kgId) {
       let data = []
       await this.axios({
         method: 'get',
@@ -546,32 +538,71 @@ export default {
       for (let i in edges) {
         let edge = edges[i]
         if ((edge.from === id1 && edge.to === id2) || (edge.from === id2 && edge.to === id1)) {
-          if (this.findEdgeFromEdges(edge.id) === -1) { // 边是否存在
-            this.edges.push(edge)
+          if (this.edges.get(edge.id) === null) { // 边是否存在
+            this.edges.add(edge)
           }
           break
         }
       }
     },
-    findEdgeFromEdges(id) {
-      for (let i in this.edges) {
-        if (this.edges[i].id === id) {
-          return i
-        }
-      }
-      return -1
-    },
     back() {
-      this.nodes = this.beforeNodes
-      this.nodesDic = this.beforeNodesDic
-      this.edges = this.beforeEdges
+      this.nodes.clear()
+      this.nodes.add(this.beforeNodes)
+      this.beforeNodes.clear()
+      this.edges.clear()
+      this.edges.add(this.beforeEdges)
+      this.beforeEdges.clear()
       this.showBackButton = false
       this.showInfo = false
+    },
+    // update不能触发图谱自动更新，故先remove再添加
+    updateNode(id, node) {
+      this.nodes.remove(id)
+      this.node.add(node)
+    },
+    updateEdge(id, edge) {
+      this.edges.remove(id)
+      this.edges.add(edge)
+    },
+    updateAllNodesProperty(property) {
+      let ids = this.nodes.getIds()
+      for (let i in ids) {
+        network.clustering.updateClusteredNode(ids[i], property);
+      }
+    },
+    getNetwork() {
+      return network;
+    },
+    warn(msg) {
+      this.$message({message: msg, type: 'warning'})
+    },
+    error(msg) {
+      this.$message.error(msg)
     }
   }
 }
 </script>
 
 <style scoped>
+.search {
+  background-image: url(/static/images/graph.png);
+  background-size: 100%;
+}
 
+.tip {
+  position: absolute;
+  color: grey;
+  /*font-family: "微软雅黑 Light";*/
+  font-size: 14px;
+  top: 10px;
+  right: 20px;
+}
+
+.menu-bar {
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  height: 100%;
+  z-index: 999
+}
 </style>

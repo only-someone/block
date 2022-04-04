@@ -23,6 +23,7 @@ export default {
         size: 15,
         // background: "rgba(181,220,241,0.77)"
       },
+      size: 30,
       shadow: true,
       borderWidth: 2,
       borderWidthSelected: 3
@@ -51,10 +52,7 @@ export default {
           background: "lightgreen",
           // border: "green",
           border: "lightgreen",
-        },
-        font: {
-          size: 20
-        },
+        }
       },//专家
       unit: {
         shape: "circularImage",
@@ -76,10 +74,7 @@ export default {
           background: "#c74ee8",
           border: "#c74ee8",
           // border: "#950bc9",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//技术成果
       solu: {
         shape: "circularImage",
@@ -88,10 +83,7 @@ export default {
           background: "#86bd08",
           border: "#86bd08",
           // border: "#78a50c",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//解决方案
       requ: {
         shape: "circularImage",
@@ -100,10 +92,7 @@ export default {
           background: "#cd4a4a",
           border: "#cd4a4a",
           // border: "darkred",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//项目需求
       pape: {
         shape: "circularImage",
@@ -112,10 +101,7 @@ export default {
           background: "lightgrey",
           border: "lightgrey",
           // border: "grey",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//论文
       pate: {
         shape: "circularImage",
@@ -124,10 +110,7 @@ export default {
           background: "yellow",
           border: "yellow",
           // border: "#bda21a",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//专利
       case: {
         shape: "circularImage",
@@ -136,10 +119,7 @@ export default {
           background: "#f17d2f",
           border: "#f17d2f",
           // border: "darkorange",
-        },
-        font: {
-          size: 10
-        },
+        }
       },//案例
       soft: {
         shape: "circularImage",
@@ -148,10 +128,7 @@ export default {
           background: "#db9ca2",
           border: "#db9ca2",
           // border: "#ce7f87"
-        },
-        font: {
-          size: 10
-        },
+        }
       },//软件著作
     },
     physics: {

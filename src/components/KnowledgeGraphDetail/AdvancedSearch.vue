@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div>
     <el-form ref="form" :inline="true" :model="form" :rules="rules" @keyup.enter.native="onSubmit('form')">
       <el-form-item prop="type">
         <el-select v-model="form.type" placeholder="请选择要查询的资源类型" @change="handleTypeChange">
@@ -31,7 +31,7 @@
         <el-button @click="resetForm('form')">重置</el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </div>
 </template>
 
 <script>

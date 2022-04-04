@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div>
     <el-form ref="form" :inline="true" :model="form" :rules="rules" @keyup.enter.native="onSubmit('form')">
       <el-form-item prop="type">
         <el-select v-model="form.type" placeholder="请选择要查询的资源类型" @change="handleTypeChange">
@@ -27,7 +27,7 @@
         <el-button @click="resetForm('form')">重置</el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </div>
 </template>
 
 <script>
@@ -48,15 +48,15 @@ export default {
       selectOptions: [],
       options: [
         {value: 'name', label: '名称'},
-        {value: 'id', label: 'id'},
+        {value: 'id', label: '编号'},
         {value: 'fuzzyName', label: '模糊名称'},
-        {value: 'expertId', label: '专家id'},
+        {value: 'expertId', label: '专家编号'},
         {value: 'expertName', label: '专家名称'},
-        {value: 'institutionId', label: '单位id'},
+        {value: 'institutionId', label: '单位编号'},
         {value: 'institutionName', label: '单位名称'},
-        {value: 'requirementId', label: '项目需求id'},
+        {value: 'requirementId', label: '项目需求编号'},
         {value: 'requirementName', label: '项目需求名称'},
-        {value: 'solutionId', label: '解决方案id'},
+        {value: 'solutionId', label: '解决方案编号'},
         {value: 'solutionName', label: '解决方案名称'}],
     }
   },

@@ -3807,3 +3807,20 @@ div.vis-network div.vis-manipulation {
 div.vis-network button.vis-close {
   z-index: 999;
 }
+
+.el-tooltip__popper.is-dark {
+  color: black !important;
+  background-color: rgba(235, 239, 241, 0.5) !important;
+}
+
+.el-tooltip__popper[x-placement^=left] .popper__arrow {
+  border-left-color: rgba(235, 239, 241, 0.5) !important;
+}
+
+.el-tooltip__popper[x-placement^=left] .popper__arrow::after {
+  border-left-color: rgba(235, 239, 241, 0.5) !important;
+}
+
+button.is-plain:hover {
+  background: #007bff80;
+}
