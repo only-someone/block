@@ -28,7 +28,7 @@
 
                 <li class="dropdown"><a>系统信息</a>
                   <ul>
-                    <li><a href="#">知识图谱</a></li>
+                    <li><router-link to="/KnowledgeGraphDetail">知识图谱</router-link></li>
                     <li><a :href=this.GLOBAL.Blockchain_Info_url>区块链</a></li>
 
                   </ul>
