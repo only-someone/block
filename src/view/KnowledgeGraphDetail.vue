@@ -36,7 +36,9 @@
                 </el-tabs>
               </div>
               <div class="card ml-3 mr-3" v-show="showGraph" id="graph" ref="graph">
-                <div class="tip">提示：单击节点显示详细信息，双击节点展开下层节点</div>
+                <el-tooltip content="提示：单击节点显示详细信息，双击节点展开下层节点" placement="left" class="tip">
+                  <i class="el-icon-info"></i>
+                </el-tooltip>
                 <div class="menu-bar">
                   <menu-bar :show-back-button="showBackButton"></menu-bar>
                 </div>
@@ -84,7 +86,7 @@
                     </el-form-item>
                   </el-form>
                   <div slot="footer" class="dialog-footer">
-                    <el-button @click="addDialogFormVisible = false">取 消</el-button>
+                    <el-button id="addDialogQuitButton">取 消</el-button>
                     <el-button type="primary" id="addDialogEnterButton">确 定</el-button>
                   </div>
                 </el-dialog>
@@ -211,6 +213,8 @@ export default {
       this.addForm = {group: 'expe'}
       document.getElementById('addDialogEnterButton').onclick = this.clickAddNodeButton
         .bind(this, 'addForm', data, callback)
+      document.getElementById('addDialogQuitButton').onclick = this.clickAddNodeQuitButton
+        .bind(this, callback)
     },
     editNode(data, callback) {
       this.editForm = {group: data.group, info: {}}
@@ -316,6 +320,10 @@ export default {
     },
     clickEditNodeQuitButton(callback) {
       this.editDialogFormVisible = false
+      callback()
+    },
+    clickAddNodeQuitButton(callback) {
+      this.addDialogFormVisible = false
       callback()
     },
     // 在数据库中插入节点
@@ -487,9 +495,14 @@ export default {
           this.warn('已不存在下级节点')
         } else {
           if (!this.showBackButton) {
-            this.beforeNodes.add(this.nodes)
+            let that = this
+            this.nodes.forEach(function(item) {
+              that.beforeNodes.add(item)
+            })
             this.nodes.clear()
-            this.beforeEdges.add(this.edges)
+            this.edges.forEach(function (item) {
+              that.beforeEdges.add(item)
+            })
             this.edges.clear()
             this.showBackButton = true
           }
@@ -507,6 +520,7 @@ export default {
         }
         // console.log(this.nodes)
         // console.log(this.edges)
+        console.log(this.beforeNodes.getIds())
       })
     },
     // 获取某节点直属下级节点
@@ -546,11 +560,16 @@ export default {
       }
     },
     back() {
+      let that = this
       this.nodes.clear()
-      this.nodes.add(this.beforeNodes)
+      this.beforeNodes.forEach(function (item) {
+        that.nodes.add(item)
+      })
       this.beforeNodes.clear()
       this.edges.clear()
-      this.edges.add(this.beforeEdges)
+      this.beforeEdges.forEach(function (item) {
+        that.edges.add(item)
+      })
       this.beforeEdges.clear()
       this.showBackButton = false
       this.showInfo = false
@@ -593,9 +612,9 @@ export default {
   position: absolute;
   color: grey;
   /*font-family: "微软雅黑 Light";*/
-  font-size: 14px;
-  top: 10px;
-  right: 20px;
+  top: 12px;
+  right: 10px;
+  z-index: 99;
 }
 
 .menu-bar {
@@ -603,6 +622,6 @@ export default {
   right: 20px;
   top: 50px;
   height: 100%;
-  z-index: 999
+  z-index: 990
 }
 </style>

@@ -62,7 +62,16 @@ export default {
           edges: this.edges,
         };
         var options = this.GLOBAL.options
-        const network = new Network(container, data, options);
+        const network = new Network(container, data, options)
+        var that = this
+        network.on("dragEnd", function(params){
+          if (params.nodes && params.nodes.length > 0) {
+            // 拖拽时禁止物理布局，优化可视化体验
+            for (let i in that.nodes) {
+              network.updateClusteredNode(that.nodes[i].id, {physics: false})
+            }
+          }
+        })
       })
     },
     getStatisticsNode() {
@@ -77,11 +86,6 @@ export default {
           trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        // legend: {
-        //   left: 'center',
-        //   top: 'bottom',
-        //   data: this.list
-        // },
         series: [{
           name: 'Node',
           type: 'pie',
@@ -99,10 +103,6 @@ export default {
       var container = document.getElementById("statisticsEdge");
       var options = JSON.parse(JSON.stringify(this.GLOBAL.options))
       options.physics.enabled = false
-      options.groups.unit.size = 25
-      for (let group in options.groups) {
-        options.groups[group].font.size = 15
-      }
       options.edges.smooth = {type: 'continuous'}
       const network = new Network(container, this.getStatisticsEdgeData(), options);
     },
