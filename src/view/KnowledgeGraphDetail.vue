@@ -24,7 +24,7 @@
       <div class="page-content-wrapper">
         <div class="auto-container">
           <div style="margin-top: 50px">
-            <div class="card search">
+            <el-card class="card search">
               <div class="card-body">
                 <el-tabs v-model="activeName" type="card" style="background-color: rgba(255,255,255,0.5)">
                   <el-tab-pane label="基础查询" name="first">
@@ -33,10 +33,15 @@
                   <el-tab-pane label="高级查询" name="second">
                     <advanced-search @search="goSearch" :style="searchStyle"></advanced-search>
                   </el-tab-pane>
+                  <el-tab-pane label="智能补全" name="third">
+                    <completion-search @search="completion" :style="searchStyle"></completion-search>
+                  </el-tab-pane>
                 </el-tabs>
               </div>
               <div class="card ml-3 mr-3" v-show="showGraph" id="graph" ref="graph">
-                <div class="tip">提示：单击节点显示详细信息，双击节点展开下层节点</div>
+                <el-tooltip content="提示：单击节点显示详细信息，双击节点展开下层节点" placement="left" class="tip">
+                  <i class="el-icon-info"></i>
+                </el-tooltip>
                 <div class="menu-bar">
                   <menu-bar :show-back-button="showBackButton"></menu-bar>
                 </div>
@@ -84,7 +89,7 @@
                     </el-form-item>
                   </el-form>
                   <div slot="footer" class="dialog-footer">
-                    <el-button @click="addDialogFormVisible = false">取 消</el-button>
+                    <el-button id="addDialogQuitButton">取 消</el-button>
                     <el-button type="primary" id="addDialogEnterButton">确 定</el-button>
                   </div>
                 </el-dialog>
@@ -107,7 +112,13 @@
                   </div>
                 </el-dialog>
               </div>
-            </div>
+              <div id='completionTable' v-show="showCompletion" class="completion">
+                <el-table :data="completionData" max-height="300" border class="completion-table">
+                  <el-table-column prop="institutions" label="单位" width="180"></el-table-column>
+                  <el-table-column prop="scores" label="scores" width="100"></el-table-column>
+                </el-table>
+              </div>
+            </el-card>
           </div>
         </div>
       </div>
@@ -120,17 +131,20 @@ import BasicSearch from "../components/KnowledgeGraphDetail/BasicSearch";
 import {DataSet, Network} from "vis-network/standalone";
 import AdvancedSearch from "../components/KnowledgeGraphDetail/AdvancedSearch";
 import MenuBar from "../components/KnowledgeGraphDetail/MenuBar"
+import CompletionSearch from "../components/KnowledgeGraphDetail/CompletionSearch";
 
 var network
 
 export default {
   name: "KnowledgeGraphDetail",
-  components: {MenuBar, AdvancedSearch, BasicSearch},
+  components: {MenuBar, AdvancedSearch, BasicSearch, CompletionSearch},
   data() {
     return {
       activeName: 'first',
       showGraph: false, // 是否显示图谱
       showInfo: false, // 是否显示节点信息
+      showCompletion: false, // 是否显示智能补全的内容
+      completionData: [],
       options: {}, // 图谱的选项
       nodes: '',
       edges: '',
@@ -157,15 +171,24 @@ export default {
   mounted() {
     this.showGraph = false
     this.showInfo = false
+    this.showCompletion = false
     this.loading = true
     this.getOptions()
   },
   watch: {
     activeName() {
       this.showGraph = false
+      this.showCompletion = false
     },
     showGraph() {
       if (this.showGraph) {
+        delete this.searchStyle.margin
+      } else {
+        this.searchStyle.margin = '150px'
+      }
+    },
+    showCompletion() {
+      if (this.showCompletion) {
         delete this.searchStyle.margin
       } else {
         this.searchStyle.margin = '150px'
@@ -211,6 +234,8 @@ export default {
       this.addForm = {group: 'expe'}
       document.getElementById('addDialogEnterButton').onclick = this.clickAddNodeButton
         .bind(this, 'addForm', data, callback)
+      document.getElementById('addDialogQuitButton').onclick = this.clickAddNodeQuitButton
+        .bind(this, callback)
     },
     editNode(data, callback) {
       this.editForm = {group: data.group, info: {}}
@@ -260,15 +285,14 @@ export default {
             callback()
           } else {
             data.id = resp.data
-            this.edges.push(data)
+            this.edges.add(data)
             callback(data)
           }
         })
       }
     },
     deleteEdge(data, callback) {
-      let idx = this.findEdgeFromEdges(data.edges[0])
-      let edge = this.edges[idx]
+      let edge = this.edges.get(data.edges[0])
       // 在数据库中删除关系
       this.axios({
         method: 'post',
@@ -279,7 +303,7 @@ export default {
           this.error('删除关系失败')
           callback()
         } else {
-          this.edges = this.edges.splice(0, idx).concat(this.edges.splice(idx + 1))
+          this.edges.remove(data.edges[0])
           callback(data)
         }
       })
@@ -316,6 +340,10 @@ export default {
     },
     clickEditNodeQuitButton(callback) {
       this.editDialogFormVisible = false
+      callback()
+    },
+    clickAddNodeQuitButton(callback) {
+      this.addDialogFormVisible = false
       callback()
     },
     // 在数据库中插入节点
@@ -487,9 +515,14 @@ export default {
           this.warn('已不存在下级节点')
         } else {
           if (!this.showBackButton) {
-            this.beforeNodes.add(this.nodes)
+            let that = this
+            this.nodes.forEach(function(item) {
+              that.beforeNodes.add(item)
+            })
             this.nodes.clear()
-            this.beforeEdges.add(this.edges)
+            this.edges.forEach(function (item) {
+              that.beforeEdges.add(item)
+            })
             this.edges.clear()
             this.showBackButton = true
           }
@@ -507,6 +540,7 @@ export default {
         }
         // console.log(this.nodes)
         // console.log(this.edges)
+        // console.log(this.beforeNodes.getIds())
       })
     },
     // 获取某节点直属下级节点
@@ -546,11 +580,16 @@ export default {
       }
     },
     back() {
+      let that = this
       this.nodes.clear()
-      this.nodes.add(this.beforeNodes)
+      this.beforeNodes.forEach(function (item) {
+        that.nodes.add(item)
+      })
       this.beforeNodes.clear()
       this.edges.clear()
-      this.edges.add(this.beforeEdges)
+      this.beforeEdges.forEach(function (item) {
+        that.edges.add(item)
+      })
       this.beforeEdges.clear()
       this.showBackButton = false
       this.showInfo = false
@@ -573,6 +612,21 @@ export default {
     getNetwork() {
       return network;
     },
+    completion(data) {
+      // console.log(data)
+      this.completionData = []
+      for (let i in data['institutions']) {
+        this.completionData.push({'institutions': data['institutions'][i], 'scores': data['scores'][i]})
+      }
+      // console.log(this.completionData)
+      if (this.completionData.length > 0) {
+        this.showCompletion = true
+        // 使搜索结果显示在页面中间
+        setTimeout(() => document.getElementById('completionTable').scrollIntoView(true), 100)
+      } else {
+        this.showCompletion = false
+      }
+    },
     warn(msg) {
       this.$message({message: msg, type: 'warning'})
     },
@@ -593,9 +647,9 @@ export default {
   position: absolute;
   color: grey;
   /*font-family: "微软雅黑 Light";*/
-  font-size: 14px;
-  top: 10px;
-  right: 20px;
+  top: 12px;
+  right: 10px;
+  z-index: 99;
 }
 
 .menu-bar {
@@ -603,6 +657,17 @@ export default {
   right: 20px;
   top: 50px;
   height: 100%;
-  z-index: 999
+  z-index: 990
+}
+
+.completion {
+  background-color: rgba(255,255,255,0.5);
+  margin-top: -20px;
+  height: 320px
+}
+
+.completion-table {
+  width: 300px;
+  margin: auto;
 }
 </style>
