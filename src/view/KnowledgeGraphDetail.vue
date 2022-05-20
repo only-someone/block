@@ -33,9 +33,9 @@
                   <el-tab-pane label="高级查询" name="second">
                     <advanced-search @search="goSearch" :style="searchStyle"></advanced-search>
                   </el-tab-pane>
-                  <el-tab-pane label="智能补全" name="third">
-                    <completion-search @search="completion" :style="searchStyle"></completion-search>
-                  </el-tab-pane>
+<!--                  <el-tab-pane label="智能补全" name="third">-->
+<!--                    <completion-search @search="completion" :style="searchStyle"></completion-search>-->
+<!--                  </el-tab-pane>-->
                 </el-tabs>
               </div>
               <div class="card ml-3 mr-3" v-show="showGraph" id="graph" ref="graph">
@@ -43,7 +43,14 @@
                   <i class="el-icon-info"></i>
                 </el-tooltip>
                 <div class="menu-bar">
-                  <menu-bar :show-back-button="showBackButton"></menu-bar>
+                  <menu-bar :show-back-button="showBackButton"
+                            :nodes="nodes"
+                            :edges="edges"
+                            :back="back"
+                            :update-edge="updateEdge"
+                            :update-all-nodes-property="updateAllNodesProperty"
+                            :get-network="getNetwork"
+                            :graph="this.$refs.graph"></menu-bar>
                 </div>
                 <div class="card-body" id="myNetwork" style="height: 400px" v-loading="loading">
                 </div>

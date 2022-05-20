@@ -91,7 +91,7 @@ export default {
       this.form.filterType = ''
     },
     validateMax(rule, value, callback) {
-      if (this.form.min > value) {
+      if (this.form.min > parseInt(value)) {
         callback(new Error('最大值不能小于最小值'))
       } else {
         callback()
@@ -101,7 +101,7 @@ export default {
       // if (this.form.max < value) {
       //   return callback(new Error('最小值不能大于最大值'))
       // }
-      if (value < 0) {
+      if (parseInt(value) < 0) {
         callback(new Error('最小值不能小于0'))
       } else {
         callback()

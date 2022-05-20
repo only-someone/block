@@ -169,7 +169,7 @@ export default {
       downloadCount: {label :'下载次数', value: 'download_count'}
     }},
     pate: { id: 8, label: '专利', value: 'patent', properties: {
-      name: {label: '专利名称', value: 'title'}, inventor: {label :'发明人', value: 'inventor'},
+      name: {label: '专利名称', value: 'title'}, applicationPerson: {label: '申请人', value: 'application_person'}, inventor: {label :'发明人', value: 'inventor'},
       publicDate: {label :'公开日期', value: 'public_date'}, publicNumber: {label :'公开号', value: 'public_number'}
     }}
   },
